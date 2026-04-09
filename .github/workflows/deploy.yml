@@ -27,11 +27,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build presentation
-        run: |
-          mkdir -p dist
-          npx marp slides/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -o dist/index.html
-          bash scripts/inline-images.sh dist/index.html
+      - name: Build all lessons
+        run: bash scripts/build.sh
 
       - uses: actions/upload-pages-artifact@v3
         with:
