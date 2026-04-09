@@ -74,13 +74,13 @@ Marlin, a clownfish, crossed the entire ocean to find his son Nemo.
 
 ---
 
-![bg right:38%](../assets/images/love.jpg)
+![bg right:38%](../assets/images/harness.jpg)
 
-# Not by love.
+# By the **turtle**.
 
-**By the turtle.**
+Not by love. No feelings here.
 
-There are no feelings here — just concepts distributed over 1s and 0s.
+Just concepts distributed over 1s and 0s.
 
 <!-- PLOTTWIST 1: "Not by love. Marlin is an agent. Agents don't have feelings. They don't 'want' to find Nemo. They process context and take actions. The thing that actually carried Marlin across the ocean wasn't emotion — it was infrastructure. A turtle named Crush showed him the way." -->
 
