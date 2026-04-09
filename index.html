@@ -3,57 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finding Memo — An AI Introduction for Programmers</title>
+  <title>Finding Memo — Learn AI Agentic Programming</title>
   <style>
-    /* ============================================
-       Finding Memo — Landing Page
-       Light Ocean Pastel Theme
-       ============================================ */
-
     :root {
-      --bg: #f8fafb;
-      --bg-warm: #fefdfb;
+      --bg: #fafbfc;
+      --white: #ffffff;
       --text: #1e293b;
-      --text-soft: #334155;
+      --text-soft: #475569;
       --muted: #94a3b8;
       --coral: #b45309;
+      --coral-soft: rgba(180, 83, 9, 0.08);
       --teal: #0f766e;
       --teal-dark: #115e59;
       --teal-pale: #ccfbf1;
-      --blue-pale: #e0f2fe;
-      --border: rgba(15, 118, 110, 0.12);
-      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
     }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-family);
+      font-family: var(--font);
       color: var(--text);
       background: var(--bg);
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: var(--teal);
-      text-decoration: none;
-      transition: color 0.2s ease;
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { color: var(--teal-dark); }
+
+    /* ---- Nav ---- */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(250, 251, 252, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0 24px;
     }
 
-    a:hover {
-      color: var(--teal-dark);
+    nav .nav-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
     }
 
-    /* ---- Layout ---- */
+    nav .logo {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
 
-    .container {
-      max-width: 900px;
+    nav .logo span { color: var(--coral); }
+
+    nav .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 0.85rem;
+    }
+
+    nav .nav-links a { color: var(--muted); }
+    nav .nav-links a:hover { color: var(--text); }
+
+    /* ---- Content ---- */
+
+    .content {
+      max-width: 720px;
       margin: 0 auto;
       padding: 0 24px;
     }
@@ -61,375 +85,368 @@
     /* ---- Hero ---- */
 
     .hero {
+      padding: 88px 0 64px;
       text-align: center;
-      padding: 100px 24px 72px;
     }
 
     .hero h1 {
-      color: var(--coral);
-      font-size: 3.2rem;
+      font-size: 2.8rem;
       font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.15em;
-    }
-
-    .hero h1 span {
-      font-weight: 400;
+      letter-spacing: -0.04em;
       color: var(--text);
+      margin-bottom: 16px;
     }
 
-    .hero .subtitle {
-      color: var(--teal);
-      font-size: 1.15rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-
-    .hero .tagline {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    /* ---- Section headings ---- */
-
-    .section-heading {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .section-heading h2 {
+    .hero h1 em {
+      font-style: normal;
       color: var(--coral);
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.3em;
     }
 
-    .section-heading p {
-      color: var(--muted);
+    .hero .lead {
+      font-size: 1.15rem;
+      color: var(--text-soft);
+      max-width: 520px;
+      margin: 0 auto 32px;
+    }
+
+    .hero .cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--white);
+      font-weight: 600;
       font-size: 0.95rem;
+      padding: 12px 32px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
     }
 
-    /* ---- Learning Path ---- */
-
-    .learning-path {
-      padding: 48px 24px 72px;
+    .hero .cta:hover {
+      background: var(--teal-dark);
+      color: var(--white);
+      transform: translateY(-1px);
     }
 
-    .path-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
+    .hero .cta-sub {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
     }
 
-    .lesson-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px 28px 24px;
+    /* ---- Lessons ---- */
+
+    .lessons {
+      padding: 32px 0 72px;
+    }
+
+    .lessons h2 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .lesson-list {
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      gap: 0;
       position: relative;
     }
 
-    .lesson-card.available {
-      cursor: pointer;
-    }
-
-    .lesson-card.available:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
-    }
-
-    .lesson-card.coming-soon {
-      opacity: 0.5;
-    }
-
-    .lesson-card a.card-link {
+    /* Vertical timeline line */
+    .lesson-list::before {
+      content: '';
       position: absolute;
-      inset: 0;
-      z-index: 1;
+      left: 19px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: var(--border);
     }
 
-    .card-header {
+    .lesson-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 16px 0;
+      position: relative;
+    }
+
+    /* Timeline dot */
+    .step-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      z-index: 1;
+      transition: transform 0.15s;
+    }
+
+    .step-dot.active {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .step-dot.soon {
+      background: var(--border-light);
+      color: var(--muted);
+      border: 2px solid var(--border);
+    }
+
+    .lesson-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .lesson-link {
+      display: block;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+
+    .lesson-link:hover {
+      border-color: rgba(15, 118, 110, 0.3);
+      box-shadow: 0 4px 16px rgba(15, 118, 110, 0.06);
+      transform: translateY(-2px);
+      color: var(--text);
+    }
+
+    .lesson-link:hover .lesson-title { color: var(--teal); }
+    .lesson-link:hover ~ .step-dot { transform: scale(1.1); }
+
+    .lesson-static {
+      padding: 20px 24px;
+      opacity: 0.55;
+    }
+
+    .lesson-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
     }
 
-    .lesson-number {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+    .lesson-title {
+      font-size: 1.05rem;
       font-weight: 600;
-      color: var(--teal);
-      background: var(--teal-pale);
-      padding: 3px 10px;
-      border-radius: 4px;
-      letter-spacing: 0.04em;
-    }
-
-    .coming-soon .lesson-number {
-      background: #f1f5f9;
-      color: var(--muted);
+      color: var(--text);
+      transition: color 0.2s;
     }
 
     .badge {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      padding: 3px 10px;
+      padding: 2px 8px;
       border-radius: 4px;
     }
 
-    .badge-available {
-      background: var(--teal-pale);
-      color: var(--teal-dark);
-    }
+    .badge-ok { background: var(--teal-pale); color: var(--teal-dark); }
+    .badge-soon { background: var(--border-light); color: var(--muted); }
 
-    .badge-soon {
-      background: #f1f5f9;
-      color: var(--muted);
-    }
-
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-
-    .card-description {
-      color: var(--text-soft);
+    .lesson-desc {
       font-size: 0.88rem;
-      flex: 1;
-      margin-bottom: 12px;
+      color: var(--text-soft);
+      margin-top: 2px;
     }
 
-    .card-meta {
-      font-size: 0.78rem;
+    .lesson-meta {
+      font-size: 0.75rem;
       color: var(--muted);
-    }
-
-    /* ---- Connector line between cards ---- */
-
-    .path-connector {
-      display: none;
+      margin-top: 8px;
     }
 
     /* ---- About ---- */
 
     .about {
-      padding: 48px 24px 72px;
+      padding: 48px 0;
+      border-top: 1px solid var(--border-light);
     }
 
-    .about-content {
-      max-width: 660px;
+    .about-inner {
+      max-width: 540px;
       margin: 0 auto;
       text-align: center;
     }
 
-    .about-content p {
+    .about h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .about p {
+      font-size: 0.9rem;
       color: var(--text-soft);
-      font-size: 0.95rem;
-      margin-bottom: 1em;
+      margin-bottom: 12px;
     }
 
-    .about-content p:last-child {
-      margin-bottom: 0;
+    .about p:last-child { margin-bottom: 0; }
+    .about strong { color: var(--coral); font-weight: 600; }
+
+    .tools {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: var(--muted);
     }
 
-    .about-content strong {
-      color: var(--coral);
-      font-weight: 600;
-    }
-
-    .about-content code {
-      font-family: var(--font-mono);
-      background: #f1f5f9;
-      color: var(--teal-dark);
-      padding: 0.1em 0.4em;
-      border-radius: 4px;
-      font-size: 0.88em;
-    }
-
-    /* ---- Divider ---- */
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      max-width: 120px;
-      margin: 0 auto;
-    }
+    .tools a { color: var(--muted); border-bottom: 1px solid var(--border); }
+    .tools a:hover { color: var(--teal); border-color: var(--teal); }
 
     /* ---- Footer ---- */
 
     footer {
       text-align: center;
-      padding: 40px 24px 56px;
+      padding: 32px 24px 48px;
+      font-size: 0.78rem;
       color: var(--muted);
-      font-size: 0.82rem;
     }
 
-    footer a {
-      color: var(--teal);
-    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--teal); }
 
-    footer p {
-      margin-bottom: 0.4em;
-    }
+    .footer-sep { margin: 0 8px; opacity: 0.4; }
 
     /* ---- Responsive ---- */
 
     @media (max-width: 640px) {
-      .hero {
-        padding: 72px 24px 56px;
-      }
-
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-
-      .hero .subtitle {
-        font-size: 1rem;
-      }
-
-      .path-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .lesson-card {
-        padding: 22px 22px 20px;
-      }
-
-      .section-heading h2 {
-        font-size: 1.35rem;
-      }
+      .hero { padding: 64px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero .lead { font-size: 1rem; }
+      .lesson-link, .lesson-static { padding: 16px 18px; }
+      .lesson-title { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="container">
-      <h1>Finding <span>Memo</span></h1>
-      <p class="subtitle">An AI Introduction for Programmers</p>
-      <p class="tagline">
-        A hands-on learning platform for agentic AI programming.
-        Each lesson is both content and a working example of the concepts it teaches.
-      </p>
-    </div>
-  </header>
-
-  <!-- Learning Path -->
-  <section class="learning-path">
-    <div class="container">
-      <div class="section-heading">
-        <h2>Learning Path</h2>
-        <p>Follow the lessons in order to build a solid foundation in AI-assisted development.</p>
-      </div>
-
-      <div class="path-grid">
-
-        <!-- Lesson 0 -->
-        <div class="lesson-card available">
-          <a href="lessons/00-introduction/index.html" class="card-link" aria-label="Open Lesson 0: Introduction"></a>
-          <div class="card-header">
-            <span class="lesson-number">Lesson 0</span>
-            <span class="badge badge-available">Available</span>
-          </div>
-          <div class="card-title">Introduction</div>
-          <div class="card-description">
-            Meet the course, its structure, and the philosophy behind learning AI by building with AI.
-          </div>
-          <div class="card-meta">~15 min</div>
-        </div>
-
-        <!-- Lesson 1 -->
-        <div class="lesson-card available">
-          <a href="lessons/01-agent-loop/index.html" class="card-link" aria-label="Open Lesson 1: The Agent Loop"></a>
-          <div class="card-header">
-            <span class="lesson-number">Lesson 1</span>
-            <span class="badge badge-available">Available</span>
-          </div>
-          <div class="card-title">The Agent Loop</div>
-          <div class="card-description">
-            Understand the core cycle that drives every AI coding agent: prompt, reason, act, observe.
-          </div>
-          <div class="card-meta">~20 min</div>
-        </div>
-
-        <!-- Lesson 2 -->
-        <div class="lesson-card coming-soon">
-          <div class="card-header">
-            <span class="lesson-number">Lesson 2</span>
-            <span class="badge badge-soon">Coming Soon</span>
-          </div>
-          <div class="card-title">Context & Memory</div>
-          <div class="card-description">
-            Explore how agents manage context windows, memory strategies, and information retrieval.
-          </div>
-          <div class="card-meta">--</div>
-        </div>
-
-        <!-- Lesson 3 -->
-        <div class="lesson-card coming-soon">
-          <div class="card-header">
-            <span class="lesson-number">Lesson 3</span>
-            <span class="badge badge-soon">Coming Soon</span>
-          </div>
-          <div class="card-title">The Harness</div>
-          <div class="card-description">
-            Learn to configure and control AI agents through project files, hooks, and guardrails.
-          </div>
-          <div class="card-meta">--</div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <!-- About -->
-  <section class="about">
-    <div class="container">
-      <div class="section-heading">
-        <h2>About This Platform</h2>
-      </div>
-      <div class="about-content">
-        <p>
-          <strong>Finding Memo</strong> is a self-contained learning platform where every lesson
-          is simultaneously teaching material and a live example of the concepts it covers.
-          The slides, the theme, and even this page were created by an AI agent — demonstrating
-          the very workflow you are here to learn.
-        </p>
-        <p>
-          Built with <a href="https://marp.app" target="_blank" rel="noopener">MARP</a>
-          for interactive slide decks and
-          <a href="https://claude.ai" target="_blank" rel="noopener">Claude Code</a>
-          as the agentic development tool. No frameworks, no build steps for the landing page
-          — just clean HTML and CSS.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">Finding <span>Memo</span></div>
+      <div class="nav-links">
+        <a href="#lessons">Lessons</a>
+        <a href="#about">About</a>
         <a href="https://github.com/lotape6/FindingMemo" target="_blank" rel="noopener">GitHub</a>
-      </p>
-      <p>MIT License</p>
+      </div>
     </div>
+  </nav>
+
+  <div class="content">
+
+    <section class="hero">
+      <h1>Finding <em>Memo</em></h1>
+      <p class="lead">
+        Learn AI agentic programming through interactive lessons.
+        Each one teaches a concept by being a working example of it.
+      </p>
+      <a href="lessons/00-introduction/index.html" class="cta">Start learning</a>
+      <span class="cta-sub">No setup required -- runs in your browser</span>
+    </section>
+
+    <section class="lessons" id="lessons">
+      <h2>Lessons</h2>
+
+      <div class="lesson-list">
+
+        <div class="lesson-item">
+          <div class="step-dot active">0</div>
+          <div class="lesson-body">
+            <a href="lessons/00-introduction/index.html" class="lesson-link">
+              <div class="lesson-header">
+                <span class="lesson-title">Introduction</span>
+                <span class="badge badge-ok">Available</span>
+              </div>
+              <div class="lesson-desc">The Finding Nemo metaphor: agents, harness, and the mindset shift.</div>
+              <div class="lesson-meta">14 slides -- 5 min presentation, 30+ min deep dive</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="lesson-item">
+          <div class="step-dot active">1</div>
+          <div class="lesson-body">
+            <a href="lessons/01-agent-loop/index.html" class="lesson-link">
+              <div class="lesson-header">
+                <span class="lesson-title">The Agent Loop</span>
+                <span class="badge badge-ok">Available</span>
+              </div>
+              <div class="lesson-desc">Model vs agent, tool calling, subagents, and the loop that drives everything.</div>
+              <div class="lesson-meta">10 slides -- 10 min</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="lesson-item">
+          <div class="step-dot soon">2</div>
+          <div class="lesson-body">
+            <div class="lesson-static">
+              <div class="lesson-header">
+                <span class="lesson-title">Context & Memory</span>
+                <span class="badge badge-soon">Coming soon</span>
+              </div>
+              <div class="lesson-desc">Context windows, Marlin vs Dory, compaction, and memory systems.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lesson-item">
+          <div class="step-dot soon">3</div>
+          <div class="lesson-body">
+            <div class="lesson-static">
+              <div class="lesson-header">
+                <span class="lesson-title">The Harness</span>
+                <span class="badge badge-soon">Coming soon</span>
+              </div>
+              <div class="lesson-desc">Project files, skills, hooks, and engineering systems instead of prompts.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-inner">
+        <h2>What is this?</h2>
+        <p>
+          <strong>Finding Memo</strong> is an open-source learning platform where each lesson
+          teaches AI concepts by being a working example of them. The slides, theme, and this
+          page were all created by an AI agent -- demonstrating the workflow you're here to learn.
+        </p>
+        <p>
+          The core metaphor maps Finding Nemo to AI: Marlin is the agent, the Water Tunnels
+          are the harness, and you (the human) build the tunnels.
+        </p>
+        <div class="tools">
+          <a href="https://marp.app" target="_blank" rel="noopener">MARP</a>
+          <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <a href="https://github.com/lotape6/FindingMemo" target="_blank" rel="noopener">GitHub</a>
+    <span class="footer-sep">|</span>
+    MIT License
+    <span class="footer-sep">|</span>
+    by <a href="https://github.com/lotape6" target="_blank" rel="noopener">lotape6</a>
   </footer>
 
 </body>
