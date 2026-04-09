@@ -1,0 +1,22 @@
+{
+  "name": "finding-memo",
+  "version": "1.0.0",
+  "description": "Finding Memo: An AI Introduction for Programmers — a MARP presentation",
+  "author": "lotape6",
+  "license": "MIT",
+  "homepage": "https://lotape6.github.io/FindingMemo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lotape6/FindingMemo"
+  },
+  "scripts": {
+    "build": "marp slides/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -o output/finding-memo.html",
+    "build:pdf": "marp slides/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files --pdf -o output/finding-memo.pdf",
+    "build:pptx": "marp slides/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files --pptx -o output/finding-memo.pptx",
+    "preview": "marp slides/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -p",
+    "watch": "marp slides/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -w"
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.1.1"
+  }
+}

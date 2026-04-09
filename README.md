@@ -1,75 +1,88 @@
-# Finding Memo: AI Introduction for Programmers
+# Finding Memo
 
-> A recursive presentation where the slides themselves are the lesson.
+**An AI Introduction for Programmers** — where the slides are the lesson.
+
+> View the presentation online: [lotape6.github.io/FindingMemo](https://lotape6.github.io/FindingMemo)
+
+## About
+
+A presentation that teaches AI agentic programming by **being** an example of it. The core metaphor maps Finding Nemo to AI concepts:
+
+| Finding Nemo | AI Concept | Role |
+|---|---|---|
+| Marlin | The Agent | The intelligence |
+| Water Tunnels | The Harness | Navigate the knowledge |
+| Crush (you) | The Human | Builds the tunnels |
+
+The 3 core concepts covered: **Agent Loop**, **Context**, and **Harness**.
 
 ## Quick Start
 
-### Prerequisites
-- Node.js >= 18
-- npm
+```bash
+npm install          # install marp-cli
+npm run preview      # open in browser with live reload
+npm run build        # generate output/finding-memo.html
+```
 
-### Install & Build
+### Other build targets
 
 ```bash
-# Install dependencies
-npm install
-
-# Preview with live reload
-npm run preview
-
-# Build HTML (recommended for presenting)
-npm run build
-
-# Build PDF (requires Chrome/Chromium)
-npm run build:pdf
-
-# Build PPTX
-npm run build:pptx
-
-# Or build all formats at once
-bash scripts/build.sh
+npm run build:pdf    # PDF export (requires Chrome/Chromium)
+npm run build:pptx   # PowerPoint export
+npm run watch        # rebuild on file changes
+bash scripts/build.sh # build all formats at once
 ```
 
 ### Presenting
 
-**5-7 min path**: Open `output/finding-memo.html` in a browser. Use arrow keys to navigate. Follow speaker notes (press `P` for presenter view).
+**5-7 min path** — Open the HTML output or the [online version](https://lotape6.github.io/FindingMemo). Use arrow keys. Press `P` for presenter view with speaker notes.
 
-**1h+ deep dive**: Explore the `slides/`, `skills/`, and this README to understand the recursive structure. The presentation was built using the same concepts it teaches.
+**Deep dive** — Explore the repo structure below. Every file is both content and teaching material.
 
 ## Project Structure
 
 ```
-├── README.md              # You are here
-├── package.json           # MARP CLI dependency & build scripts
-├── .marprc.yml            # MARP configuration
-├── assets/
-│   ├── images/            # Finding Nemo scene images
-│   │   ├── generic.jpg    # Core characters
-│   │   ├── love.jpg       # Marlin & Nemo
-│   │   ├── harness.jpg    # Crush & EAC
-│   │   └── mindset.jpg    # Nemo escaping tank
-│   └── themes/
-│       └── finding-memo.css  # Custom MARP theme
-├── skills/                # Conceptual skill definitions (part of the meta-lesson)
-│   ├── create-slides.md
-│   ├── creative-funny.md
-│   ├── plottwist.md
-│   ├── metaphor.md
-│   └── marp-slide.md
-├── slides/
-│   └── deck.md            # The presentation
-├── scripts/
-│   └── build.sh           # Build all formats
-└── output/                # Generated files (gitignored)
+FindingMemo/
+  assets/
+    images/
+      generic.jpg              # Finding Nemo core characters
+      love.jpg                 # Marlin & Nemo
+      harness.jpg              # Crush & the Water Tunnel (EAC)
+      mindset.jpg              # Nemo escaping the fish tank
+    themes/
+      finding-memo.css         # Custom MARP theme (light ocean pastel)
+  skills/                      # Conceptual AI skill definitions
+    create-slides.md           # Orchestrator skill example
+    creative-funny.md          # Creative content generation skill
+    metaphor.md                # Concept-mapping skill (includes Nemo table)
+    plottwist.md               # Perspective-shifting skill
+    marp-slide.md              # Single slide generator skill
+  slides/
+    deck.md                    # The presentation source
+  scripts/
+    build.sh                   # Multi-format build script
+  .github/
+    workflows/
+      deploy.yml               # GitHub Pages deployment
+  package.json                 # Dependencies & npm scripts
+  .marprc.yml                  # MARP configuration
 ```
 
-## The Recursive Concept
+## TODO
 
-This presentation teaches AI agentic programming concepts by **being** an example of AI agentic programming. The slides were created by an AI agent using skills (like `/create-slides`, `/metaphor`, `/plottwist`) — and those same skills are included in the repo as teaching material.
+- [ ] `slides/deck.md` — Create a separate presentation for the agent execution example (slides 2-5 from v1, showing the fictional `/create-slides` flow)
+- [ ] `skills/` — Develop the conceptual skills into functional, reusable skill files for Claude Code
+- [ ] `slides/deck.md` — Add a Dory slide to illustrate subagents and limited context (Marlin vs Dory = context capacity)
+- [ ] `assets/themes/finding-memo.css` — Add a dark mode variant toggled via `<!-- _class: dark -->`
+- [ ] `slides/deck.md` — Expand the "What I learned" slide into a bonus deep-dive section with concrete examples
+- [ ] `scripts/build.sh` — Add image optimization step (auto-resize to 1920x1080 max)
+- [ ] `README.md` — Add a "How to fork & customize" section for other presenters
 
-The core metaphor maps Finding Nemo characters to AI concepts:
-- **Marlin** → The Agent/Model (intelligence)
-- **Crush** → The Human (context + feelings)  
-- **EAC** → The Harness (what actually enables the agent)
-# FindingMemo
-# FindingMemo
+## Built with
+
+- [MARP](https://marp.app) — Markdown Presentation Ecosystem
+- [Claude Code](https://claude.ai/code) — AI-powered development
+
+## License
+
+MIT
