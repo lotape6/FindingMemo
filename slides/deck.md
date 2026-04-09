@@ -32,7 +32,7 @@ Let's understand 3 core concepts.
 <!-- _class: photo -->
 <!-- _paginate: skip -->
 
-![bg brightness:0.55](./assets/images/generic.jpg)
+![bg brightness:0.55](../assets/images/generic.jpg)
 
 # Finding **Memo**
 
@@ -40,7 +40,7 @@ Let's understand 3 core concepts.
 
 ---
 
-![bg left:32%](./assets/images/generic.jpg)
+![bg left:32%](../assets/images/generic.jpg)
 
 # The Analogy
 
@@ -55,7 +55,7 @@ Marlin, a clownfish, crossed the entire ocean to find his son Nemo.
 <!-- _class: photo -->
 <!-- _paginate: skip -->
 
-![bg brightness:0.5](./assets/images/love.jpg)
+![bg brightness:0.5](../assets/images/love.jpg)
 
 # How did Marlin find Nemo?
 
@@ -66,7 +66,7 @@ Marlin, a clownfish, crossed the entire ocean to find his son Nemo.
 <!-- _class: photo -->
 <!-- _paginate: skip -->
 
-![bg brightness:0.5](./assets/images/love.jpg)
+![bg brightness:0.5](../assets/images/love.jpg)
 
 # Was it **love**?
 
@@ -74,7 +74,7 @@ Marlin, a clownfish, crossed the entire ocean to find his son Nemo.
 
 ---
 
-![bg right:38%](./assets/images/love.jpg)
+![bg right:38%](../assets/images/love.jpg)
 
 # Not by love.
 
@@ -89,7 +89,7 @@ There are no feelings here — just concepts distributed over 1s and 0s.
 <!-- _class: photo -->
 <!-- _paginate: skip -->
 
-![bg brightness:0.55](./assets/images/harness.jpg)
+![bg brightness:0.55](../assets/images/harness.jpg)
 
 # *"Grab shell, dude!"*
 
@@ -97,7 +97,7 @@ There are no feelings here — just concepts distributed over 1s and 0s.
 
 ---
 
-![bg left:35%](./assets/images/harness.jpg)
+![bg left:35%](../assets/images/harness.jpg)
 
 # The Water Tunnel
 
