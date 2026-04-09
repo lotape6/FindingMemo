@@ -3,452 +3,464 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finding Memo — Learn AI Agentic Programming</title>
+  <title>Finding Memo -- Learn AI Agentic Programming</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <style>
     :root {
-      --bg: #fafbfc;
-      --white: #ffffff;
-      --text: #1e293b;
-      --text-soft: #475569;
-      --muted: #94a3b8;
-      --coral: #b45309;
-      --coral-soft: rgba(180, 83, 9, 0.08);
-      --teal: #0f766e;
-      --teal-dark: #115e59;
-      --teal-pale: #ccfbf1;
-      --border: #e2e8f0;
-      --border-light: #f1f5f9;
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      --mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+      --bg: #fafbfc; --white: #ffffff; --text: #1e293b; --text-soft: #475569;
+      --muted: #94a3b8; --coral: #b45309; --teal: #0f766e; --teal-dark: #115e59;
+      --teal-pale: #ccfbf1; --indigo: #6366f1; --green: #16a34a;
+      --border: #e2e8f0; --border-light: #f1f5f9;
+      --font: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      --mono: 'SF Mono','Fira Code','JetBrains Mono',Consolas,monospace;
+      --content-w: 780px; --section-pad: clamp(48px,8vw,120px);
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+    a{color:var(--teal);text-decoration:none}a:hover{color:var(--teal-dark)}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: var(--font);
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--teal); text-decoration: none; }
-    a:hover { color: var(--teal-dark); }
+    /* ---- Progress bar ---- */
+    #progress{position:fixed;top:0;left:0;height:3px;background:var(--teal);width:0;z-index:100;transition:none}
 
     /* ---- Nav ---- */
+    nav{position:sticky;top:0;z-index:20;background:rgba(250,251,252,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);padding:0 24px}
+    .nav-inner{max-width:var(--content-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+    .logo{font-weight:700;font-size:0.95rem;color:var(--text)}.logo span{color:var(--coral)}
+    .nav-links{display:flex;gap:16px;font-size:0.8rem}
+    .nav-links a{color:var(--muted);transition:color 0.2s}.nav-links a:hover,.nav-links a.active{color:var(--text)}
 
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(250, 251, 252, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-light);
-      padding: 0 24px;
-    }
+    /* ---- Shared ---- */
+    .section-inner{max-width:var(--content-w);margin:0 auto;padding:0 24px}
+    .section-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:12px}
+    .section-title{font-size:1.8rem;font-weight:700;color:var(--text);letter-spacing:-0.03em;margin-bottom:40px}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}.reveal.revealed{opacity:1;transform:none}
 
-    nav .nav-inner {
-      max-width: 720px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-
-    nav .logo {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    nav .logo span { color: var(--coral); }
-
-    nav .nav-links {
-      display: flex;
-      gap: 20px;
-      font-size: 0.85rem;
-    }
-
-    nav .nav-links a { color: var(--muted); }
-    nav .nav-links a:hover { color: var(--text); }
-
-    /* ---- Content ---- */
-
-    .content {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    /* ---- Keywords ---- */
+    .kw{background:var(--teal-pale);border-bottom:2px dashed rgba(15,118,110,0.35);padding:1px 4px;border-radius:3px;cursor:help;position:relative;font-weight:500;color:var(--teal-dark)}
+    .kw::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--white);font-size:0.72rem;font-weight:400;font-style:normal;padding:6px 12px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s;z-index:10;line-height:1.4}
+    .kw:hover::after{opacity:1}
 
     /* ---- Hero ---- */
+    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+    #hero h1{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;letter-spacing:-0.04em;margin-bottom:16px}
+    #hero h1 em{font-style:normal;color:var(--coral)}
+    #hero .lead{font-size:1.1rem;color:var(--text-soft);max-width:480px;margin-bottom:32px}
+    .scroll-cue{font-size:0.8rem;color:var(--muted);animation:bounce 2s ease-in-out infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-    .hero {
-      padding: 88px 0 64px;
-      text-align: center;
-    }
+    /* ---- Section: The Cast ---- */
+    #the-cast{padding:var(--section-pad) 0}
+    .cast-cards{display:flex;flex-direction:column;gap:48px}
+    .cast-card{display:grid;grid-template-columns:80px 1fr;gap:28px;align-items:start}
+    .cast-icon{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;margin-top:4px}
+    .cast-icon.model-i{background:rgba(180,83,9,0.08);color:var(--coral)}
+    .cast-icon.agent-i{background:rgba(15,118,110,0.08);color:var(--teal)}
+    .cast-icon.ctx-i{background:rgba(99,102,241,0.08);color:var(--indigo)}
+    .cast-body h3{font-size:1.15rem;font-weight:700;margin-bottom:6px;color:var(--text)}
+    .cast-body p{font-size:0.92rem;color:var(--text-soft);margin-bottom:8px}
+    .nemo-tag{display:inline-block;font-size:0.72rem;padding:3px 10px;border-radius:20px;background:var(--border-light);color:var(--muted);font-style:italic}
 
-    .hero h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
+    /* ---- Section: How It Works ---- */
+    #how-it-works{padding:var(--section-pad) 0}
+    .hw-panels{display:flex;flex-direction:column;gap:72px}
+    .hw-panel h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:20px}
 
-    .hero h1 em {
-      font-style: normal;
-      color: var(--coral);
-    }
+    /* Loop diagram */
+    .loop-ring{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:16px}
+    .loop-node{background:var(--teal-pale);color:var(--teal-dark);padding:10px 24px;border-radius:8px;font-size:0.85rem;font-weight:600;opacity:0;transform:scale(0.8);transition:opacity 0.4s,transform 0.4s}
+    .loop-node.on{opacity:1;transform:scale(1)}
+    .loop-arrow-h{color:var(--muted);font-size:1.2rem;display:flex;align-items:center;opacity:0;transition:opacity 0.3s}.loop-arrow-h.on{opacity:1}
+    .loop-branch{display:flex;gap:32px;justify-content:center;margin-top:16px;font-size:0.82rem;color:var(--text-soft)}
+    .loop-branch .lb-path{text-align:center;opacity:0;transform:translateY(12px);transition:opacity 0.4s,transform 0.4s}
+    .loop-branch .lb-path.on{opacity:1;transform:none}
+    .loop-repeat{text-align:center;font-size:0.8rem;color:var(--muted);margin-top:12px;opacity:0;transition:opacity 0.4s}.loop-repeat.on{opacity:1}
 
-    .hero .lead {
-      font-size: 1.15rem;
-      color: var(--text-soft);
-      max-width: 520px;
-      margin: 0 auto 32px;
-    }
+    /* File tree */
+    .file-tree{font-family:var(--mono);font-size:0.82rem;color:var(--text-soft);background:var(--white);border:1px solid var(--border);border-radius:10px;padding:20px 24px;line-height:2}
+    .ft-dir{color:var(--teal);font-weight:600}
+    .ft-file{color:var(--text-soft)}
+    .ft-desc{color:var(--muted);font-size:0.75rem;font-family:var(--font)}
+    .ft-indent{padding-left:20px;border-left:1px solid var(--border-light);margin-left:8px}
+    .ft-line{opacity:0;transform:translateX(-8px);transition:opacity 0.3s,transform 0.3s}.ft-line.on{opacity:1;transform:none}
 
-    .hero .cta {
-      display: inline-block;
-      background: var(--teal);
-      color: var(--white);
-      font-weight: 600;
-      font-size: 0.95rem;
-      padding: 12px 32px;
-      border-radius: 8px;
-      transition: background 0.2s, transform 0.15s;
-    }
+    /* Context bar */
+    .ctx-bar{display:flex;height:40px;border-radius:8px;overflow:hidden;margin-bottom:16px;border:1px solid var(--border)}
+    .ctx-seg{display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:white;transition:flex-grow 0.8s ease}
+    .ctx-seg.s1{background:#99f6e4;color:#065f46}.ctx-seg.s2{background:#6ee7b7;color:#065f46}
+    .ctx-seg.s3{background:#34d399;color:#064e3b}.ctx-seg.s4{background:#10b981;color:white}
+    .ctx-seg.s5{background:#94a3b8;color:white;font-style:italic}
+    .ctx-labels{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted)}
 
-    .hero .cta:hover {
-      background: var(--teal-dark);
-      color: var(--white);
-      transform: translateY(-1px);
-    }
+    /* ---- Section: The Mindset ---- */
+    #the-mindset{padding:var(--section-pad) 0}
+    .tips{display:flex;flex-direction:column;gap:32px}
+    .tip{display:grid;grid-template-columns:48px 1fr;gap:20px;align-items:start}
+    .tip-num{font-family:var(--mono);font-size:0.9rem;font-weight:700;color:var(--teal);width:40px;height:40px;border-radius:50%;background:var(--teal-pale);display:flex;align-items:center;justify-content:center}
+    .tip h3{font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:4px}
+    .tip p{font-size:0.88rem;color:var(--text-soft)}
 
-    .hero .cta-sub {
-      display: block;
-      margin-top: 12px;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
+    /* ---- Section: Watch It ---- */
+    #watch-it{padding:var(--section-pad) 0}
+    .trace{position:relative;padding-left:48px}
+    .trace::before{content:'';position:absolute;left:17px;top:12px;bottom:12px;width:2px;background:var(--border)}
+    .trace-step{display:flex;gap:16px;padding:14px 0;opacity:0;transform:translateY(16px);transition:opacity 0.4s,transform 0.4s}
+    .trace-step.visible{opacity:1;transform:none}
+    .ts-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.65rem;font-weight:700;flex-shrink:0;position:absolute;left:0;z-index:1}
+    .trace-step[data-type="prompt"] .ts-dot{background:rgba(180,83,9,0.1);color:var(--coral)}
+    .trace-step[data-type="think"] .ts-dot{background:rgba(15,118,110,0.1);color:var(--teal)}
+    .trace-step[data-type="tool"] .ts-dot{background:rgba(99,102,241,0.1);color:var(--indigo)}
+    .trace-step[data-type="result"] .ts-dot{background:rgba(22,163,74,0.1);color:var(--green)}
+    .ts-label{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px}
+    .trace-step[data-type="prompt"] .ts-label{color:var(--coral)}
+    .trace-step[data-type="think"] .ts-label{color:var(--teal)}
+    .trace-step[data-type="tool"] .ts-label{color:var(--indigo)}
+    .trace-step[data-type="result"] .ts-label{color:var(--green)}
+    .ts-tool{font-family:var(--mono);font-size:0.75rem;color:var(--indigo);font-weight:600;background:rgba(99,102,241,0.06);padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:4px}
+    .ts-body{font-size:0.85rem;color:var(--text-soft);line-height:1.5}
+    .ts-memo{margin-top:6px;padding-left:12px;border-left:2px solid rgba(15,118,110,0.2);font-size:0.75rem;color:var(--teal);font-style:italic;opacity:0;transition:opacity 0.4s 0.3s}.trace-step.visible .ts-memo{opacity:1}
 
-    /* ---- Lessons ---- */
-
-    .lessons {
-      padding: 32px 0 72px;
-    }
-
-    .lessons h2 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    .lesson-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-    }
-
-    /* Vertical timeline line */
-    .lesson-list::before {
-      content: '';
-      position: absolute;
-      left: 19px;
-      top: 12px;
-      bottom: 12px;
-      width: 2px;
-      background: var(--border);
-    }
-
-    .lesson-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 16px 0;
-      position: relative;
-    }
-
-    /* Timeline dot */
-    .step-dot {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      z-index: 1;
-      transition: transform 0.15s;
-    }
-
-    .step-dot.active {
-      background: var(--teal);
-      color: var(--white);
-    }
-
-    .step-dot.soon {
-      background: var(--border-light);
-      color: var(--muted);
-      border: 2px solid var(--border);
-    }
-
-    .lesson-body {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .lesson-link {
-      display: block;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px 24px;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-    }
-
-    .lesson-link:hover {
-      border-color: rgba(15, 118, 110, 0.3);
-      box-shadow: 0 4px 16px rgba(15, 118, 110, 0.06);
-      transform: translateY(-2px);
-      color: var(--text);
-    }
-
-    .lesson-link:hover .lesson-title { color: var(--teal); }
-    .lesson-link:hover ~ .step-dot { transform: scale(1.1); }
-
-    .lesson-static {
-      padding: 20px 24px;
-      opacity: 0.55;
-    }
-
-    .lesson-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-
-    .lesson-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text);
-      transition: color 0.2s;
-    }
-
-    .badge {
-      font-size: 0.68rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    .badge-ok { background: var(--teal-pale); color: var(--teal-dark); }
-    .badge-soon { background: var(--border-light); color: var(--muted); }
-
-    .lesson-desc {
-      font-size: 0.88rem;
-      color: var(--text-soft);
-      margin-top: 2px;
-    }
-
-    .lesson-meta {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    /* ---- About ---- */
-
-    .about {
-      padding: 48px 0;
-      border-top: 1px solid var(--border-light);
-    }
-
-    .about-inner {
-      max-width: 540px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .about h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-
-    .about p {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-      margin-bottom: 12px;
-    }
-
-    .about p:last-child { margin-bottom: 0; }
-    .about strong { color: var(--coral); font-weight: 600; }
-
-    .tools {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-top: 20px;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-
-    .tools a { color: var(--muted); border-bottom: 1px solid var(--border); }
-    .tools a:hover { color: var(--teal); border-color: var(--teal); }
+    .deck-links{display:flex;gap:16px;margin-top:48px;justify-content:center;flex-wrap:wrap}
+    .deck-link{display:inline-block;padding:10px 24px;border:1px solid var(--border);border-radius:8px;font-size:0.85rem;font-weight:500;color:var(--text);transition:border-color 0.2s,box-shadow 0.2s}
+    .deck-link:hover{border-color:var(--teal);box-shadow:0 4px 12px rgba(15,118,110,0.08);color:var(--teal)}
 
     /* ---- Footer ---- */
-
-    footer {
-      text-align: center;
-      padding: 32px 24px 48px;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--teal); }
-
-    .footer-sep { margin: 0 8px; opacity: 0.4; }
+    footer{text-align:center;padding:48px 24px 56px;font-size:0.78rem;color:var(--muted)}
+    .footer-sep{margin:0 8px;opacity:0.4}
 
     /* ---- Responsive ---- */
-
-    @media (max-width: 640px) {
-      .hero { padding: 64px 0 48px; }
-      .hero h1 { font-size: 2rem; }
-      .hero .lead { font-size: 1rem; }
-      .lesson-link, .lesson-static { padding: 16px 18px; }
-      .lesson-title { font-size: 0.95rem; }
+    @media(max-width:640px){
+      .cast-card{grid-template-columns:1fr}.cast-icon{width:48px;height:48px;font-size:1.1rem;border-radius:12px}
+      .section-title{font-size:1.4rem}
+      .loop-ring{flex-direction:column;align-items:center}.loop-arrow-h{transform:rotate(90deg)}
+      .tip{grid-template-columns:40px 1fr;gap:12px}
+      .nav-links{gap:10px;font-size:0.75rem}
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <div class="nav-inner">
-      <div class="logo">Finding <span>Memo</span></div>
-      <div class="nav-links">
-        <a href="#lessons">Lessons</a>
-        <a href="#about">About</a>
-        <a href="https://github.com/lotape6/FindingMemo" target="_blank" rel="noopener">GitHub</a>
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Finding <span>Memo</span></div>
+    <div class="nav-links">
+      <a href="#the-cast" data-section="the-cast">Basics</a>
+      <a href="#how-it-works" data-section="how-it-works">Mechanics</a>
+      <a href="#the-mindset" data-section="the-mindset">Mindset</a>
+      <a href="#watch-it" data-section="watch-it">Live</a>
+      <a href="https://github.com/lotape6/FindingMemo" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <h1>Finding <em>Memo</em></h1>
+  <p class="lead">AI agents are simpler than you think. Scroll to learn the three concepts that make them work.</p>
+  <div class="scroll-cue">scroll down</div>
+</section>
+
+<!-- ============ THE CAST ============ -->
+<section id="the-cast">
+  <div class="section-inner">
+    <div class="section-label">The basics</div>
+    <h2 class="section-title">The Cast</h2>
+
+    <div class="cast-cards">
+
+      <div class="cast-card reveal">
+        <div class="cast-icon model-i">f(x)</div>
+        <div class="cast-body">
+          <h3>The <span class="kw" data-tip="Marlin's brain -- raw intelligence">Model</span></h3>
+          <p>A function: text in, text out. Stateless. No memory between calls. No ability to act. Just pure reasoning trapped in a box -- incredibly smart, but alone.</p>
+          <span class="nemo-tag">Marlin's brain -- smart but alone</span>
+        </div>
+      </div>
+
+      <div class="cast-card reveal">
+        <div class="cast-icon agent-i">+</div>
+        <div class="cast-body">
+          <h3>The <span class="kw" data-tip="Marlin with fins -- model + loop + tools">Agent</span></h3>
+          <p>A <span class="kw" data-tip="Marlin's brain">model</span> wrapped in a loop with <span class="kw" data-tip="Marlin's fins and eyes -- file readers, code runners">tools</span>. The model decides what to do. The loop keeps it going. The tools let it act on the world.</p>
+          <span class="nemo-tag">Marlin with fins and eyes</span>
+        </div>
+      </div>
+
+      <div class="cast-card reveal">
+        <div class="cast-icon ctx-i">{}</div>
+        <div class="cast-body">
+          <h3>The <span class="kw" data-tip="The ocean Marlin can see -- working memory">Context</span></h3>
+          <p>Everything the <span class="kw" data-tip="Marlin's brain">model</span> can see. Its working memory. When it fills up, old information gets <span class="kw" data-tip="When the ocean gets too big -- context is summarized">compacted</span>. The difference between a powerful agent and a weak one? Not the model. The context.</p>
+          <span class="nemo-tag">Marlin vs Dory -- same brain, different capacity</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="section-label">The mechanics</div>
+    <h2 class="section-title">How It Works</h2>
+
+    <div class="hw-panels">
+
+      <!-- Agent Loop -->
+      <div class="hw-panel reveal" id="loop-panel">
+        <h3>The <span class="kw" data-tip="Marlin with fins -- model + loop + tools">Agent</span> Loop</h3>
+        <div class="loop-ring">
+          <div class="loop-node" id="ln-prompt">Prompt</div>
+          <div class="loop-arrow-h" id="la-1">&rarr;</div>
+          <div class="loop-node" id="ln-think">Think</div>
+          <div class="loop-arrow-h" id="la-2">&rarr;</div>
+          <div class="loop-node" id="ln-act">Act</div>
+          <div class="loop-arrow-h" id="la-3">&rarr;</div>
+          <div class="loop-node" id="ln-observe">Observe</div>
+        </div>
+        <div class="loop-branch">
+          <div class="lb-path" id="lb-yes">
+            <div><strong>Tool call?</strong></div>
+            <div>Yes &rarr; execute, feed result back</div>
+          </div>
+          <div class="lb-path" id="lb-no">
+            <div><strong>Done?</strong></div>
+            <div>Yes &rarr; final answer</div>
+          </div>
+        </div>
+        <div class="loop-repeat" id="loop-repeat">&hookleftarrow; repeat until done</div>
+      </div>
+
+      <!-- Harness -->
+      <div class="hw-panel reveal" id="harness-panel">
+        <h3>The <span class="kw" data-tip="Water Tunnels -- infrastructure that carries the agent">Harness</span></h3>
+        <p style="font-size:0.88rem;color:var(--text-soft);margin-bottom:16px">The <span class="kw" data-tip="Water Tunnels">harness</span> is how your files are distributed, described, and referenced. It's your intelligence, crystallized into structure.</p>
+        <div class="file-tree" id="file-tree">
+          <div class="ft-line"><span class="ft-dir">project/</span></div>
+          <div class="ft-indent">
+            <div class="ft-line"><span class="ft-file">CLAUDE.md</span> <span class="ft-desc">-- the agent's role and rules</span></div>
+            <div class="ft-line"><span class="ft-dir">skills/</span> <span class="ft-desc">-- reusable prompt templates</span></div>
+            <div class="ft-indent">
+              <div class="ft-line"><span class="ft-file">create-slides.md</span></div>
+              <div class="ft-line"><span class="ft-file">metaphor.md</span></div>
+            </div>
+            <div class="ft-line"><span class="ft-dir">.claude/</span></div>
+            <div class="ft-indent">
+              <div class="ft-line"><span class="ft-file">settings.json</span> <span class="ft-desc">-- hooks and automation</span></div>
+            </div>
+            <div class="ft-line"><span class="ft-file">README.md</span> <span class="ft-desc">-- project context</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Context distribution -->
+      <div class="hw-panel reveal" id="ctx-panel">
+        <h3><span class="kw" data-tip="The ocean Marlin can see">Context</span> Window</h3>
+        <p style="font-size:0.88rem;color:var(--text-soft);margin-bottom:16px">Everything stacked into a single window. When it fills up, the oldest parts get <span class="kw" data-tip="Summarized or dropped">compacted</span>.</p>
+        <div class="ctx-bar" id="ctx-bar">
+          <div class="ctx-seg s1" style="flex-grow:0" data-grow="1">System</div>
+          <div class="ctx-seg s2" style="flex-grow:0" data-grow="2">Instructions</div>
+          <div class="ctx-seg s3" style="flex-grow:0" data-grow="4">Conversation</div>
+          <div class="ctx-seg s4" style="flex-grow:0" data-grow="3">Tool results</div>
+          <div class="ctx-seg s5" style="flex-grow:0" data-grow="1">...compacted</div>
+        </div>
+        <div class="ctx-labels">
+          <span>oldest</span>
+          <span>newest</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE MINDSET ============ -->
+<section id="the-mindset">
+  <div class="section-inner">
+    <div class="section-label">Practical rules</div>
+    <h2 class="section-title">The Mindset</h2>
+
+    <div class="tips">
+      <div class="tip reveal">
+        <div class="tip-num">01</div>
+        <div>
+          <h3>Never prompt directly in chat</h3>
+          <p>Write in an editor. Read it twice. Dehumanize it -- you're configuring a system, not chatting with a colleague.</p>
+        </div>
+      </div>
+      <div class="tip reveal">
+        <div class="tip-num">02</div>
+        <div>
+          <h3>Scripting has evolved</h3>
+          <p>Create skills, agents, and reusable <span class="kw" data-tip="The ocean Marlin can see">context</span>. If you're writing the same instructions twice, make it a skill.</p>
+        </div>
+      </div>
+      <div class="tip reveal">
+        <div class="tip-num">03</div>
+        <div>
+          <h3>Keep all context congruent</h3>
+          <p>Don't tell the <span class="kw" data-tip="Marlin's brain">model</span> how to be smart -- give it the right information. Your job is congruence, not instruction.</p>
+        </div>
+      </div>
+      <div class="tip reveal">
+        <div class="tip-num">04</div>
+        <div>
+          <h3>Think first, then prompt</h3>
+          <p>Every wasted token is a wasted thought. Plan before you execute.</p>
+        </div>
       </div>
     </div>
-  </nav>
-
-  <div class="content">
-
-    <section class="hero">
-      <h1>Finding <em>Memo</em></h1>
-      <p class="lead">
-        Learn AI agentic programming through interactive lessons.
-        Each one teaches a concept by being a working example of it.
-      </p>
-      <a href="lessons/00-introduction/index.html" class="cta">Start learning</a>
-      <span class="cta-sub">No setup required -- runs in your browser</span>
-    </section>
-
-    <section class="lessons" id="lessons">
-      <h2>Lessons</h2>
-
-      <div class="lesson-list">
-
-        <div class="lesson-item">
-          <div class="step-dot active">0</div>
-          <div class="lesson-body">
-            <a href="lessons/00-introduction/index.html" class="lesson-link">
-              <div class="lesson-header">
-                <span class="lesson-title">Introduction</span>
-                <span class="badge badge-ok">Available</span>
-              </div>
-              <div class="lesson-desc">The Finding Nemo metaphor: agents, harness, and the mindset shift.</div>
-              <div class="lesson-meta">14 slides -- 5 min presentation, 30+ min deep dive</div>
-            </a>
-          </div>
-        </div>
-
-        <div class="lesson-item">
-          <div class="step-dot active">1</div>
-          <div class="lesson-body">
-            <a href="lessons/01-agent-loop/index.html" class="lesson-link">
-              <div class="lesson-header">
-                <span class="lesson-title">The Agent Loop</span>
-                <span class="badge badge-ok">Available</span>
-              </div>
-              <div class="lesson-desc">Model vs agent, tool calling, subagents, and the loop that drives everything.</div>
-              <div class="lesson-meta">10 slides -- 10 min</div>
-            </a>
-          </div>
-        </div>
-
-        <div class="lesson-item">
-          <div class="step-dot active">2</div>
-          <div class="lesson-body">
-            <a href="lessons/02-session-visualizer/index.html" class="lesson-link">
-              <div class="lesson-header">
-                <span class="lesson-title">The Session Visualizer</span>
-                <span class="badge badge-ok">Available</span>
-              </div>
-              <div class="lesson-desc">Watch the agent build this presentation step by step -- the recursive concept made visible.</div>
-              <div class="lesson-meta">Interactive scrollytelling -- 5 min</div>
-            </a>
-          </div>
-        </div>
-
-        <div class="lesson-item">
-          <div class="step-dot soon">3</div>
-          <div class="lesson-body">
-            <div class="lesson-static">
-              <div class="lesson-header">
-                <span class="lesson-title">Context & Memory</span>
-                <span class="badge badge-soon">Coming soon</span>
-              </div>
-              <div class="lesson-desc">Context windows, Marlin vs Dory, compaction, and memory systems.</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="about" id="about">
-      <div class="about-inner">
-        <h2>What is this?</h2>
-        <p>
-          <strong>Finding Memo</strong> is an open-source learning platform where each lesson
-          teaches AI concepts by being a working example of them. The slides, theme, and this
-          page were all created by an AI agent -- demonstrating the workflow you're here to learn.
-        </p>
-        <p>
-          The core metaphor maps Finding Nemo to AI: Marlin is the agent, the Water Tunnels
-          are the harness, and you (the human) build the tunnels.
-        </p>
-        <div class="tools">
-          <a href="https://marp.app" target="_blank" rel="noopener">MARP</a>
-          <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a>
-        </div>
-      </div>
-    </section>
-
   </div>
+</section>
 
-  <footer>
-    <a href="https://github.com/lotape6/FindingMemo" target="_blank" rel="noopener">GitHub</a>
-    <span class="footer-sep">|</span>
-    MIT License
-    <span class="footer-sep">|</span>
-    by <a href="https://github.com/lotape6" target="_blank" rel="noopener">lotape6</a>
-  </footer>
+<!-- ============ WATCH IT ============ -->
+<section id="watch-it">
+  <div class="section-inner">
+    <div class="section-label">Live reconstruction</div>
+    <h2 class="section-title">Watch It Happen</h2>
+    <p style="font-size:0.92rem;color:var(--text-soft);margin-bottom:32px">This is how an <span class="kw" data-tip="Marlin with fins -- model + loop + tools">agent</span> built the Finding Memo presentation. Each step is the <span class="kw" data-tip="Marlin with fins">agent</span> loop in action.</p>
 
+    <div class="trace">
+
+      <div class="trace-step" data-type="prompt"><div class="ts-dot">&gt;_</div><div><div class="ts-label">User Prompt</div><div class="ts-body">"Create slides to introduce programmers to AI agents"</div></div></div>
+
+      <div class="trace-step" data-type="think"><div class="ts-dot">~</div><div><div class="ts-label">Think</div><div class="ts-body">Presentation task. Load <code>/create-slides</code> skill to orchestrate.</div><div class="ts-memo">Marlin looks around -- choosing a direction</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">UseSkill</div><div class="ts-body">/create-slides loaded. Steps: find metaphor, draft outline, apply plottwist, generate slides, review.</div><div class="ts-memo">The Water Tunnel appears -- the harness gives Marlin a path</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">WebSearch</div><div class="ts-body">"Finding Nemo AI metaphor" -- Marlin's journey maps perfectly to an agent navigating unknown territory.</div></div></div>
+
+      <div class="trace-step" data-type="think"><div class="ts-dot">~</div><div><div class="ts-label">Think</div><div class="ts-body">Marlin = Agent. Water Tunnels = Harness. Crush = Human. Name: Finding <strong>Memo</strong>.</div><div class="ts-memo">Marlin chose his route -- the metaphor IS the harness</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">Download</div><div class="ts-body">4 images: generic.jpg, love.jpg, harness.jpg, mindset.jpg</div></div></div>
+
+      <div class="trace-step" data-type="think"><div class="ts-dot">~</div><div><div class="ts-label">Think</div><div class="ts-body">Plottwist: the presentation itself was built by an agent. The slides ARE the example.</div><div class="ts-memo">The ocean Marlin swims through IS the lesson</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">Write</div><div class="ts-body">assets/themes/finding-memo.css -- light ocean pastel theme, CSS animations.</div><div class="ts-memo">Crush builds the tunnel walls</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">Write</div><div class="ts-body">slides/deck.md -- 14 slides with image animations, plottwist, core concepts.</div><div class="ts-memo">Each slide is a stroke through the current</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">Bash</div><div class="ts-body">npm run build -- 14 slides generated.</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">Read</div><div class="ts-body">Checking slide screenshots... slides 6 and 8 overflow.</div><div class="ts-memo">Observe -- Marlin checks the current</div></div></div>
+
+      <div class="trace-step" data-type="tool"><div class="ts-dot">fn</div><div><div class="ts-label">Tool Call</div><div class="ts-tool">Edit</div><div class="ts-body">Trim overflowing slides. Rebuild.</div><div class="ts-memo">The loop repeats -- Marlin adjusts course</div></div></div>
+
+      <div class="trace-step" data-type="result"><div class="ts-dot">ok</div><div><div class="ts-label">Done</div><div class="ts-body">14 slides. All clean. The presentation is ready.</div><div class="ts-memo">Marlin found Memo. The agent loop is complete.</div></div></div>
+
+    </div>
+
+    <div class="deck-links">
+      <a href="lessons/00-introduction/index.html" class="deck-link">View the Introduction (14 slides)</a>
+      <a href="lessons/01-agent-loop/index.html" class="deck-link">View the Agent Loop deep dive (10 slides)</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <a href="https://github.com/lotape6/FindingMemo" target="_blank" rel="noopener">GitHub</a>
+  <span class="footer-sep">|</span> MIT License
+  <span class="footer-sep">|</span> by <a href="https://github.com/lotape6" target="_blank" rel="noopener">lotape6</a>
+  <span class="footer-sep">|</span> Built with <a href="https://marp.app" target="_blank">MARP</a> + <a href="https://claude.ai/code" target="_blank">Claude Code</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ---- Progress bar ----
+  const progress = document.getElementById('progress');
+  ScrollTrigger.create({
+    trigger: document.body,
+    start: 'top top',
+    end: 'bottom bottom',
+    onUpdate: self => { progress.style.width = (self.progress * 100) + '%'; }
+  });
+
+  // ---- Nav active state ----
+  document.querySelectorAll('.nav-links a[data-section]').forEach(link => {
+    const id = link.dataset.section;
+    ScrollTrigger.create({
+      trigger: '#' + id,
+      start: 'top 40%',
+      end: 'bottom 40%',
+      onToggle: self => { link.classList.toggle('active', self.isActive); }
+    });
+  });
+
+  // ---- Reveal on scroll ----
+  document.querySelectorAll('.reveal').forEach(el => {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => el.classList.add('revealed')
+    });
+  });
+
+  // ---- Agent Loop animation ----
+  const loopEls = ['ln-prompt','la-1','ln-think','la-2','ln-act','la-3','ln-observe','lb-yes','lb-no','loop-repeat'];
+  ScrollTrigger.create({
+    trigger: '#loop-panel',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      loopEls.forEach((id, i) => {
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('on');
+        }, i * 180);
+      });
+    }
+  });
+
+  // ---- File tree animation ----
+  ScrollTrigger.create({
+    trigger: '#file-tree',
+    start: 'top 75%',
+    once: true,
+    onEnter: () => {
+      document.querySelectorAll('.ft-line').forEach((el, i) => {
+        setTimeout(() => el.classList.add('on'), i * 120);
+      });
+    }
+  });
+
+  // ---- Context bar animation ----
+  ScrollTrigger.create({
+    trigger: '#ctx-bar',
+    start: 'top 75%',
+    once: true,
+    onEnter: () => {
+      document.querySelectorAll('.ctx-seg').forEach((seg, i) => {
+        setTimeout(() => {
+          seg.style.flexGrow = seg.dataset.grow;
+        }, i * 200);
+      });
+    }
+  });
+
+  // ---- Trace steps (Watch It) ----
+  const traceObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.3, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.trace-step').forEach(s => traceObs.observe(s));
+
+  // ---- Smooth scroll for nav links ----
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+});
+</script>
 </body>
 </html>
