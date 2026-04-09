@@ -22,16 +22,24 @@ cp index.html "$DIST/index.html"
 
 # Build each lesson
 for lesson_dir in lessons/*/; do
-  if [ -f "$lesson_dir/deck.md" ]; then
-    lesson_name=$(basename "$lesson_dir")
-    out_dir="$DIST/lessons/$lesson_name"
-    mkdir -p "$out_dir"
+  lesson_name=$(basename "$lesson_dir")
+  out_dir="$DIST/lessons/$lesson_name"
+  mkdir -p "$out_dir"
 
-    echo "[*] Building $lesson_name..."
+  if [ -f "$lesson_dir/deck.md" ]; then
+    # MARP lesson
+    echo "[*] Building $lesson_name (MARP)..."
     $MARP "$lesson_dir/deck.md" $THEME $FLAGS -o "$out_dir/index.html"
     bash scripts/inline-images.sh "$out_dir/index.html"
+  elif [ -f "$lesson_dir/index.html" ]; then
+    # Static HTML lesson (e.g., session visualizer)
+    echo "[*] Copying $lesson_name (HTML)..."
+    cp "$lesson_dir/index.html" "$out_dir/index.html"
   fi
 done
+
+# Copy shared assets for lessons that reference them
+cp -r assets "$DIST/assets" 2>/dev/null || true
 
 echo ""
 echo "=== Build complete ==="
