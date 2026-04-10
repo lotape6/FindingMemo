@@ -82,15 +82,10 @@
     @keyframes sway{0%,100%{transform:rotate(0)}50%{transform:rotate(3deg)}}
     @keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
     .deco-glow{filter:drop-shadow(0 0 8px rgba(0,212,255,0.15))}
-    /* Ambient background fish */
-    .bg-fish{position:fixed;pointer-events:none;z-index:0;opacity:.12;image-rendering:pixelated;animation-timing-function:linear;animation-iteration-count:infinite}
-    .bg-fish img{image-rendering:pixelated;height:24px;width:auto}
-    .bgf1{top:20%;animation:swimR 28s -5s linear infinite}
-    .bgf2{top:55%;animation:swimL 35s -12s linear infinite}
-    .bgf3{top:75%;animation:swimR 22s -8s linear infinite}
-    .bgf4{top:35%;animation:swimL 30s -18s linear infinite}
-    @keyframes swimR{0%{left:-60px}100%{left:calc(100vw + 60px)}}
-    @keyframes swimL{0%{right:-60px;left:auto}100%{right:calc(100vw + 60px);left:auto}}
+    /* Dynamic background fauna */
+    #fauna-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .fauna{position:absolute;image-rendering:pixelated;will-change:transform}
+    .fauna img{image-rendering:pixelated;display:block}
 
     /* ---- Nav ---- */
     nav{position:sticky;top:0;z-index:20;background:rgba(4,14,30,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,212,255,0.12);padding:0 16px;
@@ -104,13 +99,12 @@
     .stag{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
     .stitle{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:28px;color:var(--text)}
     .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}.reveal.on{opacity:1;transform:none}
-    .px-card{background:linear-gradient(135deg,var(--surface) 0%,var(--surface-2) 100%);border:2px solid var(--border);box-shadow:4px 4px 0 var(--bg-deep),0 0 30px rgba(0,212,255,0.04);padding:20px;margin-bottom:20px;
-      backdrop-filter:blur(2px)}
-    .px-card:hover{box-shadow:4px 4px 0 var(--bg-deep),0 0 40px rgba(0,212,255,0.08)}
-    .px-btn{font-family:var(--head-font);font-size:11px;border:2px solid var(--border);padding:7px 16px;background:var(--surface-2);color:var(--text);cursor:pointer;box-shadow:2px 2px 0 var(--bg-deep);transition:all .15s}
-    .px-btn:hover{border-color:var(--teal);box-shadow:2px 2px 0 var(--bg-deep),0 0 12px var(--glow-teal)}
-    .px-btn:active{transform:translate(2px,2px);box-shadow:none}
-    .px-btn.active{background:var(--teal);color:var(--bg-deep);border-color:var(--teal);box-shadow:2px 2px 0 var(--bg-deep),0 0 16px var(--glow-teal)}
+    .px-card{background:rgba(12,40,60,0.55);border:1px solid rgba(0,212,255,0.1);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.2);padding:22px;margin-bottom:20px;backdrop-filter:blur(8px)}
+    .px-card:hover{border-color:rgba(0,212,255,0.2);box-shadow:0 4px 32px rgba(0,0,0,0.25)}
+    .px-btn{font-family:var(--head-font);font-size:13px;border:1px solid rgba(0,212,255,0.2);padding:8px 18px;background:rgba(12,40,60,0.6);color:var(--text);cursor:pointer;border-radius:8px;transition:all .15s;backdrop-filter:blur(4px)}
+    .px-btn:hover{border-color:var(--teal);background:rgba(0,212,255,0.1)}
+    .px-btn:active{transform:translateY(1px)}
+    .px-btn.active{background:rgba(0,212,255,0.2);color:#80ffcc;border-color:var(--teal)}
 
     /* ---- Hero ---- */
     #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px;position:relative}
@@ -143,12 +137,12 @@
     .px-toggle{display:flex;gap:0;margin-bottom:16px}
     .px-toggle button{font-family:var(--body-font);font-size:9px;padding:5px 12px;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
     .px-toggle button.active{background:var(--teal);color:var(--bg);border-color:var(--teal-dk)}
-    .px-toggle button:first-child{border-right:none}
+    .px-toggle button:not(:last-child){border-right:none}
 
     /* Loop diagram (pixel style) */
     .loop-wrap{position:relative;width:280px;height:220px;margin:0 auto}
-    .lnode{position:absolute;background:var(--surface-2);border:2px solid var(--teal);padding:4px 10px;font-size:11px;color:var(--teal);font-family:var(--head-font);box-shadow:2px 2px 0 var(--bg-deep),0 0 8px rgba(0,212,255,0.1)}
-    .lnode.lit{background:var(--teal);color:var(--bg-deep);box-shadow:2px 2px 0 var(--bg-deep),0 0 20px rgba(0,212,255,0.3)}
+    .lnode{position:absolute;background:rgba(12,40,60,0.6);border:1px solid rgba(0,212,255,0.25);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--teal);font-family:var(--head-font);backdrop-filter:blur(4px);transition:all .3s}
+    .lnode.lit{background:rgba(0,212,255,0.15);border-color:var(--teal);box-shadow:0 0 16px rgba(0,212,255,0.2)}
     .ln-p{top:0;left:50%;transform:translateX(-50%)}
     .ln-t{top:40%;right:0}
     .ln-a{bottom:0;left:50%;transform:translateX(-50%)}
@@ -171,6 +165,29 @@
     .cs1{background:#134e4a;color:#99f6e4}.cs2{background:#065f46;color:#6ee7b7}.cs3{background:#047857;color:#a7f3d0}.cs4{background:#059669;color:#fff}.cs5{background:var(--surface-2);color:var(--muted);font-style:italic}
     .ctx-lbl{display:flex;justify-content:space-between;font-size:8px;color:var(--muted)}
 
+    /* Context interactive demo */
+    .ctx-demo-bar{display:flex;height:36px;overflow:hidden;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg-deep);margin-bottom:6px;position:relative}
+    .ctx-demo-bar .cd-seg{height:100%;transition:width .5s ease;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;overflow:hidden;white-space:nowrap;min-width:0}
+    .cd-sys{background:#134e4a;color:#99f6e4}
+    .cd-inst{background:#065f46;color:#6ee7b7}
+    .cd-conv{background:#047857;color:#a7f3d0}
+    .cd-tool{background:#059669;color:#fff}
+    .cd-img{background:#7c3aed;color:#e9d5ff}
+    .cd-compact{background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 2px,#475569 2px,#475569 4px);color:var(--sand)}
+    .cd-empty{background:var(--bg-deep);flex:1;min-width:0}
+    .ctx-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+    .ctx-legend-item{display:flex;align-items:center;gap:4px;font-size:8px;color:var(--text-soft)}
+    .ctx-legend-item .swatch{width:10px;height:10px;border:1px solid var(--border)}
+    .ctx-step-info{font-family:var(--mono);font-size:9px;color:var(--text-soft);padding:6px 10px;background:var(--bg-deep);border:1px solid var(--border);margin-bottom:8px;min-height:36px;display:flex;align-items:center;gap:8px}
+    .ctx-step-info .step-icon{font-size:12px;flex-shrink:0}
+    .ctx-step-info .step-label{color:var(--teal);font-weight:700;font-size:8px;text-transform:uppercase;flex-shrink:0}
+    .ctx-step-info .step-text{flex:1}
+    .ctx-pct-bar{height:4px;background:var(--bg-deep);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
+    .ctx-pct-fill{height:100%;transition:width .5s}
+    .ctx-demo-ctrl{display:flex;gap:6px;align-items:center;margin-bottom:10px}
+    .ctx-demo-ctrl .px-btn{font-size:8px;padding:3px 10px}
+    .ctx-demo-ctrl .ctx-counter{font-family:var(--mono);font-size:9px;color:var(--muted);margin-left:auto}
+
     /* File tree */
     .ft{font-family:var(--mono);font-size:10px;color:var(--text-soft);line-height:2.2}
     .ft-d{color:var(--teal);font-weight:700;cursor:default}
@@ -185,17 +202,16 @@
     /* ---- Mindset ---- */
     #mindset{padding:60px 0;position:relative}
     .mindset-floor{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-    .mind-item{background:linear-gradient(135deg,var(--surface) 0%,var(--surface-2) 100%);border:2px solid var(--border);box-shadow:4px 4px 0 var(--bg-deep),0 0 20px rgba(0,212,255,0.03);padding:18px 22px;position:relative;transition:box-shadow .3s}
-    .mind-item:hover{box-shadow:4px 4px 0 var(--bg-deep),0 0 30px rgba(255,144,64,0.08)}
-    .mind-item h3{font-size:12px;color:var(--coral);margin-bottom:5px;font-family:var(--head-font)}
-    .mind-item p{font-size:12px;color:var(--text-soft)}
-    .mind-item::before{content:'';position:absolute;top:-6px;left:14px;width:10px;height:6px;background:var(--surface);border:2px solid var(--border);border-bottom:none}
+    .mind-item{background:rgba(12,40,60,0.5);border:1px solid rgba(0,212,255,0.1);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);padding:20px 24px;transition:all .3s;backdrop-filter:blur(6px)}
+    .mind-item:hover{border-color:rgba(255,144,64,0.2);transform:translateY(-2px)}
+    .mind-item h3{font-size:14px;color:var(--coral);margin-bottom:6px;font-family:var(--head-font)}
+    .mind-item p{font-size:13px;color:var(--text-soft)}
 
     /* ---- Watch It ---- */
     #watch-it{padding:60px 0}
     .watch-split{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
-    .chat{background:linear-gradient(135deg,var(--surface) 0%,var(--bg-deep) 100%);border:2px solid var(--border);box-shadow:4px 4px 0 var(--bg-deep),0 0 30px rgba(0,212,255,0.04);overflow:hidden;display:flex;flex-direction:column}
-    .chat-hd{padding:8px 12px;background:rgba(2,8,16,0.6);border-bottom:1px solid rgba(0,212,255,0.1);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;font-family:var(--head-font)}
+    .chat{background:rgba(8,28,45,0.7);border:1px solid rgba(0,212,255,0.1);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.3);overflow:hidden;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
+    .chat-hd{padding:10px 14px;background:rgba(2,8,16,0.5);border-bottom:1px solid rgba(0,212,255,0.08);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;font-family:var(--head-font)}
     .chat-msgs{padding:12px;min-height:320px;max-height:400px;overflow-y:auto;scroll-behavior:smooth}
     .chat-msg{margin-bottom:12px;animation:msgIn .3s ease}
     @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -274,18 +290,20 @@
     </div>
     <div class="cue">scroll down</div>
   </div>
-  <div class="deco deco-sway" style="bottom:20px;left:4%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:80px"></div>
-  <div class="deco deco-sway2" style="bottom:20px;left:12%"><img src="assets/sprites/kenney-coral-pink.png" style="height:60px"></div>
-  <div class="deco" style="bottom:20px;right:6%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:70px"></div>
-  <div class="deco deco-sway" style="bottom:20px;right:15%"><img src="assets/sprites/kenney-coral-pink.png" style="height:50px;filter:hue-rotate(40deg)"></div>
-  <div class="deco" style="bottom:24px;left:40%"><img src="assets/sprites/kenney-seagrass.png" style="height:40px"></div>
+  <!-- Bottom-edge reef strip -->
+  <div class="deco deco-sway" style="bottom:0;left:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:90px"></div>
+  <div class="deco deco-sway2" style="bottom:0;left:60px"><img src="assets/sprites/kenney-coral-pink.png" style="height:65px"></div>
+  <div class="deco" style="bottom:0;right:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:80px;filter:hue-rotate(15deg)"></div>
+  <div class="deco deco-sway" style="bottom:0;right:70px"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(40deg)"></div>
 </section>
 
-<!-- Background ambient fish -->
-<div class="bg-fish bgf1"><img src="assets/sprites/kenney-fish-blue.png"></div>
-<div class="bg-fish bgf2"><img src="assets/sprites/kenney-fish-red.png" style="transform:scaleX(-1)"></div>
-<div class="bg-fish bgf3"><img src="assets/sprites/kenney-fish-green.png"></div>
-<div class="bg-fish bgf4"><img src="assets/sprites/kenney-fish-pink.png" style="transform:scaleX(-1)"></div>
+<!-- Dynamic fauna container (populated by JS) -->
+<div id="fauna-layer"></div>
+
+<!-- Baby Nemo (hidden until page bottom reached) -->
+<div id="nemo" style="display:none;position:fixed;z-index:14;pointer-events:none;transition:left 1.5s ease,top 1.5s ease">
+  <div class="sprite"><img src="assets/sprites/baby-clownfish-32.png" class="fish-img" id="nemoSprite" style="width:40px" alt="Nemo"></div>
+</div>
 
 <!-- ======== BASICS ======== -->
 <section id="basics">
@@ -341,9 +359,8 @@
 
     </div>
   </div>
-  <div class="deco deco-sway2" style="bottom:10px;right:8%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:60px;filter:hue-rotate(20deg)"></div>
-  <div class="deco" style="bottom:10px;left:3%"><img src="assets/sprites/kenney-coral-pink.png" style="height:50px;filter:hue-rotate(-20deg)"></div>
-  <div class="deco deco-sway" style="bottom:10px;left:45%"><img src="assets/sprites/kenney-seagrass.png" style="height:35px"></div>
+  <div class="deco deco-sway2" style="bottom:0;right:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:65px;filter:hue-rotate(20deg)"></div>
+  <div class="deco" style="bottom:0;left:0"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(-20deg)"></div>
 </section>
 
 <!-- ======== HOW IT WORKS ======== -->
@@ -378,7 +395,7 @@
         <h3 style="font-size:12px;margin-bottom:12px">Tools</h3>
         <ul class="tool-list">
           <li><code>Bash</code> <span>run shell commands</span></li>
-          <li><code>Read</code> <span>read files</span></li>
+          <li><code>Read</code> <span>read files + images</span></li>
           <li><code>Write</code> <span>create files</span></li>
           <li><code>Edit</code> <span>modify files</span></li>
           <li><code>Grep</code> <span>search content</span></li>
@@ -389,49 +406,62 @@
       </div>
     </div>
 
-    <!-- Context window -->
+    <!-- Context window (interactive demo) -->
     <div class="px-card reveal" id="ctxPanel">
       <h3 style="font-size:12px;margin-bottom:8px">Context Window</h3>
-      <p style="font-size:10px;color:var(--text-soft);margin-bottom:10px">Grows with each loop iteration. Compacts when full.</p>
-      <div class="ctx-bar" id="cbar">
-        <div class="ctx-seg cs1" style="flex-grow:0" data-g="1">System</div>
-        <div class="ctx-seg cs2" style="flex-grow:0" data-g="2">Instructions</div>
-        <div class="ctx-seg cs3" style="flex-grow:0" data-g="4">Conversation</div>
-        <div class="ctx-seg cs4" style="flex-grow:0" data-g="3">Tool results</div>
-        <div class="ctx-seg cs5" style="flex-grow:0" data-g="1">...compacted</div>
+      <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Step through an example execution. Watch context grow, fill, and get compacted.</p>
+
+      <div class="ctx-legend">
+        <div class="ctx-legend-item"><div class="swatch" style="background:#134e4a"></div>System</div>
+        <div class="ctx-legend-item"><div class="swatch" style="background:#065f46"></div>Instructions</div>
+        <div class="ctx-legend-item"><div class="swatch" style="background:#047857"></div>Conversation</div>
+        <div class="ctx-legend-item"><div class="swatch" style="background:#059669"></div>Tool results</div>
+        <div class="ctx-legend-item"><div class="swatch" style="background:#7c3aed"></div>Image data</div>
+        <div class="ctx-legend-item"><div class="swatch" style="background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 2px,#475569 2px,#475569 4px)"></div>Compacted</div>
       </div>
-      <div class="ctx-lbl"><span>oldest</span><span>newest</span></div>
+
+      <div class="ctx-step-info" id="ctxStepInfo">
+        <span class="step-label">ready</span>
+        <span class="step-text">Press Play or use arrows to step through</span>
+      </div>
+
+      <div class="ctx-demo-bar" id="ctxDemoBar">
+        <div class="cd-seg cd-compact" id="cdCompact" style="width:0"></div>
+        <div class="cd-seg cd-sys" id="cdSys" style="width:0">Sys</div>
+        <div class="cd-seg cd-inst" id="cdInst" style="width:0">Inst</div>
+        <div class="cd-seg cd-conv" id="cdConv" style="width:0">Conv</div>
+        <div class="cd-seg cd-tool" id="cdTool" style="width:0">Tool</div>
+        <div class="cd-seg cd-img" id="cdImg" style="width:0">Img</div>
+        <div class="cd-seg cd-empty" id="cdEmpty"></div>
+      </div>
+
+      <div class="ctx-pct-bar"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
+
+      <div class="ctx-demo-ctrl">
+        <button class="px-btn" id="ctxBtnBack">&lt;</button>
+        <button class="px-btn active" id="ctxBtnPlay">Play</button>
+        <button class="px-btn" id="ctxBtnFwd">&gt;</button>
+        <button class="px-btn" id="ctxBtnReset" style="margin-left:4px">Reset</button>
+        <span class="ctx-counter" id="ctxCounter">0 / 12</span>
+      </div>
     </div>
 
     <!-- Harness -->
     <div class="stag" style="margin-top:40px">The infrastructure</div>
     <h2 class="stitle">The Harness</h2>
-    <div class="disclaimer">Sample data for illustration -- not production prompts</div>
+    <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Configuration files that shape agent behavior. Same pattern across tools -- different paths.</p>
+
+    <!-- Scope toggle -->
+    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px">
+      <button class="active" data-tool="generic">Generic</button>
+      <button data-tool="claude">Claude Code</button>
+      <button data-tool="copilot">GitHub Copilot</button>
+      <button data-tool="cursor">Cursor</button>
+    </div>
+
     <div class="hw-split">
       <div class="px-card reveal" id="ftPanel">
-        <div class="ft" id="ft">
-          <div class="ft-l"><span class="ft-d">~ root (global)</span></div>
-          <div class="ft-i">
-            <div class="ft-l"><span class="ft-f" data-file="agent-md">agent.md</span> <span class="ft-desc">identity</span></div>
-            <div class="ft-l"><span class="ft-f" data-file="rules-md">rules.md</span> <span class="ft-desc">constraints</span></div>
-            <div class="ft-l"><span class="ft-d">memory/</span> <span class="ft-desc">persistent</span></div>
-          </div>
-          <div class="ft-l" style="margin-top:4px"><span class="ft-d">~/.config (user)</span></div>
-          <div class="ft-i">
-            <div class="ft-l"><span class="ft-f" data-file="settings-json">settings.json</span> <span class="ft-desc">hooks</span></div>
-            <div class="ft-l"><span class="ft-d">skills/</span> <span class="ft-desc">templates</span></div>
-            <div class="ft-i">
-              <div class="ft-l"><span class="ft-f" data-file="create-slides-md">create-slides.md</span></div>
-              <div class="ft-l"><span class="ft-f" data-file="metaphor-md">metaphor.md</span></div>
-            </div>
-          </div>
-          <div class="ft-l" style="margin-top:4px"><span class="ft-d">project/ (local)</span></div>
-          <div class="ft-i">
-            <div class="ft-l"><span class="ft-f" data-file="readme-md">README.md</span> <span class="ft-desc">auto-loaded</span></div>
-            <div class="ft-l"><span class="ft-d">src/</span> <span class="ft-desc">your code</span></div>
-            <div class="ft-l"><span class="ft-d">tests/</span></div>
-          </div>
-        </div>
+        <div class="ft" id="ft"></div>
       </div>
       <div class="px-card reveal">
         <div class="code-preview" id="codePreview">Click a file to preview its content</div>
@@ -452,9 +482,8 @@
       <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p></div>
     </div>
   </div>
-  <div class="deco deco-sway" style="bottom:10px;left:6%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:70px"></div>
-  <div class="deco" style="bottom:10px;right:10%"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(60deg)"></div>
-  <div class="deco deco-sway2" style="bottom:10px;left:55%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:45px;filter:hue-rotate(-30deg)"></div>
+  <div class="deco deco-sway" style="bottom:0;left:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:75px"></div>
+  <div class="deco" style="bottom:0;right:0"><img src="assets/sprites/kenney-coral-pink.png" style="height:60px;filter:hue-rotate(60deg)"></div>
 </section>
 
 <!-- ======== WATCH IT ======== -->
@@ -582,7 +611,79 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.addEventListener('scroll',()=>{
     const y=Math.sin(scrollY*.01)*12;
     fish.querySelector('.sprite').style.transform='translateY('+y+'px)';
+    // Baby Nemo bob too
+    const nemoEl=document.getElementById('nemo');
+    if(nemoEl.style.display!=='none'){
+      nemoEl.querySelector('.sprite').style.transform='translateY('+Math.sin(scrollY*.012+1)*10+'px)';
+    }
   });
+
+  // ---- Baby Nemo: appears when reaching page bottom ----
+  let nemoJoined=false;
+  ScrollTrigger.create({trigger:'footer',start:'top 90%',once:true,onEnter:()=>{
+    if(nemoJoined)return;nemoJoined=true;
+    const nemoEl=document.getElementById('nemo');
+    nemoEl.style.display='block';
+    nemoEl.style.left='70%';nemoEl.style.top='110%';
+    // Swim up to join Marlin
+    setTimeout(()=>{nemoEl.style.top='52%';nemoEl.style.left='73%'},100);
+    // From now on, Nemo follows Marlin with offset
+    setInterval(()=>{
+      const fl=parseFloat(fish.style.left)||80;
+      const ft=parseFloat(fish.style.top)||45;
+      nemoEl.style.left=(fl-5)+'%';
+      nemoEl.style.top=(ft+6)+'%';
+    },2000);
+  }});
+
+  // ---- Dynamic fauna spawner ----
+  const faunaLayer=document.getElementById('fauna-layer');
+  const faunaSpecies=[
+    // {src, height, opacity, speed range [min,max] in seconds, weight (rarity)}
+    {src:'assets/sprites/kenney-fish-blue.png',h:22,op:0.12,spd:[18,30],w:20},
+    {src:'assets/sprites/kenney-fish-red.png',h:22,op:0.12,spd:[20,32],w:20},
+    {src:'assets/sprites/kenney-fish-green.png',h:20,op:0.1,spd:[22,35],w:15},
+    {src:'assets/sprites/kenney-fish-pink.png',h:18,op:0.1,spd:[24,36],w:15},
+    {src:'assets/sprites/kenney-fish-orange.png',h:24,op:0.13,spd:[20,30],w:12},
+    {src:'assets/sprites/kenney-fish-brown.png',h:20,op:0.1,spd:[25,38],w:10},
+    {src:'assets/sprites/turtle.png',h:36,op:0.08,spd:[35,50],w:4},
+    {src:'assets/sprites/jellyfish.png',h:40,op:0.07,spd:[40,60],w:3},
+    {src:'assets/sprites/manta-ray.png',h:28,op:0.06,spd:[38,55],w:2},
+    {src:'assets/sprites/shark.png',h:30,op:0.05,spd:[30,45],w:1},
+    {src:'assets/sprites/whale.png',h:50,op:0.04,spd:[50,80],w:0.5},
+  ];
+  const totalWeight=faunaSpecies.reduce((a,s)=>a+s.w,0);
+
+  function pickSpecies(){
+    let r=Math.random()*totalWeight;
+    for(const s of faunaSpecies){r-=s.w;if(r<=0)return s}
+    return faunaSpecies[0];
+  }
+
+  function spawnFauna(){
+    const sp=pickSpecies();
+    const el=document.createElement('div');
+    el.className='fauna';
+    const goRight=Math.random()>0.5;
+    const topPct=10+Math.random()*75;
+    const dur=sp.spd[0]+Math.random()*(sp.spd[1]-sp.spd[0]);
+    el.innerHTML='<img src="'+sp.src+'" style="height:'+sp.h+'px'+(goRight?'':';transform:scaleX(-1)')+'"/>';
+    el.style.top=topPct+'%';
+    el.style.opacity=sp.op;
+    if(goRight){el.style.left='-80px';el.style.transition='left '+dur+'s linear'}
+    else{el.style.right='-80px';el.style.transition='right '+dur+'s linear'}
+    faunaLayer.appendChild(el);
+    requestAnimationFrame(()=>{
+      if(goRight)el.style.left='calc(100vw + 80px)';
+      else el.style.right='calc(100vw + 80px)';
+    });
+    // Remove after animation
+    setTimeout(()=>el.remove(),(dur+1)*1000);
+  }
+
+  // Spawn initial batch + continuous
+  for(let i=0;i<5;i++)setTimeout(spawnFauna,i*2000);
+  setInterval(spawnFauna,4000);
 
   // ---- Smooth nav ----
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
@@ -599,33 +700,249 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   });
 
-  // ---- File tree ----
-  const SAMPLE_FILES={
-    'agent-md':`# Agent Identity\nYou are a helpful AI assistant.\nFocused on software engineering.\n\n## Capabilities\n- Read and write files\n- Execute shell commands\n- Search codebases\n- Create and manage tasks`,
-    'rules-md':`# Rules\n- Never commit secrets\n- Run tests before suggesting commits\n- Prefer editing over creating\n- Ask before destructive operations\n- Keep responses concise`,
-    'settings-json':`{\n  "hooks": {\n    "pre-commit": "npm test",\n    "post-edit": "eslint --fix"\n  },\n  "permissions": {\n    "bash": "ask",\n    "write": "allow",\n    "delete": "deny"\n  }\n}`,
-    'create-slides-md':`# /create-slides\nFind a central metaphor.\nDraft outline with plottwist.\nGenerate slides, review, iterate.\nAsk user for key decisions.`,
-    'metaphor-md':`# /metaphor\n1. Identify the abstract concept\n2. Find a concrete domain\n3. Map components 1:1\n4. Verify mapping holds\n5. Name it for easy reference`,
-    'readme-md':`# My Project\nA web app built with React + Node.\n\n## Setup\nnpm install && npm start\n\n## Structure\nsrc/ - application code\ntests/ - test suites`
+  // ---- File tree (multi-tool harness) ----
+  // Each tool defines: tree structure + file previews
+  // d=directory, f=file (clickable), desc=description, children=nested, file=preview key
+  const HARNESS_TREES={
+    generic:{
+      label:'Generic Agent Harness',
+      tree:[
+        {d:'Enterprise / Org', desc:'read-only policy', children:[
+          {f:'instructions',     desc:'org-wide rules',   file:'gen-instructions'},
+          {f:'settings',         desc:'permissions, MCP',  file:'gen-settings'},
+        ]},
+        {d:'User / Personal', desc:'~/ home directory', children:[
+          {f:'instructions',     desc:'personal rules',   file:'gen-user-instructions'},
+          {f:'settings',         desc:'hooks, tools',      file:'gen-user-settings'},
+          {d:'skills/',          desc:'reusable commands', children:[
+            {f:'my-skill',       desc:'slash command',     file:'gen-skill'},
+          ]},
+          {d:'agents/',          desc:'custom subagents',  children:[
+            {f:'reviewer',       desc:'code review agent', file:'gen-agent'},
+          ]},
+          {d:'memory/',          desc:'persistent notes'},
+        ]},
+        {d:'Project', desc:'repo root, committed', children:[
+          {f:'instructions',     desc:'project rules',     file:'gen-proj-instructions'},
+          {f:'settings',         desc:'project config',     file:'gen-proj-settings'},
+          {d:'rules/',           desc:'path-specific',      children:[
+            {f:'frontend.rules', desc:'matches src/ui/**', file:'gen-rule'},
+          ]},
+          {d:'skills/',          desc:'project commands',   children:[
+            {f:'deploy',         desc:'deploy workflow',    file:'gen-proj-skill'},
+          ]},
+          {d:'agents/',          desc:'project agents'},
+        ]},
+      ],
+      files:{
+        'gen-instructions':'# Organization Instructions\n- Follow company coding standards\n- Never commit secrets or credentials\n- Use approved packages only\n- All PRs require tests\n\n(Managed by admin, read-only)',
+        'gen-settings':'{\n  "permissions": {\n    "bash": "ask",\n    "write": "allow",\n    "mcp_servers": ["approved-list"]\n  },\n  "policies": {\n    "allow_web_search": true,\n    "max_context": "200k"\n  }\n}',
+        'gen-user-instructions':'# My Personal Rules\n- Use TypeScript strict mode\n- Prefer functional patterns\n- Always add JSDoc to public APIs\n- Keep responses concise',
+        'gen-user-settings':'{\n  "hooks": {\n    "pre-tool-use": ["lint-check.sh"],\n    "post-edit": ["format.sh"]\n  },\n  "mcp_servers": {\n    "github": {"command": "gh-mcp"},\n    "postgres": {"command": "pg-mcp"}\n  }\n}',
+        'gen-skill':'# /my-skill\nDescription: Generate a component\n\nSteps:\n1. Ask for component name\n2. Create file from template\n3. Add tests\n4. Update barrel exports',
+        'gen-agent':'# Code Reviewer\nYou review pull requests.\n\nFocus: security, performance,\nreadability.\n\nTools: Read, Grep, Glob\n(restricted toolset)',
+        'gen-proj-instructions':'# Project Instructions\nThis is a React + Node monorepo.\n\n## Conventions\n- Components in src/ui/\n- API routes in src/api/\n- Tests co-located with source\n- Use pnpm, not npm',
+        'gen-proj-settings':'{\n  "hooks": {\n    "pre-commit": "pnpm test",\n    "post-edit": "pnpm lint --fix"\n  },\n  "mcp_servers": {\n    "db": {"command": "prisma-mcp"}\n  }\n}',
+        'gen-rule':'# Frontend Rules\nApplies to: src/ui/**\n\n- Use CSS modules, not inline styles\n- Components must be < 200 lines\n- No direct DOM manipulation\n- Prefer composition over inheritance',
+        'gen-proj-skill':'# /deploy\nDescription: Deploy to staging\n\n1. Run pnpm build\n2. Run pnpm test\n3. Push to staging branch\n4. Notify #deploys channel',
+      }
+    },
+    claude:{
+      label:'Claude Code',
+      tree:[
+        {d:'Enterprise', desc:'admin-managed policy', children:[
+          {f:'settings.json',    desc:'org policies',      file:'cc-enterprise'},
+        ]},
+        {d:'~/.claude/', desc:'user home', children:[
+          {f:'CLAUDE.md',        desc:'personal rules',    file:'cc-user-claude'},
+          {f:'settings.json',    desc:'hooks, MCP, perms', file:'cc-user-settings'},
+          {d:'skills/',          desc:'user slash commands', children:[
+            {f:'create-slides/', desc:'SKILL.md inside',   file:'cc-skill'},
+          ]},
+          {d:'agents/',          desc:'custom subagents',  children:[
+            {f:'reviewer.md',    desc:'agent definition',  file:'cc-agent'},
+          ]},
+          {d:'memory/',          desc:'auto-managed notes'},
+        ]},
+        {d:'project/.claude/', desc:'repo, committed', children:[
+          {f:'CLAUDE.md',        desc:'project instructions', file:'cc-proj-claude'},
+          {f:'settings.json',    desc:'project hooks, MCP',   file:'cc-proj-settings'},
+          {d:'rules/',           desc:'path-scoped *.rules.md', children:[
+            {f:'api.rules.md',   desc:'matches src/api/**', file:'cc-rule'},
+          ]},
+          {d:'skills/',          desc:'project commands'},
+          {d:'agents/',          desc:'project agents'},
+        ]},
+      ],
+      files:{
+        'cc-enterprise':'// Enterprise-managed (read-only)\n// Set via admin console\n{\n  "policies": {\n    "allow_bash": "restricted",\n    "allow_web": true,\n    "approved_mcp": ["github","jira"]\n  }\n}',
+        'cc-user-claude':'# CLAUDE.md (User)\nI prefer concise responses.\nUse TypeScript strict mode.\nRun tests before committing.\n\nLoaded automatically in\nevery session.',
+        'cc-user-settings':'{\n  "hooks": {\n    "PreToolUse": [{\n      "matcher": "Bash",\n      "hooks": [{"type":"command",\n        "command":"./lint.sh"}]\n    }],\n    "PostToolUse": [{\n      "matcher": "Edit",\n      "hooks": [{"type":"command",\n        "command":"prettier --write"}]\n    }]\n  },\n  "mcpServers": {\n    "github": {\n      "command": "gh-mcp-server"\n    }\n  }\n}',
+        'cc-skill':'---\nname: create-slides\ndescription: Build a MARP deck\nallowed-tools: Write,Read,Bash\n---\n\n1. Find a central metaphor\n2. Draft outline with plottwist\n3. Generate slides, review\n4. Iterate until clean',
+        'cc-agent':'---\nname: code-reviewer\ndescription: Reviews PRs\nallowed-tools: Read,Grep,Glob\nmodel: haiku\n---\n\nReview for security,\nperformance, readability.\nFlag OWASP top 10 issues.\nMax 200 words per file.',
+        'cc-proj-claude':'# CLAUDE.md (Project)\nReact + Node monorepo.\npnpm workspaces.\n\n## Structure\npackages/ui/ — frontend\npackages/api/ — backend\npackages/shared/ — types\n\n## Commands\npnpm dev — start dev\npnpm test — run tests',
+        'cc-proj-settings':'{\n  "hooks": {\n    "PreToolUse": [{\n      "matcher": "Bash",\n      "hooks": [{"type":"command",\n        "command":"pnpm test --bail"}]\n    }]\n  },\n  "mcpServers": {\n    "db": {\n      "command": "prisma-mcp",\n      "env": {"DB":"dev.db"}\n    }\n  }\n}',
+        'cc-rule':'# API Rules\nApplies to: src/api/**\n\n- Validate all inputs with zod\n- Return proper HTTP status codes\n- Log errors to structured logger\n- Never expose stack traces',
+      }
+    },
+    copilot:{
+      label:'GitHub Copilot',
+      tree:[
+        {d:'Organization', desc:'admin console', children:[
+          {f:'org instructions', desc:'org-wide rules',    file:'gh-org'},
+        ]},
+        {d:'project/.github/', desc:'repo, committed', children:[
+          {f:'copilot-instructions.md', desc:'repo-wide rules (4K limit)', file:'gh-instructions'},
+          {d:'instructions/',    desc:'path-specific', children:[
+            {f:'frontend.instructions.md', desc:'globs: src/ui/**', file:'gh-path-inst'},
+            {f:'api.instructions.md', desc:'globs: src/api/**', file:'gh-api-inst'},
+          ]},
+          {f:'copilot-setup-steps.yml', desc:'environment setup', file:'gh-setup'},
+          {d:'agents/',          desc:'coding agent config'},
+        ]},
+      ],
+      files:{
+        'gh-org':'# Organization Instructions\n(Set in GitHub org settings)\n\n- Follow company style guide\n- Use approved dependencies\n- All code must have tests\n- No secrets in source\n\nApplied to all repos in org.\nMax 4,000 characters.',
+        'gh-instructions':'# Copilot Instructions\nThis is a Next.js 14 app.\n\n## Conventions\n- Use App Router, not Pages\n- Server Components by default\n- Client Components only when\n  needed (interactivity)\n- Tailwind for styling\n- Zod for validation\n\n(4,000 character limit)',
+        'gh-path-inst':'---\napplyTo: "src/ui/**"\n---\n\n# Frontend Instructions\n- Use React Server Components\n- CSS modules for styling\n- Components < 150 lines\n- Co-locate tests with source\n- Use next/image for images',
+        'gh-api-inst':'---\napplyTo: "src/api/**"\n---\n\n# API Instructions\n- Use Route Handlers\n- Validate with zod schemas\n- Return NextResponse objects\n- Handle errors consistently\n- Log to structured logger',
+        'gh-setup':'# copilot-setup-steps.yml\nsteps:\n  - name: Install deps\n    run: npm ci\n  - name: Build\n    run: npm run build\n  - name: Setup DB\n    run: npx prisma migrate dev\n  - name: Seed\n    run: npm run seed',
+      }
+    },
+    cursor:{
+      label:'Cursor',
+      tree:[
+        {d:'~/.cursor/', desc:'user home', children:[
+          {f:'rules',            desc:'global rules',      file:'cur-global'},
+        ]},
+        {d:'project/.cursor/', desc:'repo root', children:[
+          {d:'rules/',           desc:'modular rules',     children:[
+            {f:'general.mdc',   desc:'always applied',     file:'cur-general'},
+            {f:'frontend.mdc',  desc:'glob-scoped',        file:'cur-frontend'},
+          ]},
+          {d:'agents/',          desc:'agent configs',      children:[
+            {f:'reviewer.mdc',  desc:'review agent',       file:'cur-agent'},
+          ]},
+        ]},
+        {d:'project/', desc:'legacy (deprecated)', children:[
+          {f:'.cursorrules',     desc:'single file (old)',  file:'cur-legacy'},
+        ]},
+      ],
+      files:{
+        'cur-global':'# Global Cursor Rules\n- Use TypeScript strict mode\n- Prefer functional patterns\n- Always add error handling\n- Keep files under 300 lines\n\n(Applied to all projects)',
+        'cur-general':'---\nrule_type: Always\n---\n\n# Project Rules\nThis is a Python FastAPI app.\n\n- Use type hints everywhere\n- Pydantic for validation\n- async/await for I/O\n- pytest for testing',
+        'cur-frontend':'---\nrule_type: Auto Attached\nglobs: ["src/ui/**/*.tsx"]\n---\n\n# Frontend Rules\n- React functional components\n- Tailwind CSS utilities\n- No inline styles\n- Accessible by default',
+        'cur-agent':'---\nrule_type: Agent Requested\ndescription: Code review agent\n---\n\n# Code Reviewer\nReview code for:\n- Security vulnerabilities\n- Performance issues\n- Code duplication\n- Missing tests',
+        'cur-legacy':'.cursorrules (DEPRECATED)\n\nUse .cursor/rules/*.mdc instead.\n\nThis single-file format is still\nsupported but not recommended\nfor new projects.',
+      }
+    }
   };
 
-  document.querySelectorAll('.ft-f[data-file]').forEach(f=>{
-    f.addEventListener('click',()=>{
-      document.querySelectorAll('.ft-f').forEach(x=>x.classList.remove('sel'));
-      f.classList.add('sel');
-      document.getElementById('codePreview').textContent=SAMPLE_FILES[f.dataset.file]||'File not found';
+  let activeHarnessTool='generic';
+
+  function renderTree(nodes,depth=0){
+    let html='';
+    nodes.forEach(n=>{
+      const pad=depth>0?'ft-i':'';
+      if(n.d){
+        html+='<div class="ft-l'+(depth>0?' ':'')+'" style="'+(depth>0?'':'margin-top:4px')+'"><span class="ft-d">'+n.d+'</span>'+(n.desc?' <span class="ft-desc">'+n.desc+'</span>':'')+'</div>';
+        if(n.children){html+='<div class="ft-i">'+renderTree(n.children,depth+1)+'</div>';}
+      } else if(n.f){
+        html+='<div class="ft-l"><span class="ft-f" data-file="'+n.file+'">'+n.f+'</span>'+(n.desc?' <span class="ft-desc">'+n.desc+'</span>':'')+'</div>';
+      }
+    });
+    return html;
+  }
+
+  function loadHarness(tool){
+    activeHarnessTool=tool;
+    const data=HARNESS_TREES[tool];
+    const ftEl=document.getElementById('ft');
+    ftEl.innerHTML=renderTree(data.tree);
+    document.getElementById('codePreview').textContent='Click a file to preview its content';
+    // Bind clicks
+    ftEl.querySelectorAll('.ft-f[data-file]').forEach(f=>{
+      f.addEventListener('click',()=>{
+        ftEl.querySelectorAll('.ft-f').forEach(x=>x.classList.remove('sel'));
+        f.classList.add('sel');
+        document.getElementById('codePreview').textContent=data.files[f.dataset.file]||'No preview available';
+      });
+    });
+    // Animate in
+    ftEl.querySelectorAll('.ft-l').forEach((e,i)=>setTimeout(()=>e.classList.add('on'),i*50));
+  }
+
+  // Tool toggle
+  document.querySelectorAll('#harnessToolToggle button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#harnessToolToggle button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      loadHarness(btn.dataset.tool);
     });
   });
+
+  // Initial load
+  loadHarness('generic');
 
   // ---- File tree animation ----
   ScrollTrigger.create({trigger:'#ft',start:'top 78%',once:true,onEnter:()=>{
     document.querySelectorAll('.ft-l').forEach((e,i)=>setTimeout(()=>e.classList.add('on'),i*70));
   }});
 
-  // ---- Context bar ----
-  ScrollTrigger.create({trigger:'#cbar',start:'top 78%',once:true,onEnter:()=>{
-    document.querySelectorAll('.ctx-seg').forEach((s,i)=>setTimeout(()=>{s.style.flexGrow=s.dataset.g},i*160));
-  }});
+  // ---- Context demo (interactive) ----
+  const ctxSteps=[
+    // [sys, inst, conv, tool, img, compact, label, description]
+    {s:8,i:0,c:0,t:0,m:0,k:0, lbl:'init',    desc:'Session starts. System prompt loaded (identity, rules, capabilities).'},
+    {s:8,i:6,c:0,t:0,m:0,k:0, lbl:'prompt',   desc:'CLAUDE.md + project instructions auto-injected into context.'},
+    {s:8,i:6,c:5,t:0,m:0,k:0, lbl:'user',     desc:'User: "Describe the architecture of this React app."'},
+    {s:8,i:6,c:8,t:0,m:0,k:0, lbl:'think',    desc:'Agent thinks: Need to scan the project structure first.'},
+    {s:8,i:6,c:10,t:8,m:0,k:0,lbl:'glob',     desc:'Glob **/*.{ts,tsx} -- 47 files found. File list added to context.'},
+    {s:8,i:6,c:12,t:16,m:0,k:0,lbl:'read',    desc:'Read src/App.tsx, src/router.ts, src/api/index.ts -- source code fills context.'},
+    {s:8,i:6,c:14,t:24,m:0,k:0,lbl:'grep',    desc:'Grep "useEffect|useState" -- 23 matches. Pattern results appended.'},
+    {s:8,i:6,c:16,t:24,m:8,k:0,lbl:'image',   desc:'Read screenshot.png -- image encoded as base64 tokens (large!).'},
+    {s:8,i:6,c:20,t:28,m:8,k:0,lbl:'think2',  desc:'Agent thinks: Context at 90%. Getting crowded. Continue analyzing...'},
+    {s:8,i:6,c:22,t:32,m:8,k:0,lbl:'bash',    desc:'Bash npm test -- test output adds more results. Context at 96%!'},
+    // COMPACTION: old conv + tool results get summarized
+    {s:8,i:6,c:6,t:6,m:0,k:28,lbl:'compact',  desc:'Auto-compact triggered! Old conversation, tool results & images summarized into a digest.'},
+    {s:8,i:6,c:10,t:12,m:0,k:28,lbl:'resume', desc:'Agent resumes with fresh space. Writes architecture summary. Session continues.'},
+  ];
+  const ctxEls={s:'cdSys',i:'cdInst',c:'cdConv',t:'cdTool',m:'cdImg',k:'cdCompact'};
+  let ctxCur=-1,ctxPlaying=false,ctxTimer=null;
+
+  function renderCtxStep(idx){
+    const step=ctxSteps[idx];
+    if(!step)return;
+    // Update bar widths
+    Object.entries(ctxEls).forEach(([key,id])=>{
+      document.getElementById(id).style.width=step[key]+'%';
+    });
+    // Percentage fill
+    const total=step.s+step.i+step.c+step.t+step.m+step.k;
+    const fill=document.getElementById('ctxPctFill');
+    fill.style.width=total+'%';
+    fill.style.background=total>90?'#ef4444':total>70?'var(--coral)':'var(--teal)';
+    // Step info
+    const info=document.getElementById('ctxStepInfo');
+    const icons={init:'&#x25A0;',prompt:'&#x25A0;',user:'&#x25B6;',think:'&#x2699;',glob:'&#x1F50D;',read:'&#x1F4C4;',grep:'&#x1F50D;',image:'&#x1F5BC;',think2:'&#x2699;',bash:'&#x25B6;',compact:'&#x26A0;',resume:'&#x2714;'};
+    info.innerHTML='<span class="step-label">'+step.lbl+'</span><span class="step-text">'+step.desc+'</span>';
+    // Counter
+    document.getElementById('ctxCounter').textContent=(idx+1)+' / '+ctxSteps.length;
+  }
+
+  function ctxFwd(){if(ctxCur>=ctxSteps.length-1){ctxPause();return}ctxCur++;renderCtxStep(ctxCur)}
+  function ctxBack(){if(ctxCur<=0)return;ctxCur--;renderCtxStep(ctxCur)}
+  function ctxPlay(){ctxPlaying=true;document.getElementById('ctxBtnPlay').textContent='Pause';document.getElementById('ctxBtnPlay').classList.add('active');
+    ctxTimer=setInterval(()=>{if(ctxCur>=ctxSteps.length-1){ctxPause();return}ctxFwd()},2500)}
+  function ctxPause(){ctxPlaying=false;clearInterval(ctxTimer);document.getElementById('ctxBtnPlay').textContent='Play';document.getElementById('ctxBtnPlay').classList.remove('active')}
+  function ctxReset(){ctxPause();ctxCur=-1;Object.values(ctxEls).forEach(id=>{document.getElementById(id).style.width='0'});
+    document.getElementById('ctxPctFill').style.width='0';
+    document.getElementById('ctxStepInfo').innerHTML='<span class="step-label">ready</span><span class="step-text">Press Play or use arrows to step through</span>';
+    document.getElementById('ctxCounter').textContent='0 / '+ctxSteps.length}
+
+  document.getElementById('ctxBtnPlay').addEventListener('click',()=>{ctxPlaying?ctxPause():ctxPlay()});
+  document.getElementById('ctxBtnFwd').addEventListener('click',()=>{ctxPause();ctxFwd()});
+  document.getElementById('ctxBtnBack').addEventListener('click',()=>{ctxPause();ctxBack()});
+  document.getElementById('ctxBtnReset').addEventListener('click',ctxReset);
 
   // ---- Chat simulation ----
   // ctx: [system, instructions, conversation, tool_results, compacted] — percentages of bar width

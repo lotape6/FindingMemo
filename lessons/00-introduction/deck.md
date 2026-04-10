@@ -194,11 +194,13 @@ He didn't find Nemo for him. He showed him **the way**.
 ### Harness
 
 <div class="harness-box">
-  <div class="md-file">.md</div>
-  <div class="harness-item">&rarr; Agents</div>
-  <div class="harness-item">&rarr; Skills</div>
+  <div class="md-file">.md / .json</div>
   <div class="harness-item">&rarr; Instructions</div>
   <div class="harness-item">&rarr; Rules</div>
+  <div class="harness-item">&rarr; Skills</div>
+  <div class="harness-item">&rarr; Agents</div>
+  <div class="harness-item">&rarr; Hooks</div>
+  <div class="harness-item">&rarr; Memory</div>
 </div>
 
 </div>
