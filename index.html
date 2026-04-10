@@ -252,23 +252,22 @@
     .fsep{margin:0 6px;opacity:.3}
 
     /* ---- Level system ---- */
-    .nav-ctrls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    /* ---- Controls ---- */
+    .nav-ctrls{display:flex;align-items:center;gap:10px;flex-shrink:0}
     .sep-dot{width:3px;height:3px;border-radius:50%;background:var(--border);opacity:.5}
-    .lvl-sel,.size-sel{display:flex;gap:3px}
-    .lvl-btn,.size-btn{font-family:var(--head-font);font-size:14px;padding:4px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;transition:all .15s}
-    .lvl-btn:hover,.size-btn:hover{color:var(--text);border-color:var(--teal)}
-    .lvl-btn.active{background:rgba(0,212,255,0.15);color:var(--teal);border-color:var(--teal)}
-    .size-btn:active{background:rgba(0,212,255,0.1)}
-    /* Text size scaling via CSS variable on html */
+    .mode-sel,.size-sel{display:flex;gap:0}
+    .mode-btn,.size-btn{font-family:var(--head-font);font-size:14px;padding:5px 14px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+    .mode-btn:first-child{border-radius:6px 0 0 6px}.mode-btn:last-child{border-radius:0 6px 6px 0;border-left:none}
+    .size-btn:first-child{border-radius:6px 0 0 6px}.size-btn:last-child{border-radius:0 6px 6px 0;border-left:none}
+    .mode-btn:hover,.size-btn:hover{color:var(--text);border-color:var(--teal)}
+    .mode-btn.active{background:rgba(0,212,255,0.15);color:var(--teal);border-color:var(--teal)}
+    .size-btn:active{background:rgba(0,212,255,0.08)}
+    /* Text size: html base variable, body uses 1rem */
     html{font-size:var(--base-size,15px)}
-    /* Level visibility */
-    body.level-1 [data-level="2"],body.level-1 [data-level="3"]{opacity:0;max-height:0;overflow:hidden;margin:0;padding:0;border:none;pointer-events:none;transition:opacity .3s,max-height .4s}
-    body.level-2 [data-level="3"]{opacity:0;max-height:0;overflow:hidden;margin:0;padding:0;border:none;pointer-events:none;transition:opacity .3s,max-height .4s}
-    [data-level]{opacity:1;max-height:2000px;transition:opacity .3s,max-height .4s}
-    /* Level badges */
-    .lvl-badge{font-family:var(--head-font);font-size:8px;padding:1px 5px;border-radius:3px;vertical-align:middle;margin-left:4px}
-    .lvl-badge.l2{background:rgba(0,212,255,0.1);color:var(--teal)}
-    .lvl-badge.l3{background:rgba(192,132,252,0.1);color:var(--purple)}
+    /* Mode visibility: basic hides [data-mode="advanced"] */
+    body.mode-basic [data-mode="advanced"]{display:none}
+    /* Advanced badge */
+    .adv-badge{font-family:var(--head-font);font-size:10px;padding:2px 6px;border-radius:3px;vertical-align:middle;margin-left:4px;background:rgba(0,212,255,0.1);color:var(--teal)}
 
     /* ---- Responsive ---- */
     @media(max-width:768px){
@@ -300,10 +299,9 @@
       <a href="https://github.com/lotape6/FindingMemo" target="_blank">GitHub</a>
     </div>
     <div class="nav-ctrls">
-      <div class="lvl-sel" id="levelSel">
-        <button class="lvl-btn active" data-level="1" title="Essentials">L1</button>
-        <button class="lvl-btn" data-level="2" title="Practitioner">L2</button>
-        <button class="lvl-btn" data-level="3" title="Expert">L3</button>
+      <div class="mode-sel" id="modeSel">
+        <button class="mode-btn active" data-mode="basic" title="Core concepts">Basic</button>
+        <button class="mode-btn" data-mode="advanced" title="Full depth">Advanced</button>
       </div>
       <div class="sep-dot"></div>
       <div class="size-sel" id="sizeSel">
@@ -360,10 +358,10 @@
           <p><strong>Examples</strong>: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google), Llama (Meta), Mistral, Command R (Cohere)</p>
           <p><strong>Key insight</strong>: the model is a function — <code>f(prompt) = completion</code>. It cannot read files, browse the web, or remember you.</p>
         </div>
-        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Statelessness in practice</strong>: every API call starts fresh. The model has zero memory of your previous conversation unless you resend it. "Memory" is an illusion created by the harness replaying history.</p>
         </div>
-        <div data-level="3" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Under the hood</strong>: models are transformer neural networks. Key parameters: temperature (randomness), top-p (sampling), max tokens (output length). Token economics: input tokens are cheaper than output tokens. Context window size determines how much the model can "see" at once.</p>
         </div>
       </div>
@@ -381,12 +379,11 @@
           <p><strong>The model decides everything</strong> — what tool to call, when to stop, how to combine results. The "agent framework" is just a while loop.</p>
           <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter, OpenCode</p>
         </div>
-        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
-          <p><strong>The entire agent in ~25 lines</strong>: <code>while True: response = model(messages); if no tool_use: return; execute tools; append results; loop</code>. The "write-back" of tool results into conversation is the key concept.</p>
-        </div>
-        <div data-level="3" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
-          <p><strong>Subagents</strong>: a <code>task</code> tool spawns a child with <code>messages=[]</code> (fresh context). Only the final summary returns. Children don't get the task tool (no recursion). This is a context boundary, not a process trick.</p>
-          <p><strong>Worktree isolation</strong>: each subagent can run in its own git worktree — separate branch, separate files, safe to experiment. Changes merge back only on success.</p>
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
+          <p><strong>The loop core</strong>: <code>while run_one_turn(state): pass</code>. The <code>LoopState</code> holds messages, turn count, and transition reason. Each turn: call API, append response, check <code>stop_reason</code> — if <code>"tool_use"</code>, execute tools and continue. If not, return.</p>
+          <p style="margin-top:6px"><strong>Tool dispatch</strong>: a flat dictionary <code>TOOL_HANDLERS = {"bash": handler, "read_file": handler, ...}</code>. Adding a tool means adding one dict entry + one schema. The loop never changes.</p>
+          <p style="margin-top:6px"><strong>Subagents</strong>: <code>sub_messages = [{"role":"user","content":prompt}]</code> — a fresh list IS the isolation. Only the final text returns. Children don't get the <code>task</code> tool (no recursion). Safety limit: 30 iterations.</p>
+          <p style="margin-top:6px"><strong>Worktree isolation</strong>: <code>git worktree add -b wt/{name}</code> gives each subagent its own code copy. Branch naming: <code>wt/{name}</code>. Closeout: keep (preserve for review) or remove (force-delete).</p>
         </div>
       </div>
 
@@ -401,12 +398,13 @@
           <p><strong>When full</strong>: oldest parts get compacted (summarized or dropped). This is why long sessions degrade.</p>
           <p><strong>Sizes</strong>: 8K (small), 128K (standard), 200K (large), 1M (Claude Opus)</p>
         </div>
-        <div data-level="3" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
-          <p><strong>4 levers of compaction</strong>:</p>
-          <p>1. <strong>Persisted output</strong>: tool results &gt;50KB written to disk, replaced with preview marker</p>
-          <p>2. <strong>Micro-compact</strong>: silent per-turn pass replacing old tool_result blocks older than 3 turns</p>
-          <p>3. <strong>Auto-compact</strong>: when tokens exceed threshold, LLM summarizes all messages</p>
-          <p>4. <strong>Manual compact</strong>: model explicitly calls a compact tool</p>
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
+          <p><strong>4 compaction levers</strong> (progressive):</p>
+          <p>1. <strong>Persist large output</strong>: results &gt;30K chars saved to <code>.task_outputs/</code>, replaced with 2K char preview in <code>&lt;persisted-output&gt;</code> tags</p>
+          <p>2. <strong>Micro-compact</strong>: silent per-turn pass — tool results older than 3 turns replaced with <code>[Earlier tool result compacted]</code></p>
+          <p>3. <strong>Auto-compact</strong>: at 50K char threshold, full transcript saved to <code>.transcripts/</code>, LLM summarizes preserving: goal, findings, files, remaining work</p>
+          <p>4. <strong>Manual compact</strong>: model calls <code>compact</code> tool with optional <code>focus</code> parameter</p>
+          <p style="margin-top:6px"><strong>Error recovery</strong>: continuation on max_tokens (3 retries), auto-compact on prompt-too-long, exponential backoff (base * 2^attempt + jitter, max 30s)</p>
         </div>
       </div>
 
@@ -428,7 +426,7 @@
     <div class="hw-split">
       <div class="px-card reveal" id="loop-panel">
         <h3 style="font-size:17px;margin-bottom:10px">The Agent Loop</h3>
-        <div class="px-toggle" id="loopToggle" data-level="2">
+        <div class="px-toggle" id="loopToggle" data-mode="advanced">
           <button class="active" data-m="basic">Basic</button>
           <button data-m="advanced">+ Hooks</button>
         </div>
@@ -446,16 +444,27 @@
         </div>
       </div>
 
-      <div data-level="3" class="px-card reveal" style="grid-column:1/-1">
-        <h3 style="font-size:17px;margin-bottom:10px">Permission Pipeline <span class="lvl-badge l3">L3</span></h3>
-        <p style="font-size:10px;color:var(--text-soft);margin-bottom:8px">Four stages checked in order. First definitive answer wins.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:9px">
-          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>1. Deny rules</strong><br>Bypass-immune blocklist. Always checked first.</div>
-          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>2. Mode check</strong><br>default=ask, plan=block writes, auto=allow reads.</div>
-          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>3. Allow rules</strong><br>Pattern-matched allowlist.</div>
-          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>4. Ask user</strong><br>Interactive y/n/always. "Always" writes a permanent rule.</div>
+      <div data-mode="advanced" class="px-card reveal" style="grid-column:1/-1">
+        <h3 style="font-size:17px;margin-bottom:10px">Permission Pipeline <span class="adv-badge">Advanced</span></h3>
+        <p style="font-size:13px;color:var(--text-soft);margin-bottom:10px">Four stages checked in order. First definitive answer wins.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13px">
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>1. Deny rules</strong><br>Bypass-immune blocklist (shell injection, sudo, rm -rf). Always checked first.</div>
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>2. Mode check</strong><br>default=ask everything, plan=block writes, auto=allow reads.</div>
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>3. Allow rules</strong><br>Pattern-matched allowlist using fnmatch globs.</div>
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>4. Ask user</strong><br>Interactive y/n/always. "Always" writes a permanent allow rule.</div>
         </div>
-        <p style="font-size:9px;color:var(--muted);margin-top:6px">Circuit breaker: after 3 consecutive denials, suggests switching to plan mode.</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:8px">Circuit breaker: after 3 consecutive denials, suggests switching to plan mode. Workspace trust: checked via <code>.claude_trusted</code> marker.</p>
+      </div>
+
+      <div data-mode="advanced" class="px-card reveal" style="grid-column:1/-1">
+        <h3 style="font-size:17px;margin-bottom:10px">Hook System <span class="adv-badge">Advanced</span></h3>
+        <p style="font-size:13px;color:var(--text-soft);margin-bottom:10px">External shell commands triggered at lifecycle events. Configured in settings.json.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13px">
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>PreToolUse</strong><br>Runs before each tool. Exit 0=continue, 1=block. Can modify input via JSON response.</div>
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>PostToolUse</strong><br>Runs after each tool. Exit 2=inject stderr into conversation. Can add context.</div>
+          <div class="px-card" style="flex:1;min-width:160px;padding:12px"><strong>SessionStart</strong><br>Runs once at session start. Context via env: <code>HOOK_EVENT</code>, <code>HOOK_TOOL_NAME</code>, <code>HOOK_TOOL_INPUT</code>.</div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:8px">Timeout: 30s per hook. Trust gate: requires <code>.claude_trusted</code> or SDK mode.</p>
       </div>
 
       <div class="px-card reveal">
@@ -478,7 +487,7 @@
       <h3 style="font-size:17px;margin-bottom:10px">Context Window</h3>
       <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px">Step through an example execution. Watch context grow, fill, and get compacted.</p>
 
-      <div class="ctx-legend" data-level="2">
+      <div class="ctx-legend" data-mode="advanced">
         <div class="ctx-legend-item"><div class="swatch" style="background:#134e4a"></div>System</div>
         <div class="ctx-legend-item"><div class="swatch" style="background:#065f46"></div>Instructions</div>
         <div class="ctx-legend-item"><div class="swatch" style="background:#047857"></div>Conversation</div>
@@ -487,12 +496,12 @@
         <div class="ctx-legend-item"><div class="swatch" style="background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 2px,#475569 2px,#475569 4px)"></div>Compacted</div>
       </div>
 
-      <div class="ctx-step-info" data-level="2" id="ctxStepInfo">
+      <div class="ctx-step-info" data-mode="advanced" id="ctxStepInfo">
         <span class="step-label">ready</span>
         <span class="step-text">Press Play or use arrows to step through</span>
       </div>
 
-      <div class="ctx-demo-bar" data-level="2" id="ctxDemoBar">
+      <div class="ctx-demo-bar" data-mode="advanced" id="ctxDemoBar">
         <div class="cd-seg cd-compact" id="cdCompact" style="width:0"></div>
         <div class="cd-seg cd-sys" id="cdSys" style="width:0">Sys</div>
         <div class="cd-seg cd-inst" id="cdInst" style="width:0">Inst</div>
@@ -502,9 +511,9 @@
         <div class="cd-seg cd-empty" id="cdEmpty"></div>
       </div>
 
-      <div class="ctx-pct-bar" data-level="2"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
+      <div class="ctx-pct-bar" data-mode="advanced"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
 
-      <div class="ctx-demo-ctrl" data-level="2">
+      <div class="ctx-demo-ctrl" data-mode="advanced">
         <button class="px-btn" id="ctxBtnBack">&lt;</button>
         <button class="px-btn active" id="ctxBtnPlay">Play</button>
         <button class="px-btn" id="ctxBtnFwd">&gt;</button>
@@ -517,12 +526,12 @@
     <div class="stag" style="margin-top:40px">The infrastructure</div>
     <h2 class="stitle">The Harness</h2>
     <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px">Configuration files that shape agent behavior. Your intelligence, crystallized into file structure.</p>
-    <div data-level="1" class="px-card" style="margin-bottom:16px;font-size:11px;color:var(--text-soft)">
+    <div data-mode="basic" class="px-card" style="margin-bottom:16px;font-size:11px;color:var(--text-soft)">
       <p>Three layers of config: <strong>global</strong> (your identity and rules), <strong>user</strong> (your preferences, skills, and hooks), and <strong>project</strong> (project-specific instructions and code). The agent reads all three at startup and merges them by priority.</p>
     </div>
 
     <!-- Scope toggle -->
-    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px" data-level="2">
+    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px" data-mode="advanced">
       <button class="active" data-tool="generic">Generic</button>
       <button data-tool="claude">Claude Code</button>
       <button data-tool="copilot">GitHub Copilot</button>
@@ -540,6 +549,59 @@
   </div>
 </section>
 
+<!-- ======== ADVANCED: Runtime & Platform (hidden in basic mode) ======== -->
+<section data-mode="advanced" id="advanced-runtime" style="padding:60px 0">
+  <div class="inner">
+    <div class="stag">Advanced mechanics</div>
+    <h2 class="stitle">Runtime & Platform <span class="adv-badge">Advanced</span></h2>
+
+    <div class="hw-split" style="margin-bottom:24px">
+      <div class="px-card reveal">
+        <h3 style="font-size:17px;margin-bottom:10px">Memory System</h3>
+        <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px">Persistent file-based store in <code>.memory/</code>. Four categories:</p>
+        <ul style="font-size:13px;color:var(--text-soft);padding-left:16px;margin-bottom:8px">
+          <li><strong>user</strong> — preferences, role, expertise</li>
+          <li><strong>feedback</strong> — corrections to enforce (what to avoid/repeat)</li>
+          <li><strong>project</strong> — non-obvious conventions not in code</li>
+          <li><strong>reference</strong> — external resource pointers (URLs, docs)</li>
+        </ul>
+        <p style="font-size:12px;color:var(--muted)">Each memory is one <code>.md</code> file with YAML frontmatter. Index capped at 200 lines. Never store: code structure, temp state, or secrets.</p>
+      </div>
+
+      <div class="px-card reveal">
+        <h3 style="font-size:17px;margin-bottom:10px">System Prompt Assembly</h3>
+        <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px"><code>SystemPromptBuilder</code> assembles 6 sections in order:</p>
+        <ol style="font-size:13px;color:var(--text-soft);padding-left:16px;margin-bottom:8px">
+          <li>Core instructions (identity, rules)</li>
+          <li>Tool listings (schemas)</li>
+          <li>Skill metadata (cheap catalog)</li>
+          <li>Memory section (loaded at start)</li>
+          <li>CLAUDE.md chain (user + project + directory)</li>
+          <li>Dynamic context (per-turn reminders)</li>
+        </ol>
+        <p style="font-size:12px;color:var(--muted)"><code>DYNAMIC_BOUNDARY</code> marker separates cacheable from volatile sections.</p>
+      </div>
+    </div>
+
+    <div class="hw-split" style="margin-bottom:24px">
+      <div class="px-card reveal">
+        <h3 style="font-size:17px;margin-bottom:10px">Task System</h3>
+        <p style="font-size:13px;color:var(--text-soft)">Persistent JSON files in <code>.tasks/</code>. Fields: id, subject, status (pending/in_progress/completed/deleted), blockedBy[], blocks[]. Dependency resolution: completing a task removes it from all others' blockedBy. Background tasks run in daemon threads with stall detection (45s threshold).</p>
+      </div>
+
+      <div class="px-card reveal">
+        <h3 style="font-size:17px;margin-bottom:10px">MCP Plugins</h3>
+        <p style="font-size:13px;color:var(--text-soft)">External capability servers via stdio JSON-RPC. Tool namespacing: <code>mcp__{server}__{tool}</code>. Three risk levels: read/write/high. Plugin manifests in <code>.claude-plugin/plugin.json</code>. Native tools take priority on name collisions. Result preview capped at 500 chars.</p>
+      </div>
+    </div>
+
+    <div class="px-card reveal">
+      <h3 style="font-size:17px;margin-bottom:10px">Skill Loading Architecture</h3>
+      <p style="font-size:13px;color:var(--text-soft)"><strong>Two-layer pattern</strong>: Layer 1 — skill names + one-line descriptions injected into system prompt (~100 tokens per skill, cheap). Layer 2 — full skill body loaded on-demand via <code>load_skill</code> tool call (~2000 tokens). Each skill is a <code>SKILL.md</code> file with YAML frontmatter in a <code>skills/*/</code> directory. This prevents prompt bloat while preserving capability access.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ======== MINDSET ======== -->
 <section id="mindset">
   <div class="inner">
@@ -547,16 +609,16 @@
     <h2 class="stitle">The Mindset</h2>
     <div class="mindset-floor">
       <div class="mind-item reveal"><h3>Never prompt in chat</h3><p>Write in an editor. Read it twice. Dehumanize -- you're configuring a system, not chatting.</p>
-        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Strip "please", "could you", "I was wondering". Replace with: "Do X. Output format: Y. Constraints: Z."</div>
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Strip "please", "could you", "I was wondering". Replace with: "Do X. Output format: Y. Constraints: Z."</div>
       </div>
       <div class="mind-item reveal"><h3>Scripting has evolved</h3><p>Create skills, agents, reusable context. Write instructions once, reuse forever.</p>
-        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">If you've typed the same instruction 3 times, make it a skill file. Skills are two-layer: cheap name in system prompt, full body loaded on demand.</div>
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">If you've typed the same instruction 3 times, make it a skill file. Skills are two-layer: cheap name in system prompt, full body loaded on demand.</div>
       </div>
       <div class="mind-item reveal"><h3>Keep context congruent</h3><p>Don't teach the model to be smart. Give it the right information. Your job is congruence.</p>
-        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Contradictions in your instruction files = confused output. Review all your .md files as a system — do they tell a consistent story?</div>
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Contradictions in your instruction files = confused output. Review all your .md files as a system — do they tell a consistent story?</div>
       </div>
       <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p>
-        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Use plan mode for non-trivial tasks. Break complex work into tasks. The agent loop is cheap — your context window is the expensive resource.</div>
+        <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Use plan mode for non-trivial tasks. Break complex work into tasks. The agent loop is cheap — your context window is the expensive resource.</div>
       </div>
     </div>
   </div>
@@ -585,7 +647,7 @@
         </div>
       </div>
 
-      <div class="live-panel" data-level="2">
+      <div class="live-panel" data-mode="advanced">
         <div class="px-card" style="padding:14px">
           <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Loop state</div>
           <div class="live-loop" id="liveLoop">
@@ -655,21 +717,20 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   setSize(sizeIdx);
 
-  // ---- Level system ----
-  function setLevel(lvl){
-    document.body.className='level-'+lvl;
-    document.querySelectorAll('.lvl-btn').forEach(b=>b.classList.toggle('active',+b.dataset.level===lvl));
-    localStorage.setItem('fm-level',lvl);
-    // Hooks show at L2+
-    if(lvl>=2)document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.add('show'));
-    else document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.remove('show'));
-    // Refresh scroll triggers after layout change
+  // ---- Mode system (basic / advanced) ----
+  function setMode(mode){
+    document.body.className='mode-'+mode;
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+    localStorage.setItem('fm-mode',mode);
+    // Hooks show in advanced
+    const adv=mode==='advanced';
+    document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.toggle('show',adv));
     setTimeout(()=>ScrollTrigger.refresh(),400);
   }
-  document.querySelectorAll('.lvl-btn').forEach(b=>{
-    b.addEventListener('click',()=>setLevel(+b.dataset.level));
+  document.querySelectorAll('.mode-btn').forEach(b=>{
+    b.addEventListener('click',()=>setMode(b.dataset.mode));
   });
-  setLevel(+(localStorage.getItem('fm-level')||1));
+  setMode(localStorage.getItem('fm-mode')||'basic');
 
   // ---- Reveal ----
   document.querySelectorAll('.reveal').forEach(el=>{
