@@ -22,7 +22,7 @@
       --max-w:1060px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:13px;
+    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px;
       background-image:radial-gradient(ellipse at 50% 0%,#061828 0%,#040e1e 40%,#020810 100%)}
     a{color:var(--teal);text-decoration:none}a:hover{color:#80ffcc}
     strong{color:var(--coral);font-weight:700}
@@ -82,6 +82,10 @@
     @keyframes sway{0%,100%{transform:rotate(0)}50%{transform:rotate(3deg)}}
     @keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
     .deco-glow{filter:drop-shadow(0 0 8px rgba(0,212,255,0.15))}
+    /* Rock base for plant decorations */
+    .reef-base{position:absolute;bottom:0;height:20px;pointer-events:none;z-index:0}
+    .reef-base-left{left:0;width:120px;background:linear-gradient(to right,rgba(13,50,60,0.7) 0%,transparent 100%);border-top:2px solid rgba(13,80,104,0.3);border-radius:0 40px 0 0}
+    .reef-base-right{right:0;width:120px;background:linear-gradient(to left,rgba(13,50,60,0.7) 0%,transparent 100%);border-top:2px solid rgba(13,80,104,0.3);border-radius:40px 0 0 0}
     /* Dynamic background fauna */
     #fauna-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
     .fauna{position:absolute;image-rendering:pixelated;will-change:transform}
@@ -90,14 +94,14 @@
     /* ---- Nav ---- */
     nav{position:sticky;top:0;z-index:20;background:rgba(4,14,30,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,212,255,0.12);padding:0 16px;
       box-shadow:0 2px 20px rgba(0,0,0,0.3)}
-    .nav-in{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:48px}
-    .logo{font-weight:700;font-size:14px}.logo span{color:var(--coral)}
-    .nav-lk{display:flex;gap:14px;font-size:10px}.nav-lk a{color:var(--muted)}.nav-lk a:hover,.nav-lk a.active{color:var(--text)}
+    .nav-in{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;height:52px;gap:20px}
+    .logo{font-weight:700;font-size:18px;flex-shrink:0}.logo span{color:var(--coral)}
+    .nav-lk{display:flex;gap:16px;font-size:14px;flex:1;justify-content:center}.nav-lk a{color:var(--muted)}.nav-lk a:hover,.nav-lk a.active{color:var(--text)}
 
     /* ---- Shared ---- */
     .inner{max-width:var(--max-w);margin:0 auto;padding:0 20px;position:relative;z-index:1}
-    .stag{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
-    .stitle{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:28px;color:var(--text)}
+    .stag{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:8px}
+    .stitle{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:28px;color:var(--text)}
     .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}.reveal.on{opacity:1;transform:none}
     .px-card{background:rgba(12,40,60,0.55);border:1px solid rgba(0,212,255,0.1);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.2);padding:22px;margin-bottom:20px;backdrop-filter:blur(8px)}
     .px-card:hover{border-color:rgba(0,212,255,0.2);box-shadow:0 4px 32px rgba(0,0,0,0.25)}
@@ -108,22 +112,22 @@
 
     /* ---- Hero ---- */
     #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px;position:relative}
-    #hero h1{font-size:clamp(22px,4vw,32px);font-weight:700;margin-bottom:10px}
+    #hero h1{font-size:clamp(28px,5vw,42px);font-weight:700;margin-bottom:12px}
     #hero h1 em{font-style:normal;color:var(--coral)}
-    #hero .lead{font-size:12px;color:var(--text-soft);margin-bottom:24px;max-width:440px;margin-left:auto;margin-right:auto}
+    #hero .lead{font-size:16px;color:var(--text-soft);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
     .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
-    .cue{font-size:9px;color:var(--muted);animation:bounce 2s ease-in-out infinite}
+    .cue{font-size:12px;color:var(--muted);animation:bounce 2s ease-in-out infinite}
     @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
     /* ---- Basics ---- */
     #basics{padding:60px 0;position:relative}
     .basics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
     .bcard{position:relative}
-    .bcard h3{font-size:13px;margin-bottom:6px}.bcard p{font-size:11px;color:var(--text-soft);margin-bottom:8px}
-    .bcard .tag{font-size:9px;color:var(--muted);font-style:italic;margin-bottom:10px;display:block}
-    .expand-btn{font-family:var(--body-font);font-size:9px;color:var(--teal);background:none;border:1px dashed var(--border);padding:3px 10px;cursor:pointer;transition:color .2s}
+    .bcard h3{font-size:17px;margin-bottom:8px}.bcard p{font-size:14px;color:var(--text-soft);margin-bottom:10px}
+    .bcard .tag{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:12px;display:block}
+    .expand-btn{font-family:var(--body-font);font-size:12px;color:var(--teal);background:none;border:1px dashed var(--border);padding:5px 14px;cursor:pointer;transition:color .2s}
     .expand-btn:hover{color:var(--coral);border-color:var(--coral)}
-    .bcard-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:10px;color:var(--text-soft)}
+    .bcard-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:13px;color:var(--text-soft)}
     .bcard-detail.open{display:block;animation:fadeUp .3s ease}
     @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
     .bcard-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative}
@@ -135,7 +139,7 @@
 
     /* Toggle */
     .px-toggle{display:flex;gap:0;margin-bottom:16px}
-    .px-toggle button{font-family:var(--body-font);font-size:9px;padding:5px 12px;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
+    .px-toggle button{font-family:var(--body-font);font-size:13px;padding:6px 14px;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
     .px-toggle button.active{background:var(--teal);color:var(--bg);border-color:var(--teal-dk)}
     .px-toggle button:not(:last-child){border-right:none}
 
@@ -147,7 +151,7 @@
     .ln-t{top:40%;right:0}
     .ln-a{bottom:0;left:50%;transform:translateX(-50%)}
     .ln-o{top:40%;left:0}
-    .lnode.hook{border-color:var(--purple);color:var(--purple);font-size:8px;display:none}
+    .lnode.hook{border-color:var(--purple);color:var(--purple);font-size:11px;display:none}
     .lnode.hook.show{display:block}
     .ln-preh{top:20%;right:20%}
     .ln-posth{bottom:20%;right:20%}
@@ -155,19 +159,19 @@
     .loop-ring-svg svg{width:100%;height:100%}
 
     /* Tools list */
-    .tool-list{font-size:10px;color:var(--text-soft)}
-    .tool-list li{padding:4px 0;border-bottom:1px dashed var(--border-lt);list-style:none;display:flex;gap:8px}
-    .tool-list code{font-size:10px}
+    .tool-list{font-size:14px;color:var(--text-soft)}
+    .tool-list li{padding:6px 0;border-bottom:1px dashed var(--border-lt);list-style:none;display:flex;gap:10px}
+    .tool-list code{font-size:13px}
 
     /* Context stack */
     .ctx-bar{display:flex;height:28px;overflow:hidden;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg-deep);margin-bottom:8px}
-    .ctx-seg{display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;transition:flex-grow .6s}
+    .ctx-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:flex-grow .6s}
     .cs1{background:#134e4a;color:#99f6e4}.cs2{background:#065f46;color:#6ee7b7}.cs3{background:#047857;color:#a7f3d0}.cs4{background:#059669;color:#fff}.cs5{background:var(--surface-2);color:var(--muted);font-style:italic}
-    .ctx-lbl{display:flex;justify-content:space-between;font-size:8px;color:var(--muted)}
+    .ctx-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 
     /* Context interactive demo */
     .ctx-demo-bar{display:flex;height:36px;overflow:hidden;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg-deep);margin-bottom:6px;position:relative}
-    .ctx-demo-bar .cd-seg{height:100%;transition:width .5s ease;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;overflow:hidden;white-space:nowrap;min-width:0}
+    .ctx-demo-bar .cd-seg{height:100%;transition:width .5s ease;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;overflow:hidden;white-space:nowrap;min-width:0}
     .cd-sys{background:#134e4a;color:#99f6e4}
     .cd-inst{background:#065f46;color:#6ee7b7}
     .cd-conv{background:#047857;color:#a7f3d0}
@@ -176,49 +180,49 @@
     .cd-compact{background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 2px,#475569 2px,#475569 4px);color:var(--sand)}
     .cd-empty{background:var(--bg-deep);flex:1;min-width:0}
     .ctx-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-    .ctx-legend-item{display:flex;align-items:center;gap:4px;font-size:8px;color:var(--text-soft)}
+    .ctx-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-soft)}
     .ctx-legend-item .swatch{width:10px;height:10px;border:1px solid var(--border)}
-    .ctx-step-info{font-family:var(--mono);font-size:9px;color:var(--text-soft);padding:6px 10px;background:var(--bg-deep);border:1px solid var(--border);margin-bottom:8px;min-height:36px;display:flex;align-items:center;gap:8px}
+    .ctx-step-info{font-family:var(--mono);font-size:12px;color:var(--text-soft);padding:6px 10px;background:var(--bg-deep);border:1px solid var(--border);margin-bottom:8px;min-height:36px;display:flex;align-items:center;gap:8px}
     .ctx-step-info .step-icon{font-size:12px;flex-shrink:0}
-    .ctx-step-info .step-label{color:var(--teal);font-weight:700;font-size:8px;text-transform:uppercase;flex-shrink:0}
+    .ctx-step-info .step-label{color:var(--teal);font-weight:700;font-size:11px;text-transform:uppercase;flex-shrink:0}
     .ctx-step-info .step-text{flex:1}
     .ctx-pct-bar{height:4px;background:var(--bg-deep);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
     .ctx-pct-fill{height:100%;transition:width .5s}
     .ctx-demo-ctrl{display:flex;gap:6px;align-items:center;margin-bottom:10px}
-    .ctx-demo-ctrl .px-btn{font-size:8px;padding:3px 10px}
-    .ctx-demo-ctrl .ctx-counter{font-family:var(--mono);font-size:9px;color:var(--muted);margin-left:auto}
+    .ctx-demo-ctrl .px-btn{font-size:12px;padding:4px 12px}
+    .ctx-demo-ctrl .ctx-counter{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto}
 
     /* File tree */
-    .ft{font-family:var(--mono);font-size:10px;color:var(--text-soft);line-height:2.2}
+    .ft{font-family:var(--mono);font-size:13px;color:var(--text-soft);line-height:2.2}
     .ft-d{color:var(--teal);font-weight:700;cursor:default}
     .ft-f{color:var(--text-soft);cursor:pointer;padding:0 4px;transition:background .15s}.ft-f:hover{background:var(--surface-2);color:var(--teal)}
     .ft-f.sel{background:var(--teal);color:var(--bg)}
-    .ft-desc{color:var(--muted);font-size:9px;font-family:var(--body-font)}
+    .ft-desc{color:var(--muted);font-size:11px;font-family:var(--body-font)}
     .ft-i{padding-left:16px;border-left:2px solid var(--border-lt);margin-left:4px}
     .ft-l{opacity:0;transform:translateX(-4px);transition:all .2s}.ft-l.on{opacity:1;transform:none}
-    .code-preview{font-family:var(--mono);font-size:9px;background:var(--bg-deep);color:var(--text-soft);padding:14px;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg);white-space:pre-wrap;line-height:1.6;min-height:160px;max-height:260px;overflow-y:auto}
-    .disclaimer{font-size:8px;color:var(--muted);font-style:italic;margin-bottom:10px;border-left:2px solid var(--border);padding-left:8px}
+    .code-preview{font-family:var(--mono);font-size:12px;background:var(--bg-deep);color:var(--text-soft);padding:14px;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg);white-space:pre-wrap;line-height:1.6;min-height:160px;max-height:260px;overflow-y:auto}
+    .disclaimer{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;border-left:2px solid var(--border);padding-left:8px}
 
     /* ---- Mindset ---- */
     #mindset{padding:60px 0;position:relative}
     .mindset-floor{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
     .mind-item{background:rgba(12,40,60,0.5);border:1px solid rgba(0,212,255,0.1);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);padding:20px 24px;transition:all .3s;backdrop-filter:blur(6px)}
     .mind-item:hover{border-color:rgba(255,144,64,0.2);transform:translateY(-2px)}
-    .mind-item h3{font-size:14px;color:var(--coral);margin-bottom:6px;font-family:var(--head-font)}
-    .mind-item p{font-size:13px;color:var(--text-soft)}
+    .mind-item h3{font-size:18px;color:var(--coral);margin-bottom:8px;font-family:var(--head-font)}
+    .mind-item p{font-size:14px;color:var(--text-soft)}
 
     /* ---- Watch It ---- */
     #watch-it{padding:60px 0}
     .watch-split{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
     .chat{background:rgba(8,28,45,0.7);border:1px solid rgba(0,212,255,0.1);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.3);overflow:hidden;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
-    .chat-hd{padding:10px 14px;background:rgba(2,8,16,0.5);border-bottom:1px solid rgba(0,212,255,0.08);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;font-family:var(--head-font)}
+    .chat-hd{padding:10px 14px;background:rgba(2,8,16,0.5);border-bottom:1px solid rgba(0,212,255,0.08);font-size:14px;color:var(--muted);display:flex;justify-content:space-between;font-family:var(--head-font)}
     .chat-msgs{padding:12px;min-height:320px;max-height:400px;overflow-y:auto;scroll-behavior:smooth}
     .chat-msg{margin-bottom:12px;animation:msgIn .3s ease}
     @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-    .ml{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;display:flex;align-items:center;gap:5px}
-    .md{width:6px;height:6px;display:inline-block}
-    .mb{font-size:10px;color:var(--text-soft);line-height:1.5}
-    .mt{font-family:var(--mono);font-size:9px;font-weight:700;padding:1px 6px;display:inline-block;margin-bottom:3px}
+    .ml{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+    .md{width:8px;height:8px;display:inline-block;border-radius:50%}
+    .mb{font-size:13px;color:var(--text-soft);line-height:1.5}
+    .mt{font-family:var(--mono);font-size:12px;font-weight:700;padding:2px 8px;display:inline-block;margin-bottom:4px;border-radius:4px}
     .msg-user .ml{color:var(--coral)}.msg-user .md{background:var(--coral)}.msg-user .mb{color:var(--text)}
     .msg-think .ml{color:var(--teal)}.msg-think .md{background:var(--teal)}.msg-think .mb{font-style:italic}
     .msg-tool .ml{color:var(--indigo)}.msg-tool .md{background:var(--indigo)}.msg-tool .mt{background:rgba(129,140,248,.12);color:var(--indigo)}
@@ -228,12 +232,12 @@
     .msg-compact .ml{color:var(--sand)}.msg-compact .md{background:var(--sand)}.msg-compact .mb{color:var(--sand);font-style:italic}
     .msg-compact .mt{background:rgba(194,178,128,.12);color:var(--sand)}
     .chat-ctrl{padding:8px 12px;background:var(--bg-deep);border-top:2px solid var(--border);display:flex;align-items:center;gap:8px}
-    .ctrl-prog{flex:1;text-align:right;font-size:9px;color:var(--muted);font-family:var(--mono)}
+    .ctrl-prog{flex:1;text-align:right;font-size:12px;color:var(--muted);font-family:var(--mono)}
 
     /* Live viz panel */
     .live-panel{display:flex;flex-direction:column;gap:16px}
     .live-loop{position:relative;width:180px;height:140px;margin:0 auto}
-    .ll-node{position:absolute;font-size:8px;padding:3px 8px;border:2px solid var(--border);background:var(--surface);color:var(--muted);font-family:var(--body-font);box-shadow:2px 2px 0 var(--bg-deep);transition:background .3s,color .3s,border-color .3s}
+    .ll-node{position:absolute;font-size:11px;padding:4px 10px;border:2px solid var(--border);background:var(--surface);color:var(--muted);font-family:var(--body-font);box-shadow:2px 2px 0 var(--bg-deep);transition:background .3s,color .3s,border-color .3s}
     .ll-node.lit{background:var(--teal);color:var(--bg);border-color:var(--teal-dk)}
     .ll-p{top:0;left:50%;transform:translateX(-50%)}
     .ll-t{top:35%;right:0}
@@ -244,12 +248,12 @@
     .lc1{background:#134e4a}.lc2{background:#065f46}.lc3{background:#047857}.lc4{background:#059669}.lc5{background:var(--surface-2);background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 2px,#475569 2px,#475569 4px)}
 
     /* ---- Footer ---- */
-    footer{text-align:center;padding:32px 16px 40px;font-size:9px;color:var(--muted);position:relative;z-index:1}
+    footer{text-align:center;padding:32px 16px 40px;font-size:12px;color:var(--muted);position:relative;z-index:1}
     .fsep{margin:0 6px;opacity:.3}
 
     /* ---- Level system ---- */
-    .lvl-sel{display:flex;gap:2px;margin-left:auto;margin-right:16px}
-    .lvl-btn{font-family:var(--head-font);font-size:11px;padding:3px 10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;transition:all .15s}
+    .lvl-sel{display:flex;gap:3px;flex-shrink:0}
+    .lvl-btn{font-family:var(--head-font);font-size:14px;padding:4px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;transition:all .15s}
     .lvl-btn:hover{color:var(--text);border-color:var(--teal)}
     .lvl-btn.active{background:rgba(0,212,255,0.15);color:var(--teal);border-color:var(--teal)}
     /* Level visibility */
@@ -309,11 +313,13 @@
     </div>
     <div class="cue">scroll down</div>
   </div>
-  <!-- Bottom-edge reef strip -->
-  <div class="deco deco-sway" style="bottom:0;left:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:90px"></div>
-  <div class="deco deco-sway2" style="bottom:0;left:60px"><img src="assets/sprites/kenney-coral-pink.png" style="height:65px"></div>
-  <div class="deco" style="bottom:0;right:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:80px;filter:hue-rotate(15deg)"></div>
-  <div class="deco deco-sway" style="bottom:0;right:70px"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(40deg)"></div>
+  <!-- Bottom-edge reef strip with rock bases -->
+  <div class="reef-base reef-base-left"></div>
+  <div class="reef-base reef-base-right"></div>
+  <div class="deco deco-sway" style="bottom:16px;left:8px"><img src="assets/sprites/kenney-seaweed-green.png" style="height:90px"></div>
+  <div class="deco deco-sway2" style="bottom:16px;left:60px"><img src="assets/sprites/kenney-coral-pink.png" style="height:65px"></div>
+  <div class="deco" style="bottom:16px;right:8px"><img src="assets/sprites/kenney-seaweed-green.png" style="height:80px;filter:hue-rotate(15deg)"></div>
+  <div class="deco deco-sway" style="bottom:16px;right:70px"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(40deg)"></div>
 </section>
 
 <!-- Dynamic fauna container (populated by JS) -->
@@ -342,10 +348,10 @@
           <p><strong>Examples</strong>: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google), Llama (Meta), Mistral, Command R (Cohere)</p>
           <p><strong>Key insight</strong>: the model is a function — <code>f(prompt) = completion</code>. It cannot read files, browse the web, or remember you.</p>
         </div>
-        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Statelessness in practice</strong>: every API call starts fresh. The model has zero memory of your previous conversation unless you resend it. "Memory" is an illusion created by the harness replaying history.</p>
         </div>
-        <div data-level="3" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+        <div data-level="3" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Under the hood</strong>: models are transformer neural networks. Key parameters: temperature (randomness), top-p (sampling), max tokens (output length). Token economics: input tokens are cheaper than output tokens. Context window size determines how much the model can "see" at once.</p>
         </div>
       </div>
@@ -367,10 +373,10 @@
           <p><strong>The model decides everything</strong> — what tool to call, when to stop, how to combine results. The "agent framework" is just a while loop.</p>
           <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter, OpenCode</p>
         </div>
-        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>The entire agent in ~25 lines</strong>: <code>while True: response = model(messages); if no tool_use: return; execute tools; append results; loop</code>. The "write-back" of tool results into conversation is the key concept.</p>
         </div>
-        <div data-level="3" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+        <div data-level="3" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Subagents</strong>: a <code>task</code> tool spawns a child with <code>messages=[]</code> (fresh context). Only the final summary returns. Children don't get the task tool (no recursion). This is a context boundary, not a process trick.</p>
           <p><strong>Worktree isolation</strong>: each subagent can run in its own git worktree — separate branch, separate files, safe to experiment. Changes merge back only on success.</p>
         </div>
@@ -387,7 +393,7 @@
           <p><strong>When full</strong>: oldest parts get compacted (summarized or dropped). This is why long sessions degrade.</p>
           <p><strong>Sizes</strong>: 8K (small), 128K (standard), 200K (large), 1M (Claude Opus)</p>
         </div>
-        <div data-level="3" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+        <div data-level="3" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>4 levers of compaction</strong>:</p>
           <p>1. <strong>Persisted output</strong>: tool results &gt;50KB written to disk, replaced with preview marker</p>
           <p>2. <strong>Micro-compact</strong>: silent per-turn pass replacing old tool_result blocks older than 3 turns</p>
@@ -398,8 +404,10 @@
 
     </div>
   </div>
-  <div class="deco deco-sway2" style="bottom:0;right:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:65px;filter:hue-rotate(20deg)"></div>
-  <div class="deco" style="bottom:0;left:0"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(-20deg)"></div>
+  <div class="reef-base reef-base-left"></div>
+  <div class="reef-base reef-base-right"></div>
+  <div class="deco deco-sway2" style="bottom:16px;right:8px"><img src="assets/sprites/kenney-seaweed-green.png" style="height:65px;filter:hue-rotate(20deg)"></div>
+  <div class="deco" style="bottom:16px;left:8px"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(-20deg)"></div>
 </section>
 
 <!-- ======== HOW IT WORKS ======== -->
@@ -411,7 +419,7 @@
     <!-- Loop + Tools -->
     <div class="hw-split">
       <div class="px-card reveal" id="loop-panel">
-        <h3 style="font-size:12px;margin-bottom:8px">The Agent Loop</h3>
+        <h3 style="font-size:17px;margin-bottom:10px">The Agent Loop</h3>
         <div class="px-toggle" id="loopToggle" data-level="2">
           <button class="active" data-m="basic">Basic</button>
           <button data-m="advanced">+ Hooks</button>
@@ -431,7 +439,7 @@
       </div>
 
       <div data-level="3" class="px-card reveal" style="grid-column:1/-1">
-        <h3 style="font-size:12px;margin-bottom:8px">Permission Pipeline <span class="lvl-badge l3">L3</span></h3>
+        <h3 style="font-size:17px;margin-bottom:10px">Permission Pipeline <span class="lvl-badge l3">L3</span></h3>
         <p style="font-size:10px;color:var(--text-soft);margin-bottom:8px">Four stages checked in order. First definitive answer wins.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:9px">
           <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>1. Deny rules</strong><br>Bypass-immune blocklist. Always checked first.</div>
@@ -443,7 +451,7 @@
       </div>
 
       <div class="px-card reveal">
-        <h3 style="font-size:12px;margin-bottom:12px">Tools</h3>
+        <h3 style="font-size:17px;margin-bottom:14px">Tools</h3>
         <ul class="tool-list">
           <li><code>Bash</code> <span>run shell commands</span></li>
           <li><code>Read</code> <span>read files + images</span></li>
@@ -459,8 +467,8 @@
 
     <!-- Context window (interactive demo) -->
     <div class="px-card reveal" id="ctxPanel">
-      <h3 style="font-size:12px;margin-bottom:8px">Context Window</h3>
-      <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Step through an example execution. Watch context grow, fill, and get compacted.</p>
+      <h3 style="font-size:17px;margin-bottom:10px">Context Window</h3>
+      <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px">Step through an example execution. Watch context grow, fill, and get compacted.</p>
 
       <div class="ctx-legend" data-level="2">
         <div class="ctx-legend-item"><div class="swatch" style="background:#134e4a"></div>System</div>
@@ -500,7 +508,7 @@
     <!-- Harness -->
     <div class="stag" style="margin-top:40px">The infrastructure</div>
     <h2 class="stitle">The Harness</h2>
-    <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Configuration files that shape agent behavior. Your intelligence, crystallized into file structure.</p>
+    <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px">Configuration files that shape agent behavior. Your intelligence, crystallized into file structure.</p>
     <div data-level="1" class="px-card" style="margin-bottom:16px;font-size:11px;color:var(--text-soft)">
       <p>Three layers of config: <strong>global</strong> (your identity and rules), <strong>user</strong> (your preferences, skills, and hooks), and <strong>project</strong> (project-specific instructions and code). The agent reads all three at startup and merges them by priority.</p>
     </div>
@@ -531,21 +539,23 @@
     <h2 class="stitle">The Mindset</h2>
     <div class="mindset-floor">
       <div class="mind-item reveal"><h3>Never prompt in chat</h3><p>Write in an editor. Read it twice. Dehumanize -- you're configuring a system, not chatting.</p>
-        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">Strip "please", "could you", "I was wondering". Replace with: "Do X. Output format: Y. Constraints: Z."</div>
+        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Strip "please", "could you", "I was wondering". Replace with: "Do X. Output format: Y. Constraints: Z."</div>
       </div>
       <div class="mind-item reveal"><h3>Scripting has evolved</h3><p>Create skills, agents, reusable context. Write instructions once, reuse forever.</p>
-        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">If you've typed the same instruction 3 times, make it a skill file. Skills are two-layer: cheap name in system prompt, full body loaded on demand.</div>
+        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">If you've typed the same instruction 3 times, make it a skill file. Skills are two-layer: cheap name in system prompt, full body loaded on demand.</div>
       </div>
       <div class="mind-item reveal"><h3>Keep context congruent</h3><p>Don't teach the model to be smart. Give it the right information. Your job is congruence.</p>
-        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">Contradictions in your instruction files = confused output. Review all your .md files as a system — do they tell a consistent story?</div>
+        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Contradictions in your instruction files = confused output. Review all your .md files as a system — do they tell a consistent story?</div>
       </div>
       <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p>
-        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">Use plan mode for non-trivial tasks. Break complex work into tasks. The agent loop is cheap — your context window is the expensive resource.</div>
+        <div data-level="2" style="margin-top:10px;font-size:13px;color:var(--muted);border-top:1px dashed var(--border);padding-top:10px">Use plan mode for non-trivial tasks. Break complex work into tasks. The agent loop is cheap — your context window is the expensive resource.</div>
       </div>
     </div>
   </div>
-  <div class="deco deco-sway" style="bottom:0;left:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:75px"></div>
-  <div class="deco" style="bottom:0;right:0"><img src="assets/sprites/kenney-coral-pink.png" style="height:60px;filter:hue-rotate(60deg)"></div>
+  <div class="reef-base reef-base-left"></div>
+  <div class="reef-base reef-base-right"></div>
+  <div class="deco deco-sway" style="bottom:16px;left:8px"><img src="assets/sprites/kenney-seaweed-green.png" style="height:75px"></div>
+  <div class="deco" style="bottom:16px;right:8px"><img src="assets/sprites/kenney-coral-pink.png" style="height:60px;filter:hue-rotate(60deg)"></div>
 </section>
 
 <!-- ======== WATCH IT ======== -->
@@ -553,7 +563,7 @@
   <div class="inner">
     <div class="stag">Live reconstruction</div>
     <h2 class="stitle">Watch It Happen</h2>
-    <p style="font-size:11px;color:var(--text-soft);margin-bottom:20px">How an agent built the Finding Memo presentation. Each step is the loop in action.</p>
+    <p style="font-size:14px;color:var(--text-soft);margin-bottom:20px">How an agent built the Finding Memo presentation. Each step is the loop in action.</p>
 
     <div class="watch-split">
       <div class="chat">
@@ -1075,7 +1085,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const d=document.createElement('div');d.className='chat-msg '+tMap(s.type);
     let h='<div class="ml"><span class="md"></span> '+lMap(s.type)+'</div>';
     if(s.name)h+='<div class="mt">'+s.name+'</div>';
-    if(s.args)h+='<div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px">'+s.args+'</div>';
+    if(s.args)h+='<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:3px">'+s.args+'</div>';
     h+='<div class="mb">'+s.text+'</div>';d.innerHTML=h;return d;
   }
 

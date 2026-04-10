@@ -5,6 +5,13 @@ description: Generate production HTML/CSS/JS for a single page section with mult
 
 Given an analysis from /analyze-section, build the complete HTML/CSS/JS for one section.
 
+## Web Research Phase (run FIRST)
+Before building, use WebSearch/WebFetch to gather implementation resources:
+- **Library versions**: Search for latest CDN links for GSAP, ScrollTrigger, and any other libraries used. Verify current API syntax hasn't changed.
+- **CSS techniques**: Search for modern CSS features (container queries, :has(), scroll-driven animations) that could improve the section without adding JS complexity.
+- **Code examples**: When the section includes tool-specific code snippets (CLAUDE.md config, Copilot settings, Cursor rules), fetch current official documentation to ensure examples are accurate and up-to-date.
+- **Accessibility patterns**: Search for ARIA patterns relevant to the section's interactive elements (tabs, toggles, expandable panels) from WAI-ARIA Practices.
+
 ## Requirements
 
 ### Multi-Level System

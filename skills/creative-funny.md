@@ -5,6 +5,13 @@ disclaimer: "Conceptual example - not a real executable skill. Part of the Findi
 
 # /creative-funny
 
+## Web Research Phase
+Use WebSearch to source fresh, timely humor:
+- **Trending memes**: Search for current developer memes and tech humor (Reddit r/ProgrammerHumor, Twitter/X tech accounts). Reference what's trending NOW, not 2-year-old jokes.
+- **Recent fails/wins**: Search for recent AI fails, amusing autocomplete incidents, or viral developer stories. Real events are funnier than invented ones.
+- **Quote mining**: Search for recent funny or provocative quotes from tech figures that can be repurposed or subverted for the slide.
+- **Meme templates**: Search for current popular meme formats that could be adapted (e.g., "Is this a pigeon?", Drake format, distracted boyfriend) — reference by name so the audience gets the visual.
+
 Generate content that is:
 - **Unexpected**: Break the pattern the audience anticipates
 - **Relatable**: Reference shared developer experiences

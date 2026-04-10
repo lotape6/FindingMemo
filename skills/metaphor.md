@@ -5,6 +5,12 @@ disclaimer: "Conceptual example - not a real executable skill. Part of the Findi
 
 # /metaphor
 
+## Web Research Phase
+Use WebSearch to strengthen metaphor selection:
+- **Cultural relevance**: Search for trending movies, shows, games, and memes that the audience likely knows. A metaphor built on something culturally current lands harder.
+- **Prior art**: Search for how others have explained the same concept metaphorically (blog posts, conference talks, educational content). Avoid overused analogies; find fresh angles.
+- **Domain accuracy**: When mapping to a concrete domain (e.g., a movie plot), fetch plot summaries or character descriptions to ensure the mapping is accurate and doesn't break under scrutiny.
+
 ## Process
 1. Identify the **abstract concept** to explain
 2. Find a **concrete domain** the audience already understands

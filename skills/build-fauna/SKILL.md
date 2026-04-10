@@ -5,6 +5,12 @@ description: Generate the dynamic ocean fauna system (background fish, creatures
 
 Build the JS module for the living ocean background.
 
+## Web Research Phase
+Use WebSearch/WebFetch to source assets and techniques:
+- **Sprite resources**: Search for free pixel-art ocean creature sprites (OpenGameArt, itch.io, Kenney.nl). Find new species to add variety to the registry.
+- **Animation techniques**: Search for performant CSS/JS sprite animation patterns (requestAnimationFrame best practices, will-change optimization, GPU compositing tips) to keep fauna smooth at 60fps.
+- **Biological accuracy**: Search for real marine species behaviors (schooling patterns, depth preferences, speed ratios) to make the fauna system feel more natural and educational.
+
 ## Species Registry
 Define species with: sprite path, pixel height, opacity, speed range, rarity weight, and optional special behavior.
 

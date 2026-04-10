@@ -7,6 +7,12 @@ disclaimer: "Conceptual example - not a real executable skill. Part of the Findi
 
 Generate a single slide in MARP markdown format.
 
+## Web Research Phase
+Use WebSearch/WebFetch when generating slides:
+- **Image sourcing**: When the slide type is `image` or `meme`, search for relevant Creative Commons / Unsplash images or well-known meme templates. Provide URLs or describe the image to use.
+- **MARP features**: If using advanced features, fetch the latest MARP CLI documentation to verify directive syntax (themes, pagination, custom CSS support).
+- **Code accuracy**: When the slide includes code examples, fetch the relevant library/tool documentation to ensure syntax and API usage is current.
+
 ## Input
 - **type**: title | content | image | code | quote | split | meme
 - **content**: The information to present
