@@ -22,7 +22,7 @@
       --max-w:1060px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px;
+    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:1rem;
       background-image:radial-gradient(ellipse at 50% 0%,#061828 0%,#040e1e 40%,#020810 100%)}
     a{color:var(--teal);text-decoration:none}a:hover{color:#80ffcc}
     strong{color:var(--coral);font-weight:700}
@@ -252,10 +252,15 @@
     .fsep{margin:0 6px;opacity:.3}
 
     /* ---- Level system ---- */
-    .lvl-sel{display:flex;gap:3px;flex-shrink:0}
-    .lvl-btn{font-family:var(--head-font);font-size:14px;padding:4px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;transition:all .15s}
-    .lvl-btn:hover{color:var(--text);border-color:var(--teal)}
+    .nav-ctrls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .sep-dot{width:3px;height:3px;border-radius:50%;background:var(--border);opacity:.5}
+    .lvl-sel,.size-sel{display:flex;gap:3px}
+    .lvl-btn,.size-btn{font-family:var(--head-font);font-size:14px;padding:4px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;transition:all .15s}
+    .lvl-btn:hover,.size-btn:hover{color:var(--text);border-color:var(--teal)}
     .lvl-btn.active{background:rgba(0,212,255,0.15);color:var(--teal);border-color:var(--teal)}
+    .size-btn:active{background:rgba(0,212,255,0.1)}
+    /* Text size scaling via CSS variable on html */
+    html{font-size:var(--base-size,15px)}
     /* Level visibility */
     body.level-1 [data-level="2"],body.level-1 [data-level="3"]{opacity:0;max-height:0;overflow:hidden;margin:0;padding:0;border:none;pointer-events:none;transition:opacity .3s,max-height .4s}
     body.level-2 [data-level="3"]{opacity:0;max-height:0;overflow:hidden;margin:0;padding:0;border:none;pointer-events:none;transition:opacity .3s,max-height .4s}
@@ -294,10 +299,17 @@
       <a href="#watch-it" data-s="watch-it">Live</a>
       <a href="https://github.com/lotape6/FindingMemo" target="_blank">GitHub</a>
     </div>
-    <div class="lvl-sel" id="levelSel">
-      <button class="lvl-btn active" data-level="1" title="Essentials">L1</button>
-      <button class="lvl-btn" data-level="2" title="Practitioner">L2</button>
-      <button class="lvl-btn" data-level="3" title="Expert">L3</button>
+    <div class="nav-ctrls">
+      <div class="lvl-sel" id="levelSel">
+        <button class="lvl-btn active" data-level="1" title="Essentials">L1</button>
+        <button class="lvl-btn" data-level="2" title="Practitioner">L2</button>
+        <button class="lvl-btn" data-level="3" title="Expert">L3</button>
+      </div>
+      <div class="sep-dot"></div>
+      <div class="size-sel" id="sizeSel">
+        <button class="size-btn" data-delta="-1" title="Smaller text">A-</button>
+        <button class="size-btn" data-delta="1" title="Larger text">A+</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -326,7 +338,7 @@
 <div id="fauna-layer"></div>
 
 <!-- Baby Nemo (hidden until page bottom reached) -->
-<div id="nemo" style="display:none;position:fixed;z-index:14;pointer-events:none;transition:left 1.5s ease,top 1.5s ease">
+<div id="nemo" style="display:none;position:fixed;z-index:14;pointer-events:none">
   <div class="sprite"><img src="assets/sprites/baby-clownfish-32.png" class="fish-img" id="nemoSprite" style="width:40px" alt="Nemo"></div>
 </div>
 
@@ -358,11 +370,7 @@
 
       <div class="px-card bcard reveal">
         <div class="bcard-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="px" style="image-rendering:pixelated">
-            <circle cx="24" cy="24" r="18" stroke="var(--teal)" stroke-width="2" stroke-dasharray="4 3" fill="none" opacity=".4"/>
-            <rect x="18" y="10" width="12" height="8" rx="1" fill="var(--coral)"/>
-            <rect x="22" y="11" width="2" height="6" fill="white" opacity=".7"/>
-          </svg>
+          <img src="assets/sprites/moorish-idol.png" width="48" height="48" alt="Moorish idol fish — The Agent" style="image-rendering:auto">
         </div>
         <h3>The Agent</h3>
         <p>A <strong>model</strong> in a <strong>loop</strong> with <strong>tools</strong>. Decides, acts, observes, repeats.</p>
@@ -630,6 +638,23 @@ document.addEventListener('DOMContentLoaded',()=>{
       onToggle:s=>a.classList.toggle('active',s.isActive)});
   });
 
+  // ---- Text size system ----
+  const SIZES=[12,13,14,15,16,17,18,19,20];
+  let sizeIdx=SIZES.indexOf(+(localStorage.getItem('fm-size')||15));
+  if(sizeIdx<0)sizeIdx=3;
+
+  function setSize(idx){
+    sizeIdx=Math.max(0,Math.min(SIZES.length-1,idx));
+    const px=SIZES[sizeIdx];
+    document.documentElement.style.setProperty('--base-size',px+'px');
+    localStorage.setItem('fm-size',px);
+    setTimeout(()=>ScrollTrigger.refresh(),300);
+  }
+  document.querySelectorAll('.size-btn').forEach(b=>{
+    b.addEventListener('click',()=>setSize(sizeIdx+parseInt(b.dataset.delta)));
+  });
+  setSize(sizeIdx);
+
   // ---- Level system ----
   function setLevel(lvl){
     document.body.className='level-'+lvl;
@@ -699,29 +724,38 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.addEventListener('scroll',()=>{
     const y=Math.sin(scrollY*.01)*12;
     fish.querySelector('.sprite').style.transform='translateY('+y+'px)';
-    // Baby Nemo bob too
-    const nemoEl=document.getElementById('nemo');
-    if(nemoEl.style.display!=='none'){
-      nemoEl.querySelector('.sprite').style.transform='translateY('+Math.sin(scrollY*.012+1)*10+'px)';
-    }
   });
 
   // ---- Baby Nemo: appears when reaching page bottom ----
   let nemoJoined=false;
+  let nemoCurrentLeft=70,nemoCurrentTop=110;
+  let nemoTargetLeft=70,nemoTargetTop=110;
+
+  function nemoFollowLoop(){
+    if(!nemoJoined){requestAnimationFrame(nemoFollowLoop);return;}
+    const nemoEl=document.getElementById('nemo');
+    // Smoothly lerp toward target (Marlin + offset)
+    const fl=parseFloat(fish.style.left)||80;
+    const ft=parseFloat(fish.style.top)||45;
+    nemoTargetLeft=fl-5;
+    nemoTargetTop=ft+6;
+    nemoCurrentLeft+=(nemoTargetLeft-nemoCurrentLeft)*0.04;
+    nemoCurrentTop+=(nemoTargetTop-nemoCurrentTop)*0.04;
+    // Add bob from scroll position
+    const bob=Math.sin(scrollY*.012+1)*10;
+    nemoEl.style.left=nemoCurrentLeft+'%';
+    nemoEl.style.top=nemoCurrentTop+'%';
+    nemoEl.querySelector('.sprite').style.transform='translateY('+bob+'px)';
+    requestAnimationFrame(nemoFollowLoop);
+  }
+  requestAnimationFrame(nemoFollowLoop);
+
   ScrollTrigger.create({trigger:'footer',start:'top 90%',once:true,onEnter:()=>{
     if(nemoJoined)return;nemoJoined=true;
     const nemoEl=document.getElementById('nemo');
     nemoEl.style.display='block';
-    nemoEl.style.left='70%';nemoEl.style.top='110%';
-    // Swim up to join Marlin
-    setTimeout(()=>{nemoEl.style.top='52%';nemoEl.style.left='73%'},100);
-    // From now on, Nemo follows Marlin with offset
-    setInterval(()=>{
-      const fl=parseFloat(fish.style.left)||80;
-      const ft=parseFloat(fish.style.top)||45;
-      nemoEl.style.left=(fl-5)+'%';
-      nemoEl.style.top=(ft+6)+'%';
-    },2000);
+    // Start off-screen below, lerp will smoothly bring it up
+    nemoCurrentLeft=70;nemoCurrentTop=110;
   }});
 
   // ---- Dynamic fauna spawner ----
