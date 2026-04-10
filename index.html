@@ -4,187 +4,241 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finding Memo -- Learn AI Agentic Programming</title>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Virgil&display=swap');
-    :root {
-      --bg: #0f172a; --surface: #1e293b; --surface-2: #334155;
-      --text: #e2e8f0; --text-soft: #94a3b8; --muted: #64748b;
-      --coral: #fb923c; --teal: #2dd4bf; --teal-dark: #14b8a6;
-      --indigo: #818cf8; --green: #4ade80; --border: #334155;
-      --font: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --mono: 'SF Mono','Fira Code','JetBrains Mono',Consolas,monospace;
-      --hand: 'Virgil','Segoe Print','Comic Sans MS',cursive;
-      --max-w: 1080px;
+    :root{
+      --bg:#111827;--bg-deep:#0b0f1a;--surface:#1e293b;--surface-2:#334155;
+      --sand:#c2b280;--sand-dark:#8b7355;
+      --text:#d1d5db;--text-soft:#9ca3af;--muted:#6b7280;
+      --coral:#fb923c;--coral-dk:#ea580c;--teal:#2dd4bf;--teal-dk:#14b8a6;
+      --indigo:#818cf8;--green:#4ade80;--purple:#c084fc;
+      --border:#374151;--border-lt:#1f2937;
+      --px:3;--px-font:'Silkscreen',monospace;--mono:'Courier New',monospace;
+      --body-font:'Silkscreen',-apple-system,sans-serif;--max-w:1060px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-    a{color:var(--teal);text-decoration:none}a:hover{color:var(--teal-dark)}
-    strong{color:var(--coral);font-weight:600}
-    code{font-family:var(--mono);background:var(--surface);padding:2px 6px;border-radius:3px;font-size:0.85em;color:var(--teal)}
+    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:13px}
+    a{color:var(--teal);text-decoration:none}a:hover{color:var(--teal-dk)}
+    strong{color:var(--coral);font-weight:700}
+    code{font-family:var(--mono);background:var(--surface);padding:1px 5px;border-radius:2px;font-size:0.9em;color:var(--teal)}
+
+    /* ---- Pixel art global ---- */
+    .px{image-rendering:pixelated;image-rendering:crisp-edges}
 
     /* ---- Progress ---- */
-    #progress{position:fixed;top:0;left:0;height:2px;background:var(--teal);width:0;z-index:100}
+    #progress{position:fixed;top:0;left:0;height:3px;background:var(--teal);width:0;z-index:100;image-rendering:pixelated}
 
-    /* ---- Ambient bubbles ---- */
-    .bubble{position:fixed;border-radius:50%;background:rgba(45,212,191,0.06);pointer-events:none;z-index:0}
-    .b1{width:8px;height:8px;left:8%;animation:rise 12s linear infinite}.b2{width:5px;height:5px;left:15%;animation:rise 9s 2s linear infinite}
-    .b3{width:6px;height:6px;left:82%;animation:rise 14s 4s linear infinite}.b4{width:4px;height:4px;left:90%;animation:rise 10s 1s linear infinite}
-    .b5{width:7px;height:7px;left:45%;animation:rise 16s 6s linear infinite}.b6{width:3px;height:3px;left:70%;animation:rise 11s 3s linear infinite}
-    @keyframes rise{0%{transform:translateY(100vh);opacity:0}5%{opacity:0.4}90%{opacity:0.15}100%{transform:translateY(-40px);opacity:0}}
+    /* ---- Ambient ---- */
+    .bbl{position:fixed;border-radius:0;background:rgba(45,212,191,0.07);pointer-events:none;z-index:0;width:4px;height:4px}
+    .bbl:nth-child(1){left:7%;animation:rise 14s linear infinite}
+    .bbl:nth-child(2){left:18%;animation:rise 10s 3s linear infinite}
+    .bbl:nth-child(3){left:78%;animation:rise 16s 5s linear infinite}
+    .bbl:nth-child(4){left:92%;animation:rise 11s 1s linear infinite}
+    .bbl:nth-child(5){left:50%;animation:rise 13s 7s linear infinite}
+    @keyframes rise{0%{transform:translateY(100vh);opacity:0}5%{opacity:.3}90%{opacity:.1}100%{transform:translateY(-20px);opacity:0}}
 
-    /* ---- Global sticky fish ---- */
-    #marlin{position:fixed;right:28px;top:50%;z-index:15;pointer-events:none;transition:transform 0.3s ease}
-    #marlin svg{width:52px;height:32px;animation:swim 2.8s ease-in-out infinite}
-    @keyframes swim{0%,100%{transform:translateY(0) rotate(0deg)}30%{transform:translateY(-4px) rotate(2deg)}70%{transform:translateY(4px) rotate(-2deg)}}
-    #fishBubble{position:absolute;right:60px;top:50%;transform:translateY(-50%);background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.2);border-radius:8px;padding:5px 10px;font-size:0.65rem;color:var(--teal);font-style:italic;white-space:nowrap;opacity:0;transition:opacity 0.4s;font-family:var(--font);pointer-events:none}
-    #fishBubble.show{opacity:1}
+    /* ---- Fish companion (global fixed) ---- */
+    #fish{position:fixed;z-index:15;pointer-events:none;transition:left 1.2s ease,top 1.2s ease;will-change:left,top}
+    #fish .sprite{width:36px;height:24px;background:var(--coral);border-radius:0;position:relative;image-rendering:pixelated}
+    /* CSS pixel clownfish */
+    .pxfish{width:3px;height:3px;background:transparent;transform:scale(var(--px));position:absolute;left:50%;top:50%}
+    .pxfish.right{box-shadow:
+      0px -6px var(--coral),3px -6px var(--coral),
+      -3px -3px var(--coral),0px -3px #fff,3px -3px var(--coral),6px -3px var(--coral),
+      -6px 0px var(--coral),-3px 0px var(--coral),0px 0px #fff,3px 0px var(--coral),6px 0px var(--coral),9px 0px var(--coral),12px 0px var(--coral),
+      -3px 3px var(--coral),0px 3px #fff,3px 3px var(--coral),6px 3px var(--coral),9px 3px var(--coral),12px 3px var(--coral),
+      0px 6px var(--coral),3px 6px var(--coral),
+      -9px -3px #1a1a2e,-9px 0px #fff}
+    .pxfish.left{box-shadow:
+      0px -6px var(--coral),-3px -6px var(--coral),
+      3px -3px var(--coral),0px -3px #fff,-3px -3px var(--coral),-6px -3px var(--coral),
+      6px 0px var(--coral),3px 0px var(--coral),0px 0px #fff,-3px 0px var(--coral),-6px 0px var(--coral),-9px 0px var(--coral),-12px 0px var(--coral),
+      3px 3px var(--coral),0px 3px #fff,-3px 3px var(--coral),-6px 3px var(--coral),-9px 3px var(--coral),-12px 3px var(--coral),
+      0px 6px var(--coral),-3px 6px var(--coral),
+      9px -3px #1a1a2e,9px 0px #fff}
+    #fish-bubble{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:rgba(45,212,191,0.15);border:2px solid var(--border);padding:3px 8px;font-size:9px;color:var(--teal);white-space:nowrap;opacity:0;transition:opacity .3s;font-family:var(--body-font)}
+    #fish-bubble.show{opacity:1}
+    @keyframes fishBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    #fish .sprite{animation:fishBob 2.5s ease-in-out infinite}
+
+    /* ---- Decorations ---- */
+    .deco{position:absolute;pointer-events:none;z-index:0}
+    .deco-anemone{width:3px;height:3px;transform:scale(var(--px));box-shadow:
+      0 -12px #ff6b4a,3px -12px #ff6b4a,-3px -12px #ff6b4a,6px -9px #ff6b4a,-6px -9px #ff6b4a,
+      0 -9px #fb923c,3px -9px #fb923c,-3px -9px #fb923c,
+      0 -6px #fb923c,3px -6px #fb923c,-3px -6px #fb923c,6px -6px #fb923c,-6px -6px #fb923c,
+      0 -3px #c2b280,-3px -3px #c2b280,3px -3px #c2b280,
+      0 0px #8b7355,-3px 0px #8b7355,3px 0px #8b7355}
+    .deco-star{width:3px;height:3px;transform:scale(var(--px));box-shadow:
+      0 -6px #fbbf24,
+      -6px -3px #fbbf24,-3px -3px #fb923c,0 -3px #fb923c,3px -3px #fb923c,6px -3px #fbbf24,
+      -3px 0 #fbbf24,0 0 #fb923c,3px 0 #fbbf24,
+      -6px 3px #fbbf24,0 3px #fbbf24,6px 3px #fbbf24}
+    .deco-seaweed{width:3px;height:3px;transform:scale(var(--px));animation:sway 4s ease-in-out infinite;box-shadow:
+      0 0 #22c55e,0 -3px #22c55e,0 -6px #4ade80,3px -9px #4ade80,3px -12px #22c55e,0 -15px #16a34a,0 -18px #16a34a}
+    @keyframes sway{0%,100%{transform:scale(var(--px)) rotate(0)}50%{transform:scale(var(--px)) rotate(3deg)}}
 
     /* ---- Nav ---- */
-    nav{position:sticky;top:0;z-index:20;background:rgba(15,23,42,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
-    .nav-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
-    .logo{font-weight:700;font-size:0.9rem;color:var(--text)}.logo span{color:var(--coral)}
-    .nav-links{display:flex;gap:16px;font-size:0.78rem}
-    .nav-links a{color:var(--muted);transition:color 0.2s}.nav-links a:hover,.nav-links a.active{color:var(--text)}
+    nav{position:sticky;top:0;z-index:20;background:rgba(17,24,39,.92);backdrop-filter:blur(8px);border-bottom:2px solid var(--border);padding:0 16px}
+    .nav-in{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:48px}
+    .logo{font-weight:700;font-size:14px}.logo span{color:var(--coral)}
+    .nav-lk{display:flex;gap:14px;font-size:10px}.nav-lk a{color:var(--muted)}.nav-lk a:hover,.nav-lk a.active{color:var(--text)}
 
     /* ---- Shared ---- */
-    .inner{max-width:var(--max-w);margin:0 auto;padding:0 24px;position:relative;z-index:1}
-    .s-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:8px}
-    .s-title{font-size:1.6rem;font-weight:700;color:var(--text);letter-spacing:-0.03em;margin-bottom:32px}
-    .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.5s,transform 0.5s}.reveal.on{opacity:1;transform:none}
+    .inner{max-width:var(--max-w);margin:0 auto;padding:0 20px;position:relative;z-index:1}
+    .stag{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+    .stitle{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:28px;color:var(--text)}
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}.reveal.on{opacity:1;transform:none}
+    .px-card{background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--bg-deep);padding:20px;margin-bottom:20px}
+    .px-btn{font-family:var(--body-font);font-size:10px;border:2px solid var(--border);padding:6px 14px;background:var(--surface-2);color:var(--text);cursor:pointer;box-shadow:2px 2px 0 var(--bg-deep);transition:transform .1s}
+    .px-btn:active{transform:translate(2px,2px);box-shadow:none}
+    .px-btn.active{background:var(--teal);color:var(--bg);border-color:var(--teal-dk)}
 
     /* ---- Hero ---- */
-    #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;position:relative;z-index:1}
-    .hero-inner{max-width:600px}
-    #hero h1{font-size:clamp(2.2rem,5vw,3.2rem);font-weight:700;letter-spacing:-0.04em;margin-bottom:12px}
+    #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px;position:relative}
+    #hero h1{font-size:clamp(22px,4vw,32px);font-weight:700;margin-bottom:10px}
     #hero h1 em{font-style:normal;color:var(--coral)}
-    #hero .lead{font-size:1rem;color:var(--text-soft);margin-bottom:28px}
-    .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;font-size:0.88rem;font-weight:600;transition:all 0.2s;border:none;cursor:pointer}
-    .btn-primary{background:var(--teal);color:var(--bg)}.btn-primary:hover{background:var(--teal-dark);color:var(--bg)}
-    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-outline:hover{border-color:var(--coral);color:var(--coral)}
-    .scroll-cue{font-size:0.75rem;color:var(--muted);animation:bounce 2s ease-in-out infinite}
-    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+    #hero .lead{font-size:12px;color:var(--text-soft);margin-bottom:24px;max-width:440px;margin-left:auto;margin-right:auto}
+    .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+    .cue{font-size:9px;color:var(--muted);animation:bounce 2s ease-in-out infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
-    /* ---- The Cast ---- */
-    #the-cast{padding:80px 0}
-    .cast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-    .cast-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px}
-    .cast-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:visible}
-    .ci-model{background:rgba(251,146,60,0.08)}.ci-agent{background:rgba(45,212,191,0.08)}.ci-ctx{background:rgba(129,140,248,0.08)}
-    .cast-fish{width:40px;height:24px}
-    .cast-fish-swim{animation:castSwim 3s ease-in-out infinite}
-    @keyframes castSwim{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
-    .cast-fish-loop{animation:castLoop 2.5s linear infinite}
-    @keyframes castLoop{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-    .cast-coral{width:36px;height:36px}
-    .cast-card h3{font-size:1rem;font-weight:700;margin-bottom:8px}.cast-card p{font-size:0.85rem;color:var(--text-soft);margin-bottom:10px}
-    .nemo-tag{font-size:0.7rem;color:var(--muted);font-style:italic}
+    /* ---- Basics ---- */
+    #basics{padding:60px 0;position:relative}
+    .basics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .bcard{position:relative}
+    .bcard h3{font-size:13px;margin-bottom:6px}.bcard p{font-size:11px;color:var(--text-soft);margin-bottom:8px}
+    .bcard .tag{font-size:9px;color:var(--muted);font-style:italic;margin-bottom:10px;display:block}
+    .expand-btn{font-family:var(--body-font);font-size:9px;color:var(--teal);background:none;border:1px dashed var(--border);padding:3px 10px;cursor:pointer;transition:color .2s}
+    .expand-btn:hover{color:var(--coral);border-color:var(--coral)}
+    .bcard-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:10px;color:var(--text-soft)}
+    .bcard-detail.open{display:block;animation:fadeUp .3s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .bcard-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative}
 
     /* ---- How It Works ---- */
-    #how-it-works{padding:80px 0}
-    .hw-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+    #how-it-works{padding:60px 0}
+    .hw-split{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
     .hw-full{grid-column:1/-1}
-    .hw-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px}
-    .hw-card h3{font-size:0.95rem;font-weight:700;margin-bottom:16px}
 
-    /* Excalidraw-style loop diagram (SVG hand-drawn) */
-    .loop-diagram{display:flex;justify-content:center;margin-bottom:12px}
-    .loop-diagram svg{max-width:400px;width:100%;height:auto;opacity:0;transition:opacity 0.6s}
-    .loop-diagram svg.on{opacity:1}
-    .loop-diagram text{font-family:var(--hand);fill:var(--text);font-size:15px}
-    .loop-diagram .node-rect{fill:rgba(45,212,191,0.1);stroke:var(--teal);stroke-width:1.8;rx:8}
-    .loop-diagram .arrow-path{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-linecap:round}
-    .loop-diagram .arrow-head{fill:var(--muted)}
-    .loop-diagram .label-sub{font-size:11px;fill:var(--muted);font-family:var(--hand)}
-    .l-sub{text-align:center;font-size:0.78rem;color:var(--muted);opacity:0;transition:opacity 0.4s}.l-sub.on{opacity:1}
+    /* Toggle */
+    .px-toggle{display:flex;gap:0;margin-bottom:16px}
+    .px-toggle button{font-family:var(--body-font);font-size:9px;padding:5px 12px;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
+    .px-toggle button.active{background:var(--teal);color:var(--bg);border-color:var(--teal-dk)}
+    .px-toggle button:first-child{border-right:none}
+
+    /* Loop diagram (pixel style) */
+    .loop-wrap{position:relative;width:280px;height:220px;margin:0 auto}
+    .lnode{position:absolute;background:var(--surface-2);border:2px solid var(--teal);padding:4px 10px;font-size:10px;color:var(--teal);font-family:var(--body-font);box-shadow:2px 2px 0 var(--bg-deep)}
+    .lnode.lit{background:var(--teal);color:var(--bg)}
+    .ln-p{top:0;left:50%;transform:translateX(-50%)}
+    .ln-t{top:40%;right:0}
+    .ln-a{bottom:0;left:50%;transform:translateX(-50%)}
+    .ln-o{top:40%;left:0}
+    .lnode.hook{border-color:var(--purple);color:var(--purple);font-size:8px;display:none}
+    .lnode.hook.show{display:block}
+    .ln-preh{top:20%;right:20%}
+    .ln-posth{bottom:20%;right:20%}
+    .loop-ring-svg{position:absolute;inset:0;pointer-events:none}
+    .loop-ring-svg svg{width:100%;height:100%}
+
+    /* Tools list */
+    .tool-list{font-size:10px;color:var(--text-soft)}
+    .tool-list li{padding:4px 0;border-bottom:1px dashed var(--border-lt);list-style:none;display:flex;gap:8px}
+    .tool-list code{font-size:10px}
+
+    /* Context stack */
+    .ctx-bar{display:flex;height:28px;overflow:hidden;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg-deep);margin-bottom:8px}
+    .ctx-seg{display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;transition:flex-grow .6s}
+    .cs1{background:#134e4a;color:#99f6e4}.cs2{background:#065f46;color:#6ee7b7}.cs3{background:#047857;color:#a7f3d0}.cs4{background:#059669;color:#fff}.cs5{background:var(--surface-2);color:var(--muted);font-style:italic}
+    .ctx-lbl{display:flex;justify-content:space-between;font-size:8px;color:var(--muted)}
 
     /* File tree */
-    .ft{font-family:var(--mono);font-size:0.78rem;color:var(--text-soft);line-height:2}
-    .ft-d{color:var(--teal);font-weight:600}.ft-f{color:var(--text-soft)}
-    .ft-desc{color:var(--muted);font-size:0.72rem;font-family:var(--font)}
-    .ft-i{padding-left:18px;border-left:1px solid var(--border);margin-left:6px}
-    .ft-l{opacity:0;transform:translateX(-6px);transition:all 0.25s}.ft-l.on{opacity:1;transform:none}
-    .ft-spacer{height:6px}
-
-    /* Context bar */
-    .ctx-bar{display:flex;height:36px;border-radius:6px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border)}
-    .ctx-s{display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:600;transition:flex-grow 0.7s}
-    .cs1{background:#134e4a;color:#99f6e4}.cs2{background:#065f46;color:#6ee7b7}.cs3{background:#047857;color:#a7f3d0}
-    .cs4{background:#059669;color:white}.cs5{background:var(--surface-2);color:var(--muted);font-style:italic}
-    .ctx-lbl{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted)}
+    .ft{font-family:var(--mono);font-size:10px;color:var(--text-soft);line-height:2.2}
+    .ft-d{color:var(--teal);font-weight:700;cursor:default}
+    .ft-f{color:var(--text-soft);cursor:pointer;padding:0 4px;transition:background .15s}.ft-f:hover{background:var(--surface-2);color:var(--teal)}
+    .ft-f.sel{background:var(--teal);color:var(--bg)}
+    .ft-desc{color:var(--muted);font-size:9px;font-family:var(--body-font)}
+    .ft-i{padding-left:16px;border-left:2px solid var(--border-lt);margin-left:4px}
+    .ft-l{opacity:0;transform:translateX(-4px);transition:all .2s}.ft-l.on{opacity:1;transform:none}
+    .code-preview{font-family:var(--mono);font-size:9px;background:var(--bg-deep);color:var(--text-soft);padding:14px;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg);white-space:pre-wrap;line-height:1.6;min-height:160px;max-height:260px;overflow-y:auto}
+    .disclaimer{font-size:8px;color:var(--muted);font-style:italic;margin-bottom:10px;border-left:2px solid var(--border);padding-left:8px}
 
     /* ---- Mindset ---- */
-    #the-mindset{padding:80px 0}
-    .tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .tip-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;display:flex;gap:16px;align-items:start}
-    .tip-n{font-family:var(--mono);font-size:0.8rem;font-weight:700;color:var(--teal);width:36px;height:36px;border-radius:50%;background:rgba(45,212,191,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .tip-card h3{font-size:0.88rem;font-weight:700;margin-bottom:4px}.tip-card p{font-size:0.82rem;color:var(--text-soft)}
+    #mindset{padding:60px 0;position:relative}
+    .mindset-floor{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+    .mind-item{background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--bg-deep);padding:16px 20px;position:relative}
+    .mind-item h3{font-size:11px;color:var(--coral);margin-bottom:4px}
+    .mind-item p{font-size:10px;color:var(--text-soft)}
+    .mind-item::before{content:'';position:absolute;top:-8px;left:12px;width:12px;height:8px;background:var(--surface);border:2px solid var(--border);border-bottom:none}
 
     /* ---- Watch It ---- */
-    #watch-it{padding:80px 0}
-    .chat{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;max-width:800px;margin:0 auto}
-    .chat-head{padding:10px 16px;background:rgba(15,23,42,0.6);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);font-size:0.75rem;color:var(--muted)}
-    .chat-head .ch-title{font-weight:600;color:var(--text-soft)}
-    .chat-msgs{padding:16px;min-height:380px;max-height:480px;overflow-y:auto;scroll-behavior:smooth}
-    .chat-msg{margin-bottom:14px;animation:msgIn 0.3s ease}
-    @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .msg-label{font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;display:flex;align-items:center;gap:6px}
-    .msg-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-    .msg-body{font-size:0.82rem;color:var(--text-soft);line-height:1.5}
-    .msg-tool-name{font-family:var(--mono);font-size:0.75rem;font-weight:600;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:4px}
-    .msg-user .msg-label{color:var(--coral)}.msg-user .msg-dot{background:var(--coral)}.msg-user .msg-body{color:var(--text)}
-    .msg-think .msg-label{color:var(--teal)}.msg-think .msg-dot{background:var(--teal)}.msg-think .msg-body{font-style:italic}
-    .msg-tool .msg-label{color:var(--indigo)}.msg-tool .msg-dot{background:var(--indigo)}.msg-tool .msg-tool-name{background:rgba(129,140,248,0.12);color:var(--indigo)}
-    .msg-task .msg-label{color:#e879f9}.msg-task .msg-dot{background:#e879f9}.msg-task .msg-tool-name{background:rgba(232,121,249,0.12);color:#e879f9}
-    .msg-task-r .msg-label{color:#c084fc}.msg-task-r .msg-dot{background:#c084fc}
-    .msg-result .msg-label{color:var(--green)}.msg-result .msg-dot{background:var(--green)}.msg-result .msg-body{color:var(--green)}
-    .chat-ctrl{padding:10px 16px;background:rgba(15,23,42,0.6);border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
-    .ctrl-btn{background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 14px;font-size:0.78rem;font-family:var(--font);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:4px}
-    .ctrl-btn:hover{border-color:var(--teal);color:var(--teal)}.ctrl-btn.active{background:var(--teal);color:var(--bg);border-color:var(--teal)}
-    .ctrl-progress{flex:1;text-align:right;font-size:0.72rem;color:var(--muted);font-family:var(--mono)}
-    .deck-links{display:flex;gap:12px;margin-top:40px;justify-content:center}
-    .deck-link{padding:10px 24px;border:1px solid var(--border);border-radius:8px;font-size:0.82rem;color:var(--text);transition:all 0.2s}
-    .deck-link:hover{border-color:var(--teal);color:var(--teal)}
+    #watch-it{padding:60px 0}
+    .watch-split{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+    .chat{background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--bg-deep);overflow:hidden;display:flex;flex-direction:column}
+    .chat-hd{padding:8px 12px;background:var(--bg-deep);border-bottom:2px solid var(--border);font-size:9px;color:var(--muted);display:flex;justify-content:space-between}
+    .chat-msgs{padding:12px;min-height:320px;max-height:400px;overflow-y:auto;scroll-behavior:smooth}
+    .chat-msg{margin-bottom:12px;animation:msgIn .3s ease}
+    @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .ml{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;display:flex;align-items:center;gap:5px}
+    .md{width:6px;height:6px;display:inline-block}
+    .mb{font-size:10px;color:var(--text-soft);line-height:1.5}
+    .mt{font-family:var(--mono);font-size:9px;font-weight:700;padding:1px 6px;display:inline-block;margin-bottom:3px}
+    .msg-user .ml{color:var(--coral)}.msg-user .md{background:var(--coral)}.msg-user .mb{color:var(--text)}
+    .msg-think .ml{color:var(--teal)}.msg-think .md{background:var(--teal)}.msg-think .mb{font-style:italic}
+    .msg-tool .ml{color:var(--indigo)}.msg-tool .md{background:var(--indigo)}.msg-tool .mt{background:rgba(129,140,248,.12);color:var(--indigo)}
+    .msg-task .ml{color:var(--purple)}.msg-task .md{background:var(--purple)}.msg-task .mt{background:rgba(192,132,252,.12);color:var(--purple)}
+    .msg-task-r .ml{color:var(--purple)}.msg-task-r .md{background:var(--purple)}
+    .msg-result .ml{color:var(--green)}.msg-result .md{background:var(--green)}.msg-result .mb{color:var(--green)}
+    .chat-ctrl{padding:8px 12px;background:var(--bg-deep);border-top:2px solid var(--border);display:flex;align-items:center;gap:8px}
+    .ctrl-prog{flex:1;text-align:right;font-size:9px;color:var(--muted);font-family:var(--mono)}
+
+    /* Live viz panel */
+    .live-panel{display:flex;flex-direction:column;gap:16px}
+    .live-loop{position:relative;width:180px;height:140px;margin:0 auto}
+    .ll-node{position:absolute;font-size:8px;padding:3px 8px;border:2px solid var(--border);background:var(--surface);color:var(--muted);font-family:var(--body-font);box-shadow:2px 2px 0 var(--bg-deep);transition:background .3s,color .3s,border-color .3s}
+    .ll-node.lit{background:var(--teal);color:var(--bg);border-color:var(--teal-dk)}
+    .ll-p{top:0;left:50%;transform:translateX(-50%)}
+    .ll-t{top:35%;right:0}
+    .ll-a{bottom:0;left:50%;transform:translateX(-50%)}
+    .ll-o{top:35%;left:0}
+    .live-ctx{display:flex;height:20px;border:2px solid var(--border);box-shadow:2px 2px 0 var(--bg-deep);overflow:hidden}
+    .lc-seg{height:100%;transition:width .4s;width:0}
+    .lc1{background:#134e4a}.lc2{background:#065f46}.lc3{background:#047857}.lc4{background:#059669}
 
     /* ---- Footer ---- */
-    footer{text-align:center;padding:40px 24px 48px;font-size:0.75rem;color:var(--muted);position:relative;z-index:1}
-    .footer-sep{margin:0 8px;opacity:0.3}
+    footer{text-align:center;padding:32px 16px 40px;font-size:9px;color:var(--muted);position:relative;z-index:1}
+    .fsep{margin:0 6px;opacity:.3}
 
     /* ---- Responsive ---- */
-    @media(max-width:768px){.cast-grid,.hw-grid,.tips-grid{grid-template-columns:1fr}#marlin{display:none}}
-    @media(max-width:480px){.hero-btns{flex-direction:column;align-items:center}}
+    @media(max-width:768px){
+      .basics-grid,.hw-split,.mindset-floor,.watch-split{grid-template-columns:1fr}
+      #fish{display:none}
+      body{font-size:12px}
+    }
   </style>
 </head>
 <body>
 
 <div id="progress"></div>
+<div class="bbl"></div><div class="bbl"></div><div class="bbl"></div><div class="bbl"></div><div class="bbl"></div>
 
-<!-- Ambient bubbles -->
-<div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div>
-<div class="bubble b4"></div><div class="bubble b5"></div><div class="bubble b6"></div>
-
-<!-- Global sticky clownfish companion -->
-<div id="marlin">
-  <svg viewBox="0 0 52 32" fill="none">
-    <ellipse cx="21" cy="16" rx="16" ry="11" fill="#fb923c"/>
-    <polygon points="37,16 50,7 50,25" fill="#fb923c"/>
-    <rect x="13" y="5" width="2.5" height="22" rx="1" fill="white" opacity="0.85"/>
-    <rect x="25" y="5" width="2.5" height="22" rx="1" fill="white" opacity="0.85"/>
-    <circle cx="10" cy="12" r="3" fill="white"/><circle cx="10" cy="12" r="1.5" fill="#0f172a"/>
-  </svg>
-  <div id="fishBubble"></div>
+<!-- Fish companion -->
+<div id="fish" style="left:80%;top:45%">
+  <div class="sprite"><div class="pxfish right px"></div></div>
+  <div id="fish-bubble"></div>
 </div>
 
 <nav>
-  <div class="nav-inner">
+  <div class="nav-in">
     <div class="logo">Finding <span>Memo</span></div>
-    <div class="nav-links">
-      <a href="#the-cast" data-sec="the-cast">Basics</a>
-      <a href="#how-it-works" data-sec="how-it-works">Mechanics</a>
-      <a href="#the-mindset" data-sec="the-mindset">Mindset</a>
-      <a href="#watch-it" data-sec="watch-it">Live</a>
+    <div class="nav-lk">
+      <a href="#basics" data-s="basics">Basics</a>
+      <a href="#how-it-works" data-s="how-it-works">Mechanics</a>
+      <a href="#mindset" data-s="mindset">Mindset</a>
+      <a href="#watch-it" data-s="watch-it">Live</a>
       <a href="https://github.com/lotape6/FindingMemo" target="_blank">GitHub</a>
     </div>
   </div>
@@ -192,293 +246,405 @@
 
 <!-- ======== HERO ======== -->
 <section id="hero">
-  <div class="hero-inner">
+  <div>
     <h1>Finding <em>Memo</em></h1>
-    <p class="lead">AI agents are simpler than you think. Three concepts, one metaphor, and a live example of how it all comes together.</p>
+    <p class="lead">AI agents are simpler than you think. Three concepts, one metaphor, and a live reconstruction.</p>
     <div class="hero-btns">
-      <a href="lessons/00-introduction/index.html" class="btn btn-outline">Watch the slides first</a>
-      <a href="#the-cast" class="btn btn-primary">Start learning</a>
+      <a href="lessons/00-introduction/index.html" class="px-btn">Watch the slides first</a>
+      <a href="#basics" class="px-btn active">Start learning</a>
     </div>
-    <div class="scroll-cue">scroll down</div>
+    <div class="cue">scroll down</div>
   </div>
+  <div class="deco deco-anemone" style="bottom:40px;left:8%"></div>
+  <div class="deco deco-seaweed" style="bottom:20px;right:12%"></div>
+  <div class="deco deco-star" style="bottom:30px;left:50%"></div>
 </section>
 
-<!-- ======== THE CAST ======== -->
-<section id="the-cast">
+<!-- ======== BASICS ======== -->
+<section id="basics">
   <div class="inner">
-    <div class="s-label">The basics</div>
-    <h2 class="s-title">The Cast</h2>
-    <div class="cast-grid">
-      <div class="cast-card reveal">
-        <div class="cast-icon ci-model">
-          <svg class="cast-fish cast-fish-swim" viewBox="0 0 48 28" fill="none">
-            <ellipse cx="20" cy="14" rx="15" ry="10" fill="#fb923c"/><polygon points="35,14 46,6 46,22" fill="#fb923c"/>
-            <rect x="12" y="4" width="2.5" height="20" rx="1" fill="white" opacity="0.85"/><rect x="23" y="4" width="2.5" height="20" rx="1" fill="white" opacity="0.85"/>
-            <circle cx="9" cy="11" r="2.5" fill="white"/><circle cx="9" cy="11" r="1.2" fill="#1e293b"/>
-          </svg>
-        </div>
+    <div class="stag">The basics</div>
+    <h2 class="stitle">The Cast</h2>
+    <div class="basics-grid">
+
+      <div class="px-card bcard reveal">
+        <div class="bcard-icon"><div class="pxfish right px" style="transform:scale(4)"></div></div>
         <h3>The Model</h3>
-        <p>A function: text in, text out. <strong>Stateless</strong>. No memory between calls. No ability to act. Pure reasoning -- incredibly smart, but alone.</p>
-        <div class="nemo-tag">Marlin's brain -- smart but alone</div>
+        <p>Text in, text out. <strong>Stateless</strong>. Smart but alone.</p>
+        <span class="tag">Marlin's brain</span>
+        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
+        <div class="bcard-detail">
+          <p><strong>What it does</strong>: takes a prompt, produces a completion. One call, no memory of previous calls.</p>
+          <p><strong>Examples</strong>: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google), Llama (Meta), Mistral, Command R (Cohere)</p>
+          <p><strong>Key insight</strong>: the model is a function — <code>f(prompt) = completion</code>. It cannot read files, browse the web, or remember you.</p>
+        </div>
       </div>
-      <div class="cast-card reveal">
-        <div class="cast-icon ci-agent">
-          <svg class="cast-fish" viewBox="0 0 56 56" fill="none" style="width:48px;height:48px">
-            <circle cx="28" cy="28" r="22" stroke="#2dd4bf" stroke-width="1.5" stroke-dasharray="4 3" fill="none" opacity="0.4"/>
-            <g class="cast-fish-loop" style="transform-origin:28px 28px">
-              <ellipse cx="28" cy="8" rx="8" ry="5" fill="#fb923c"/><polygon points="36,8 42,4 42,12" fill="#fb923c"/>
-              <rect x="24.5" y="3" width="1.5" height="10" rx="0.5" fill="white" opacity="0.8"/>
-              <circle cx="23" cy="6.5" r="1.5" fill="white"/><circle cx="23" cy="6.5" r="0.7" fill="#1e293b"/>
-            </g>
+
+      <div class="px-card bcard reveal">
+        <div class="bcard-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="px" style="image-rendering:pixelated">
+            <circle cx="24" cy="24" r="18" stroke="var(--teal)" stroke-width="2" stroke-dasharray="4 3" fill="none" opacity=".4"/>
+            <rect x="18" y="10" width="12" height="8" rx="1" fill="var(--coral)"/>
+            <rect x="22" y="11" width="2" height="6" fill="white" opacity=".7"/>
           </svg>
         </div>
         <h3>The Agent</h3>
-        <p>A <strong>model</strong> wrapped in a <strong>loop</strong> with <strong>tools</strong>. The model decides. The loop keeps going. The tools let it act.</p>
-        <div class="nemo-tag">Marlin with fins and eyes</div>
-      </div>
-      <div class="cast-card reveal">
-        <div class="cast-icon ci-ctx">
-          <svg class="cast-coral" viewBox="0 0 40 40" fill="none">
-            <path d="M20 38 Q12 28 8 20 Q4 12 10 6 Q14 2 20 8 Q26 2 30 6 Q36 12 32 20 Q28 28 20 38Z" fill="rgba(129,140,248,0.3)" stroke="#818cf8" stroke-width="1.2"/>
-            <path d="M20 36 Q16 28 14 22 Q12 16 16 12 Q18 10 20 14 Q22 10 24 12 Q28 16 26 22 Q24 28 20 36Z" fill="rgba(129,140,248,0.5)"/>
-          </svg>
+        <p>A <strong>model</strong> in a <strong>loop</strong> with <strong>tools</strong>. Decides, acts, observes, repeats.</p>
+        <span class="tag">Marlin with fins and eyes</span>
+        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
+        <div class="bcard-detail">
+          <p><strong>Three ingredients</strong>: the model (brain), the loop (persistence), the tools (hands).</p>
+          <p><strong>The model decides everything</strong> — what tool to call, when to stop, how to combine results. The "agent framework" is just a while loop.</p>
+          <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter</p>
         </div>
-        <h3>The Context</h3>
-        <p>Everything the model can see. Its <strong>working memory</strong>. When full, old info gets compacted. Not the model -- the <strong>context</strong> makes the difference.</p>
-        <div class="nemo-tag">Marlin vs Dory -- same brain, different capacity</div>
       </div>
+
+      <div class="px-card bcard reveal">
+        <div class="bcard-icon"><div class="deco-anemone" style="position:static;transform:scale(4)"></div></div>
+        <h3>The Context</h3>
+        <p>Everything the model can see. Its <strong>working memory</strong>. The real differentiator.</p>
+        <span class="tag">Marlin vs Dory -- same brain, different capacity</span>
+        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
+        <div class="bcard-detail">
+          <p><strong>Context = prompt + history + tool results</strong>. It's all just text stacked in a window.</p>
+          <p><strong>When full</strong>: oldest parts get compacted (summarized or dropped). This is why long sessions degrade.</p>
+          <p><strong>Sizes</strong>: 8K (small), 128K (standard), 200K (large), 1M (Claude Opus)</p>
+        </div>
+      </div>
+
     </div>
   </div>
+  <div class="deco deco-star" style="bottom:20px;right:15%"></div>
+  <div class="deco deco-seaweed" style="bottom:10px;left:5%"></div>
 </section>
 
 <!-- ======== HOW IT WORKS ======== -->
 <section id="how-it-works">
   <div class="inner">
-    <div class="s-label">The mechanics</div>
-    <h2 class="s-title">How It Works</h2>
-    <div class="hw-grid">
+    <div class="stag">The mechanics</div>
+    <h2 class="stitle">How It Works</h2>
 
-      <!-- Excalidraw-style loop diagram -->
-      <div class="hw-card hw-full reveal" id="loop-panel">
-        <h3>The Agent Loop</h3>
-        <div class="loop-diagram">
-          <svg id="loopSvg" viewBox="0 0 440 260" fill="none">
-            <!-- Hand-drawn style rounded rects + arrows -->
-            <rect class="node-rect" x="170" y="8" width="100" height="38" />
-            <text x="220" y="33" text-anchor="middle">Prompt</text>
-
-            <rect class="node-rect" x="330" y="100" width="100" height="38" />
-            <text x="380" y="125" text-anchor="middle">Think</text>
-
-            <rect class="node-rect" x="170" y="205" width="100" height="38" />
-            <text x="220" y="230" text-anchor="middle">Act</text>
-
-            <rect class="node-rect" x="10" y="100" width="100" height="38" />
-            <text x="60" y="125" text-anchor="middle">Observe</text>
-
-            <!-- Arrows (hand-drawn curves) -->
-            <path class="arrow-path" d="M270 30 C310 30 330 60 340 100" />
-            <polygon class="arrow-head" points="336,98 344,98 340,106"/>
-
-            <path class="arrow-path" d="M380 138 C380 175 340 200 270 220" />
-            <polygon class="arrow-head" points="272,216 272,224 264,220"/>
-
-            <path class="arrow-path" d="M170 225 C130 225 80 195 65 138" />
-            <polygon class="arrow-head" points="61,140 69,140 65,132"/>
-
-            <path class="arrow-path" d="M55 100 C55 65 100 35 170 28" />
-            <polygon class="arrow-head" points="168,24 168,32 176,28"/>
-
-            <!-- Annotations -->
-            <text class="label-sub" x="350" y="72">what tool?</text>
-            <text class="label-sub" x="310" y="192">execute</text>
-            <text class="label-sub" x="70" y="192">result</text>
-            <text class="label-sub" x="70" y="72" fill="#2dd4bf">repeat</text>
-
-            <!-- Center label -->
-            <text x="220" y="128" text-anchor="middle" font-size="12" fill="var(--muted)" font-family="var(--hand)">the model decides</text>
-            <text x="220" y="145" text-anchor="middle" font-size="12" fill="var(--muted)" font-family="var(--hand)">every step</text>
-          </svg>
+    <!-- Loop + Tools -->
+    <div class="hw-split">
+      <div class="px-card reveal" id="loop-panel">
+        <h3 style="font-size:12px;margin-bottom:8px">The Agent Loop</h3>
+        <div class="px-toggle" id="loopToggle">
+          <button class="active" data-m="basic">Basic</button>
+          <button data-m="advanced">Advanced</button>
         </div>
-        <div class="l-sub" id="lsub">The framework just runs the loop. All intelligence comes from the model.</div>
+        <div class="loop-wrap" id="loopWrap">
+          <div class="loop-ring-svg"><svg viewBox="0 0 280 220" fill="none">
+            <path d="M140 20 Q240 20 240 110 Q240 200 140 200 Q40 200 40 110 Q40 20 140 20" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <polygon points="138,18 142,18 140,12" fill="var(--teal)" opacity=".6"/>
+          </svg></div>
+          <div class="lnode ln-p" id="lnP">Prompt</div>
+          <div class="lnode ln-t" id="lnT">Think</div>
+          <div class="lnode ln-a" id="lnA">Act</div>
+          <div class="lnode ln-o" id="lnO">Observe</div>
+          <div class="lnode hook ln-preh" id="lnPreH">Pre-hook</div>
+          <div class="lnode hook ln-posth" id="lnPostH">Post-hook</div>
+        </div>
       </div>
 
-      <!-- Harness file tree -->
-      <div class="hw-card reveal" id="harness-panel">
-        <h3>The Harness</h3>
-        <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:14px">Your intelligence, crystallized into files. Three layers.</p>
+      <div class="px-card reveal">
+        <h3 style="font-size:12px;margin-bottom:12px">Tools</h3>
+        <ul class="tool-list">
+          <li><code>Bash</code> <span>run shell commands</span></li>
+          <li><code>Read</code> <span>read files</span></li>
+          <li><code>Write</code> <span>create files</span></li>
+          <li><code>Edit</code> <span>modify files</span></li>
+          <li><code>Grep</code> <span>search content</span></li>
+          <li><code>Glob</code> <span>find files by pattern</span></li>
+          <li><code>Task</code> <span>spawn subagents</span></li>
+          <li><code>WebSearch</code> <span>search the internet</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Context window -->
+    <div class="px-card reveal" id="ctxPanel">
+      <h3 style="font-size:12px;margin-bottom:8px">Context Window</h3>
+      <p style="font-size:10px;color:var(--text-soft);margin-bottom:10px">Grows with each loop iteration. Compacts when full.</p>
+      <div class="ctx-bar" id="cbar">
+        <div class="ctx-seg cs1" style="flex-grow:0" data-g="1">System</div>
+        <div class="ctx-seg cs2" style="flex-grow:0" data-g="2">Instructions</div>
+        <div class="ctx-seg cs3" style="flex-grow:0" data-g="4">Conversation</div>
+        <div class="ctx-seg cs4" style="flex-grow:0" data-g="3">Tool results</div>
+        <div class="ctx-seg cs5" style="flex-grow:0" data-g="1">...compacted</div>
+      </div>
+      <div class="ctx-lbl"><span>oldest</span><span>newest</span></div>
+    </div>
+
+    <!-- Harness -->
+    <div class="stag" style="margin-top:40px">The infrastructure</div>
+    <h2 class="stitle">The Harness</h2>
+    <div class="disclaimer">Sample data for illustration -- not production prompts</div>
+    <div class="hw-split">
+      <div class="px-card reveal" id="ftPanel">
         <div class="ft" id="ft">
           <div class="ft-l"><span class="ft-d">~ root (global)</span></div>
           <div class="ft-i">
-            <div class="ft-l"><span class="ft-f">agent.md</span> <span class="ft-desc">-- identity</span></div>
-            <div class="ft-l"><span class="ft-f">rules.md</span> <span class="ft-desc">-- constraints</span></div>
-            <div class="ft-l"><span class="ft-d">memory/</span> <span class="ft-desc">-- persistent</span></div>
+            <div class="ft-l"><span class="ft-f" data-file="agent-md">agent.md</span> <span class="ft-desc">identity</span></div>
+            <div class="ft-l"><span class="ft-f" data-file="rules-md">rules.md</span> <span class="ft-desc">constraints</span></div>
+            <div class="ft-l"><span class="ft-d">memory/</span> <span class="ft-desc">persistent</span></div>
           </div>
-          <div class="ft-spacer"></div>
-          <div class="ft-l"><span class="ft-d">~/.config (user)</span></div>
+          <div class="ft-l" style="margin-top:4px"><span class="ft-d">~/.config (user)</span></div>
           <div class="ft-i">
-            <div class="ft-l"><span class="ft-f">settings.json</span> <span class="ft-desc">-- hooks</span></div>
-            <div class="ft-l"><span class="ft-d">skills/</span> <span class="ft-desc">-- templates</span></div>
+            <div class="ft-l"><span class="ft-f" data-file="settings-json">settings.json</span> <span class="ft-desc">hooks</span></div>
+            <div class="ft-l"><span class="ft-d">skills/</span> <span class="ft-desc">templates</span></div>
             <div class="ft-i">
-              <div class="ft-l"><span class="ft-f">create-slides.md</span></div>
-              <div class="ft-l"><span class="ft-f">metaphor.md</span></div>
+              <div class="ft-l"><span class="ft-f" data-file="create-slides-md">create-slides.md</span></div>
+              <div class="ft-l"><span class="ft-f" data-file="metaphor-md">metaphor.md</span></div>
             </div>
           </div>
-          <div class="ft-spacer"></div>
-          <div class="ft-l"><span class="ft-d">project/ (local)</span></div>
+          <div class="ft-l" style="margin-top:4px"><span class="ft-d">project/ (local)</span></div>
           <div class="ft-i">
-            <div class="ft-l"><span class="ft-f">INSTRUCTIONS.md</span> <span class="ft-desc">-- context</span></div>
-            <div class="ft-l"><span class="ft-f">README.md</span> <span class="ft-desc">-- auto-loaded</span></div>
-            <div class="ft-l"><span class="ft-d">src/</span> <span class="ft-desc">-- code</span></div>
+            <div class="ft-l"><span class="ft-f" data-file="readme-md">README.md</span> <span class="ft-desc">auto-loaded</span></div>
+            <div class="ft-l"><span class="ft-d">src/</span> <span class="ft-desc">your code</span></div>
+            <div class="ft-l"><span class="ft-d">tests/</span></div>
           </div>
         </div>
       </div>
-
-      <!-- Context window -->
-      <div class="hw-card reveal" id="ctx-panel">
-        <h3>Context Window</h3>
-        <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:14px">Stacked. When full, oldest parts get compacted.</p>
-        <div class="ctx-bar" id="cbar">
-          <div class="ctx-s cs1" style="flex-grow:0" data-g="1">System</div>
-          <div class="ctx-s cs2" style="flex-grow:0" data-g="2">Instructions</div>
-          <div class="ctx-s cs3" style="flex-grow:0" data-g="4">Conversation</div>
-          <div class="ctx-s cs4" style="flex-grow:0" data-g="3">Tool results</div>
-          <div class="ctx-s cs5" style="flex-grow:0" data-g="1">...compacted</div>
-        </div>
-        <div class="ctx-lbl"><span>oldest</span><span>newest</span></div>
+      <div class="px-card reveal">
+        <div class="code-preview" id="codePreview">Click a file to preview its content</div>
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- ======== MINDSET ======== -->
-<section id="the-mindset">
+<section id="mindset">
   <div class="inner">
-    <div class="s-label">Practical rules</div>
-    <h2 class="s-title">The Mindset</h2>
-    <div class="tips-grid">
-      <div class="tip-card reveal"><div class="tip-n">01</div><div><h3>Never prompt in chat</h3><p>Write in an editor. Read it twice. Dehumanize -- configure a system.</p></div></div>
-      <div class="tip-card reveal"><div class="tip-n">02</div><div><h3>Scripting has evolved</h3><p>Create skills, agents, reusable context. Write instructions once, reuse forever.</p></div></div>
-      <div class="tip-card reveal"><div class="tip-n">03</div><div><h3>Keep context congruent</h3><p>Don't teach the model. Give it the right information. Your job is congruence.</p></div></div>
-      <div class="tip-card reveal"><div class="tip-n">04</div><div><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p></div></div>
+    <div class="stag">Practical rules</div>
+    <h2 class="stitle">The Mindset</h2>
+    <div class="mindset-floor">
+      <div class="mind-item reveal"><h3>Never prompt in chat</h3><p>Write in an editor. Read it twice. Dehumanize -- you're configuring a system, not chatting.</p></div>
+      <div class="mind-item reveal"><h3>Scripting has evolved</h3><p>Create skills, agents, reusable context. Write instructions once, reuse forever.</p></div>
+      <div class="mind-item reveal"><h3>Keep context congruent</h3><p>Don't teach the model to be smart. Give it the right information. Your job is congruence.</p></div>
+      <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p></div>
     </div>
   </div>
+  <div class="deco deco-anemone" style="bottom:30px;left:10%"></div>
+  <div class="deco deco-star" style="bottom:20px;right:20%"></div>
 </section>
 
 <!-- ======== WATCH IT ======== -->
 <section id="watch-it">
   <div class="inner">
-    <div class="s-label">Live reconstruction</div>
-    <h2 class="s-title">Watch It Happen</h2>
-    <p style="font-size:0.88rem;color:var(--text-soft);margin-bottom:24px">How an agent built the Finding Memo presentation. Each message is the loop in action.</p>
-    <div class="chat">
-      <div class="chat-head"><span class="ch-title">agent session</span><span id="chatStatus">ready</span></div>
-      <div class="chat-msgs" id="chatMsgs"></div>
-      <div class="chat-ctrl">
-        <button class="ctrl-btn" id="btnBack">&lt;</button>
-        <button class="ctrl-btn active" id="btnPlay">Play</button>
-        <button class="ctrl-btn" id="btnFwd">&gt;</button>
-        <div class="ctrl-progress" id="ctrlProg">0 / 16</div>
+    <div class="stag">Live reconstruction</div>
+    <h2 class="stitle">Watch It Happen</h2>
+    <p style="font-size:11px;color:var(--text-soft);margin-bottom:20px">How an agent built the Finding Memo presentation. Each step is the loop in action.</p>
+
+    <div class="watch-split">
+      <div class="chat">
+        <div class="chat-hd"><span>agent session</span><span id="chatStatus">ready</span></div>
+        <div class="chat-msgs" id="chatMsgs"></div>
+        <div class="chat-ctrl">
+          <button class="px-btn" id="btnBack" style="font-size:9px;padding:4px 10px">&lt;</button>
+          <button class="px-btn active" id="btnPlay" style="font-size:9px;padding:4px 10px">Play</button>
+          <button class="px-btn" id="btnFwd" style="font-size:9px;padding:4px 10px">&gt;</button>
+          <div class="ctrl-prog" id="ctrlProg">0 / 16</div>
+        </div>
+      </div>
+
+      <div class="live-panel">
+        <div class="px-card" style="padding:14px">
+          <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Loop state</div>
+          <div class="live-loop" id="liveLoop">
+            <div class="ll-node ll-p" id="llP">Prompt</div>
+            <div class="ll-node ll-t" id="llT">Think</div>
+            <div class="ll-node ll-a" id="llA">Act</div>
+            <div class="ll-node ll-o" id="llO">Observe</div>
+          </div>
+        </div>
+        <div class="px-card" style="padding:14px">
+          <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Context usage</div>
+          <div class="live-ctx" id="liveCtx">
+            <div class="lc-seg lc1" id="lc1"></div>
+            <div class="lc-seg lc2" id="lc2"></div>
+            <div class="lc-seg lc3" id="lc3"></div>
+            <div class="lc-seg lc4" id="lc4"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="deck-links">
-      <a href="lessons/00-introduction/index.html" class="deck-link">View the presentation (14 slides)</a>
+
+    <div style="text-align:center;margin-top:32px">
+      <a href="lessons/00-introduction/index.html" class="px-btn">View the presentation (14 slides)</a>
     </div>
   </div>
 </section>
 
 <footer>
   <a href="https://github.com/lotape6/FindingMemo" target="_blank">GitHub</a>
-  <span class="footer-sep">|</span> MIT License
-  <span class="footer-sep">|</span> by <a href="https://github.com/lotape6" target="_blank">lotape6</a>
-  <span class="footer-sep">|</span> <a href="https://marp.app" target="_blank">MARP</a> + <a href="https://claude.ai/code" target="_blank">Claude Code</a>
+  <span class="fsep">|</span> MIT License
+  <span class="fsep">|</span> by <a href="https://github.com/lotape6" target="_blank">lotape6</a>
+  <span class="fsep">|</span> <a href="https://marp.app" target="_blank">MARP</a> + <a href="https://claude.ai/code" target="_blank">Claude Code</a>
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',()=>{
   gsap.registerPlugin(ScrollTrigger);
 
-  // Progress bar
-  ScrollTrigger.create({ trigger: document.body, start:'top top', end:'bottom bottom',
-    onUpdate: s => { document.getElementById('progress').style.width = (s.progress*100)+'%'; }});
+  // ---- Progress ----
+  ScrollTrigger.create({trigger:document.body,start:'top top',end:'bottom bottom',
+    onUpdate:s=>{document.getElementById('progress').style.width=(s.progress*100)+'%'}});
 
-  // Nav active
-  document.querySelectorAll('.nav-links a[data-sec]').forEach(a => {
-    ScrollTrigger.create({ trigger:'#'+a.dataset.sec, start:'top 40%', end:'bottom 40%',
-      onToggle: s => a.classList.toggle('active', s.isActive) });
+  // ---- Nav active ----
+  document.querySelectorAll('.nav-lk a[data-s]').forEach(a=>{
+    ScrollTrigger.create({trigger:'#'+a.dataset.s,start:'top 40%',end:'bottom 40%',
+      onToggle:s=>a.classList.toggle('active',s.isActive)});
   });
 
-  // Reveal
-  document.querySelectorAll('.reveal').forEach(el => {
-    ScrollTrigger.create({ trigger:el, start:'top 88%', once:true, onEnter:()=>el.classList.add('on') });
+  // ---- Reveal ----
+  document.querySelectorAll('.reveal').forEach(el=>{
+    ScrollTrigger.create({trigger:el,start:'top 88%',once:true,onEnter:()=>el.classList.add('on')});
   });
 
-  // Fish companion follows scroll with sine wave
-  const marlin = document.getElementById('marlin');
-  window.addEventListener('scroll', () => {
-    const y = Math.sin(window.scrollY * 0.008) * 30;
-    marlin.style.transform = 'translateY(' + y + 'px)';
+  // ---- Fish companion ----
+  const fish=document.getElementById('fish');
+  const fishSprite=fish.querySelector('.pxfish');
+  const sections=['hero','basics','how-it-works','mindset','watch-it'];
+  const fishPositions={
+    'hero':{left:'75%',top:'45%'},
+    'basics':{left:'85%',top:'35%'},
+    'how-it-works':{left:'88%',top:'40%'},
+    'mindset':{left:'82%',top:'50%'},
+    'watch-it':{left:'92%',top:'30%'}
+  };
+  let currentSection='hero';
+  let fishTimeout=null;
+
+  // Hysteresis scroll: move fish to section after threshold
+  sections.forEach(id=>{
+    ScrollTrigger.create({trigger:'#'+id,start:'top 50%',end:'bottom 50%',
+      onEnter:()=>{
+        if(currentSection!==id){
+          clearTimeout(fishTimeout);
+          fishTimeout=setTimeout(()=>{
+            currentSection=id;
+            const p=fishPositions[id];
+            fish.style.left=p.left;fish.style.top=p.top;
+            // Flip fish based on direction
+            const goingRight=parseInt(p.left)>parseInt(fish.style.left||'50');
+            fishSprite.className='pxfish px '+(goingRight?'right':'left');
+          },300);
+        }
+      },
+      onEnterBack:()=>{
+        if(currentSection!==id){
+          clearTimeout(fishTimeout);
+          fishTimeout=setTimeout(()=>{
+            currentSection=id;
+            const p=fishPositions[id];
+            fish.style.left=p.left;fish.style.top=p.top;
+            fishSprite.className='pxfish px left';
+          },300);
+        }
+      }
+    });
   });
 
-  // Loop diagram fade in
-  ScrollTrigger.create({ trigger:'#loop-panel', start:'top 72%', once:true, onEnter:() => {
-    document.getElementById('loopSvg').classList.add('on');
-    setTimeout(() => document.getElementById('lsub').classList.add('on'), 600);
-  }});
+  // Bob with scroll
+  window.addEventListener('scroll',()=>{
+    const y=Math.sin(scrollY*.01)*12;
+    fish.querySelector('.sprite').style.transform='translateY('+y+'px)';
+  });
 
-  // File tree
-  ScrollTrigger.create({ trigger:'#ft', start:'top 78%', once:true, onEnter:()=>{
-    document.querySelectorAll('.ft-l').forEach((e,i)=>setTimeout(()=>e.classList.add('on'),i*80));
-  }});
-
-  // Context bar
-  ScrollTrigger.create({ trigger:'#cbar', start:'top 78%', once:true, onEnter:()=>{
-    document.querySelectorAll('.ctx-s').forEach((s,i)=>setTimeout(()=>{s.style.flexGrow=s.dataset.g},i*180));
-  }});
-
-  // Smooth nav scroll
+  // ---- Smooth nav ----
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})});
   });
 
-  // ======== CHAT SIMULATION ========
-  const steps = [
-    {type:'user', text:'"Create slides to introduce programmers to AI agents"'},
-    {type:'think', text:'Presentation task. I\'ll use the /create-slides skill to orchestrate.', fish:'Marlin looks around...'},
-    {type:'tool', name:'UseSkill', args:'/create-slides', text:'Orchestrator loaded. Steps: metaphor, outline, plottwist, slides, review.', fish:'The Water Tunnel appears'},
-    {type:'think', text:'Need a strong central metaphor. Spawning a research task.'},
-    {type:'task', name:'Task: Research metaphor', text:'Subagent searching for a central analogy...', fish:'Dory joins the search'},
-    {type:'tool', name:'WebSearch', args:'"Finding Nemo AI metaphor"', text:'Marlin\'s ocean crossing maps perfectly to agent navigation.'},
-    {type:'task-r', name:'Task complete', text:'Finding Nemo \u2192 Finding Memo. Marlin=Agent, Water Tunnels=Harness, Crush=Human.', fish:'Marlin chose his route'},
-    {type:'task', name:'Task: Download images', text:'Subagent fetching 4 movie stills...'},
-    {type:'task-r', name:'Task complete', text:'generic.jpg, love.jpg, harness.jpg, mindset.jpg saved.'},
-    {type:'think', text:'Plottwist: the slides themselves were built by an agent. The presentation IS the example.', fish:'The ocean IS the lesson'},
-    {type:'tool', name:'Write', args:'finding-memo.css', text:'Ocean pastel theme. CSS animations. 6 classes.', fish:'Crush builds the walls'},
-    {type:'tool', name:'Write', args:'deck.md', text:'14 slides: analogy, plottwist, mapping, concepts, tips.', fish:'Each slide is a stroke'},
-    {type:'tool', name:'Bash', args:'npm run build', text:'[INFO] 14 slides generated.'},
-    {type:'tool', name:'Read', args:'screenshots', text:'Slides 6 and 8 overflow.', fish:'Marlin checks the current'},
-    {type:'tool', name:'Edit', args:'deck.md', text:'Trimmed overflows. Rebuilt.', fish:'The loop repeats'},
-    {type:'result', text:'14 slides. All clean. Ready.', fish:'Marlin found Memo.'}
+  // ---- Loop toggle ----
+  document.querySelectorAll('#loopToggle button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#loopToggle button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const adv=btn.dataset.m==='advanced';
+      document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.toggle('show',adv));
+    });
+  });
+
+  // ---- File tree ----
+  const SAMPLE_FILES={
+    'agent-md':`# Agent Identity\nYou are a helpful AI assistant.\nFocused on software engineering.\n\n## Capabilities\n- Read and write files\n- Execute shell commands\n- Search codebases\n- Create and manage tasks`,
+    'rules-md':`# Rules\n- Never commit secrets\n- Run tests before suggesting commits\n- Prefer editing over creating\n- Ask before destructive operations\n- Keep responses concise`,
+    'settings-json':`{\n  "hooks": {\n    "pre-commit": "npm test",\n    "post-edit": "eslint --fix"\n  },\n  "permissions": {\n    "bash": "ask",\n    "write": "allow",\n    "delete": "deny"\n  }\n}`,
+    'create-slides-md':`# /create-slides\nFind a central metaphor.\nDraft outline with plottwist.\nGenerate slides, review, iterate.\nAsk user for key decisions.`,
+    'metaphor-md':`# /metaphor\n1. Identify the abstract concept\n2. Find a concrete domain\n3. Map components 1:1\n4. Verify mapping holds\n5. Name it for easy reference`,
+    'readme-md':`# My Project\nA web app built with React + Node.\n\n## Setup\nnpm install && npm start\n\n## Structure\nsrc/ - application code\ntests/ - test suites`
+  };
+
+  document.querySelectorAll('.ft-f[data-file]').forEach(f=>{
+    f.addEventListener('click',()=>{
+      document.querySelectorAll('.ft-f').forEach(x=>x.classList.remove('sel'));
+      f.classList.add('sel');
+      document.getElementById('codePreview').textContent=SAMPLE_FILES[f.dataset.file]||'File not found';
+    });
+  });
+
+  // ---- File tree animation ----
+  ScrollTrigger.create({trigger:'#ft',start:'top 78%',once:true,onEnter:()=>{
+    document.querySelectorAll('.ft-l').forEach((e,i)=>setTimeout(()=>e.classList.add('on'),i*70));
+  }});
+
+  // ---- Context bar ----
+  ScrollTrigger.create({trigger:'#cbar',start:'top 78%',once:true,onEnter:()=>{
+    document.querySelectorAll('.ctx-seg').forEach((s,i)=>setTimeout(()=>{s.style.flexGrow=s.dataset.g},i*160));
+  }});
+
+  // ---- Chat simulation ----
+  const steps=[
+    {type:'user',text:'"Create slides to introduce programmers to AI agents"'},
+    {type:'think',text:'Presentation task. Use /create-slides skill.',fish:'Marlin looks around...',loop:'think'},
+    {type:'tool',name:'UseSkill',args:'/create-slides',text:'Orchestrator loaded.',fish:'The tunnel appears',loop:'act'},
+    {type:'think',text:'Need a metaphor. Spawning research task.',loop:'think'},
+    {type:'task',name:'Task: Research',text:'Subagent searching for analogy...',fish:'Dory joins',loop:'act'},
+    {type:'tool',name:'WebSearch',args:'"Finding Nemo AI"',text:'Ocean crossing maps to agent navigation.',loop:'observe'},
+    {type:'task-r',name:'Task done',text:'Finding Memo. Marlin=Agent, Tunnels=Harness.',fish:'Route chosen',loop:'observe'},
+    {type:'task',name:'Task: Download',text:'Fetching 4 movie stills...',loop:'act'},
+    {type:'task-r',name:'Task done',text:'generic.jpg, love.jpg, harness.jpg, mindset.jpg',loop:'observe'},
+    {type:'think',text:'Plottwist: slides ARE the example.',fish:'The ocean IS the lesson',loop:'think'},
+    {type:'tool',name:'Write',args:'finding-memo.css',text:'Ocean pastel theme.',fish:'Crush builds walls',loop:'act'},
+    {type:'tool',name:'Write',args:'deck.md',text:'14 slides written.',fish:'Each slide is a stroke',loop:'act'},
+    {type:'tool',name:'Bash',args:'npm run build',text:'14 slides generated.',loop:'act'},
+    {type:'tool',name:'Read',args:'screenshots',text:'Slides 6,8 overflow.',fish:'Marlin checks',loop:'observe'},
+    {type:'tool',name:'Edit',args:'deck.md',text:'Trimmed. Rebuilt.',fish:'Loop repeats',loop:'act'},
+    {type:'result',text:'14 slides. All clean. Ready.',fish:'Marlin found Memo.'}
   ];
 
-  const chatMsgs = document.getElementById('chatMsgs');
-  const fishBubble = document.getElementById('fishBubble');
-  const ctrlProg = document.getElementById('ctrlProg');
-  const chatStatus = document.getElementById('chatStatus');
-  const btnPlay = document.getElementById('btnPlay');
+  const chatMsgs=document.getElementById('chatMsgs');
+  const fishBubble=document.getElementById('fish-bubble');
+  const ctrlProg=document.getElementById('ctrlProg');
+  const chatStatus=document.getElementById('chatStatus');
+  let current=-1,playing=false,timer=null;
 
-  let current = -1, playing = false, timer = null;
-
-  function typeMap(t){return{user:'msg-user',think:'msg-think',tool:'msg-tool',task:'msg-task','task-r':'msg-task-r',result:'msg-result'}[t]||'msg-tool'}
-  function labelMap(t){return{user:'User',think:'Agent thinks',tool:'Tool call',task:'Subagent spawned','task-r':'Subagent result',result:'Done'}[t]||''}
+  function tMap(t){return{user:'msg-user',think:'msg-think',tool:'msg-tool',task:'msg-task','task-r':'msg-task-r',result:'msg-result'}[t]||'msg-tool'}
+  function lMap(t){return{user:'User',think:'Agent thinks',tool:'Tool call',task:'Subagent','task-r':'Subagent result',result:'Done'}[t]||''}
 
   function buildMsg(s){
-    const d=document.createElement('div');d.className='chat-msg '+typeMap(s.type);
-    let h='<div class="msg-label"><span class="msg-dot"></span> '+labelMap(s.type)+'</div>';
-    if(s.name)h+='<div class="msg-tool-name">'+s.name+'</div>';
-    if(s.args)h+='<div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);margin-bottom:4px">'+s.args+'</div>';
-    h+='<div class="msg-body">'+s.text+'</div>';d.innerHTML=h;return d;
+    const d=document.createElement('div');d.className='chat-msg '+tMap(s.type);
+    let h='<div class="ml"><span class="md"></span> '+lMap(s.type)+'</div>';
+    if(s.name)h+='<div class="mt">'+s.name+'</div>';
+    if(s.args)h+='<div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px">'+s.args+'</div>';
+    h+='<div class="mb">'+s.text+'</div>';d.innerHTML=h;return d;
+  }
+
+  // Live loop highlighting
+  function syncLive(idx){
+    const s=steps[idx];
+    ['llP','llT','llA','llO'].forEach(id=>document.getElementById(id)?.classList.remove('lit'));
+    if(s&&s.loop){
+      const map={think:'llT',act:'llA',observe:'llO',prompt:'llP'};
+      document.getElementById(map[s.loop])?.classList.add('lit');
+    }
+    // Context growth
+    const pct=Math.min(((idx+1)/steps.length)*100,100);
+    document.getElementById('lc1').style.width='15%';
+    document.getElementById('lc2').style.width=Math.min(pct*.3,25)+'%';
+    document.getElementById('lc3').style.width=Math.min(pct*.4,35)+'%';
+    document.getElementById('lc4').style.width=Math.min(pct*.3,25)+'%';
   }
 
   function renderTo(idx){
@@ -490,15 +656,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if(s&&s.fish){fishBubble.textContent=s.fish;fishBubble.classList.add('show')}
     else{fishBubble.classList.remove('show')}
     chatStatus.textContent=idx>=steps.length-1?'complete':'running...';
+    syncLive(idx);
   }
 
   function stepFwd(){if(current>=steps.length-1){pause();return}current++;renderTo(current)}
   function stepBk(){if(current<=0)return;current--;renderTo(current)}
-  function play(){playing=true;btnPlay.textContent='Pause';btnPlay.classList.add('active');chatStatus.textContent='running...';
-    timer=setInterval(()=>{if(current>=steps.length-1){pause();return}stepFwd()},1800)}
-  function pause(){playing=false;clearInterval(timer);btnPlay.textContent='Play';btnPlay.classList.remove('active')}
+  function play(){playing=true;document.getElementById('btnPlay').textContent='Pause';document.getElementById('btnPlay').classList.add('active');
+    timer=setInterval(()=>{if(current>=steps.length-1){pause();return}stepFwd()},3500)}
+  function pause(){playing=false;clearInterval(timer);document.getElementById('btnPlay').textContent='Play';document.getElementById('btnPlay').classList.remove('active')}
 
-  btnPlay.addEventListener('click',()=>{playing?pause():play()});
+  document.getElementById('btnPlay').addEventListener('click',()=>{playing?pause():play()});
   document.getElementById('btnFwd').addEventListener('click',()=>{pause();stepFwd()});
   document.getElementById('btnBack').addEventListener('click',()=>{pause();stepBk()});
 
@@ -510,6 +677,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   ctrlProg.textContent='0 / '+steps.length;
 });
+
+// ---- Expand panels ----
+function toggleExpand(btn){
+  const detail=btn.nextElementSibling;
+  const open=detail.classList.toggle('open');
+  btn.textContent=open?'- less':'+ more';
+}
 </script>
 </body>
 </html>

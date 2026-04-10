@@ -1,0 +1,461 @@
+/* ============================================
+   Finding Memo — CSS Pixel Art Sprites
+   box-shadow technique, scaled with --px-scale
+   ============================================ */
+
+/* --- 1. Clownfish facing right (12x8) --- */
+.px-fish-right {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0 (y=0): top fin hint */
+    4px 0 #ea580c, 5px 0 #ea580c,
+    /* Row 1 (y=1): head top */
+    2px 1px #fb923c, 3px 1px #fb923c, 4px 1px #fb923c, 5px 1px #ffffff,
+    6px 1px #fb923c, 7px 1px #fb923c, 8px 1px #fb923c,
+    /* Row 2 (y=2): eye row */
+    1px 2px #fb923c, 2px 2px #fb923c, 3px 2px #1a1a2e, 4px 2px #fb923c,
+    5px 2px #ffffff, 6px 2px #fb923c, 7px 2px #ffffff, 8px 2px #fb923c,
+    9px 2px #fb923c, 10px 2px #ea580c,
+    /* Row 3 (y=3): body middle */
+    0px 3px #fbbf24, 1px 3px #fb923c, 2px 3px #fb923c, 3px 3px #fb923c,
+    4px 3px #fb923c, 5px 3px #f0f0f0, 6px 3px #fb923c, 7px 3px #f0f0f0,
+    8px 3px #fb923c, 9px 3px #fb923c, 10px 3px #ea580c, 11px 3px #ea580c,
+    /* Row 4 (y=4): body middle */
+    0px 4px #fbbf24, 1px 4px #fb923c, 2px 4px #fb923c, 3px 4px #fb923c,
+    4px 4px #fb923c, 5px 4px #f0f0f0, 6px 4px #fb923c, 7px 4px #f0f0f0,
+    8px 4px #fb923c, 9px 4px #fb923c, 10px 4px #ea580c, 11px 4px #ea580c,
+    /* Row 5 (y=5): lower body */
+    1px 5px #fb923c, 2px 5px #fb923c, 3px 5px #fb923c, 4px 5px #fb923c,
+    5px 5px #ffffff, 6px 5px #fb923c, 7px 5px #ffffff, 8px 5px #fb923c,
+    9px 5px #fb923c, 10px 5px #ea580c,
+    /* Row 6 (y=6): belly */
+    2px 6px #fbbf24, 3px 6px #fb923c, 4px 6px #fb923c, 5px 6px #fb923c,
+    6px 6px #fb923c, 7px 6px #fb923c, 8px 6px #fb923c,
+    /* Row 7 (y=7): bottom fin */
+    4px 7px #ea580c, 5px 7px #ea580c;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 2. Clownfish facing left (12x8) --- */
+.px-fish-left {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0 (y=0): top fin hint */
+    7px 0 #ea580c, 6px 0 #ea580c,
+    /* Row 1 (y=1): head top */
+    3px 1px #fb923c, 4px 1px #fb923c, 5px 1px #fb923c, 6px 1px #ffffff,
+    7px 1px #fb923c, 8px 1px #fb923c, 9px 1px #fb923c,
+    /* Row 2 (y=2): eye row */
+    1px 2px #ea580c, 2px 2px #fb923c, 3px 2px #fb923c, 4px 2px #ffffff,
+    5px 2px #fb923c, 6px 2px #ffffff, 7px 2px #fb923c, 8px 2px #1a1a2e,
+    9px 2px #fb923c, 10px 2px #fb923c,
+    /* Row 3 (y=3): body middle */
+    0px 3px #ea580c, 1px 3px #ea580c, 2px 3px #fb923c, 3px 3px #fb923c,
+    4px 3px #f0f0f0, 5px 3px #fb923c, 6px 3px #f0f0f0, 7px 3px #fb923c,
+    8px 3px #fb923c, 9px 3px #fb923c, 10px 3px #fb923c, 11px 3px #fbbf24,
+    /* Row 4 (y=4): body middle */
+    0px 4px #ea580c, 1px 4px #ea580c, 2px 4px #fb923c, 3px 4px #fb923c,
+    4px 4px #f0f0f0, 5px 4px #fb923c, 6px 4px #f0f0f0, 7px 4px #fb923c,
+    8px 4px #fb923c, 9px 4px #fb923c, 10px 4px #fb923c, 11px 4px #fbbf24,
+    /* Row 5 (y=5): lower body */
+    1px 5px #ea580c, 2px 5px #fb923c, 3px 5px #fb923c, 4px 5px #ffffff,
+    5px 5px #fb923c, 6px 5px #ffffff, 7px 5px #fb923c, 8px 5px #fb923c,
+    9px 5px #fb923c, 10px 5px #fb923c,
+    /* Row 6 (y=6): belly */
+    3px 6px #fb923c, 4px 6px #fb923c, 5px 6px #fb923c, 6px 6px #fb923c,
+    7px 6px #fb923c, 8px 6px #fb923c, 9px 6px #fbbf24,
+    /* Row 7 (y=7): bottom fin */
+    6px 7px #ea580c, 7px 7px #ea580c;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 3. Anemone (12x16) --- */
+.px-anemone {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: tentacle tips */
+    1px 0 #fb923c, 4px 0 #ff6b4a, 7px 0 #fb923c, 10px 0 #ff6b4a,
+    /* Row 1 */
+    0px 1px #fb923c, 2px 1px #ff6b4a, 5px 1px #fb923c, 8px 1px #ff6b4a,
+    11px 1px #fb923c,
+    /* Row 2: tentacles */
+    1px 2px #ff6b4a, 3px 2px #fb923c, 4px 2px #ff6b4a, 6px 2px #fb923c,
+    7px 2px #ff6b4a, 9px 2px #fb923c, 10px 2px #ff6b4a,
+    /* Row 3 */
+    0px 3px #ff6b4a, 1px 3px #fb923c, 2px 3px #ff6b4a, 4px 3px #fb923c,
+    5px 3px #ff6b4a, 7px 3px #fb923c, 8px 3px #ff6b4a, 10px 3px #fb923c,
+    11px 3px #ff6b4a,
+    /* Row 4 */
+    1px 4px #ff6b4a, 2px 4px #fb923c, 3px 4px #ff6b4a, 5px 4px #fb923c,
+    6px 4px #ff6b4a, 8px 4px #fb923c, 9px 4px #ff6b4a,
+    /* Row 5 */
+    0px 5px #fb923c, 1px 5px #ff6b4a, 3px 5px #fb923c, 4px 5px #ff6b4a,
+    6px 5px #fb923c, 7px 5px #ff6b4a, 9px 5px #fb923c, 10px 5px #ff6b4a,
+    /* Row 6: converging */
+    1px 6px #ff6b4a, 2px 6px #fb923c, 3px 6px #ff6b4a, 4px 6px #fb923c,
+    5px 6px #ff6b4a, 6px 6px #fb923c, 7px 6px #ff6b4a, 8px 6px #fb923c,
+    9px 6px #ff6b4a, 10px 6px #fb923c,
+    /* Row 7 */
+    2px 7px #ff6b4a, 3px 7px #fb923c, 4px 7px #ff6b4a, 5px 7px #fb923c,
+    6px 7px #ff6b4a, 7px 7px #fb923c, 8px 7px #ff6b4a, 9px 7px #fb923c,
+    /* Row 8: body top */
+    2px 8px #fb923c, 3px 8px #ff6b4a, 4px 8px #fb923c, 5px 8px #ff6b4a,
+    6px 8px #fb923c, 7px 8px #ff6b4a, 8px 8px #fb923c, 9px 8px #ff6b4a,
+    /* Row 9 */
+    3px 9px #e879f9, 4px 9px #fb923c, 5px 9px #ff6b4a, 6px 9px #fb923c,
+    7px 9px #ff6b4a, 8px 9px #e879f9,
+    /* Row 10: body */
+    3px 10px #fb923c, 4px 10px #e879f9, 5px 10px #fb923c, 6px 10px #e879f9,
+    7px 10px #fb923c, 8px 10px #fb923c,
+    /* Row 11 */
+    3px 11px #e879f9, 4px 11px #fb923c, 5px 11px #e879f9, 6px 11px #fb923c,
+    7px 11px #e879f9, 8px 11px #fb923c,
+    /* Row 12: base */
+    3px 12px #fb923c, 4px 12px #fb923c, 5px 12px #fb923c, 6px 12px #fb923c,
+    7px 12px #fb923c, 8px 12px #fb923c,
+    /* Row 13 */
+    2px 13px #ea580c, 3px 13px #fb923c, 4px 13px #ea580c, 5px 13px #fb923c,
+    6px 13px #ea580c, 7px 13px #fb923c, 8px 13px #ea580c, 9px 13px #fb923c,
+    /* Row 14 */
+    2px 14px #ea580c, 3px 14px #ea580c, 4px 14px #ea580c, 5px 14px #ea580c,
+    6px 14px #ea580c, 7px 14px #ea580c, 8px 14px #ea580c, 9px 14px #ea580c,
+    /* Row 15: base bottom */
+    3px 15px #8b7355, 4px 15px #c2b280, 5px 15px #8b7355, 6px 15px #c2b280,
+    7px 15px #8b7355, 8px 15px #c2b280;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 4. Branching Coral (10x10) --- */
+.px-coral {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: branch tips */
+    1px 0 #ff6b4a, 5px 0 #ef4444, 8px 0 #ff6b4a,
+    /* Row 1 */
+    1px 1px #ef4444, 2px 1px #ff6b4a, 5px 1px #ff6b4a, 8px 1px #ef4444,
+    /* Row 2: branches */
+    2px 2px #ef4444, 3px 2px #ff6b4a, 5px 2px #ef4444, 7px 2px #ff6b4a,
+    8px 2px #ef4444,
+    /* Row 3 */
+    2px 3px #ff6b4a, 3px 3px #ef4444, 4px 3px #ff6b4a, 5px 3px #ff6b4a,
+    6px 3px #ef4444, 7px 3px #ff6b4a,
+    /* Row 4: converging */
+    3px 4px #ff6b4a, 4px 4px #ef4444, 5px 4px #ff6b4a, 6px 4px #ef4444,
+    7px 4px #ff6b4a,
+    /* Row 5 */
+    3px 5px #ef4444, 4px 5px #ff6b4a, 5px 5px #ef4444, 6px 5px #ff6b4a,
+    /* Row 6: trunk */
+    4px 6px #ef4444, 5px 6px #ff6b4a, 6px 6px #ef4444,
+    /* Row 7 */
+    4px 7px #ff6b4a, 5px 7px #ef4444, 6px 7px #ff6b4a,
+    /* Row 8: base */
+    3px 8px #ef4444, 4px 8px #ef4444, 5px 8px #ff6b4a, 6px 8px #ef4444,
+    7px 8px #ef4444,
+    /* Row 9: sand base */
+    2px 9px #c2b280, 3px 9px #8b7355, 4px 9px #c2b280, 5px 9px #8b7355,
+    6px 9px #c2b280, 7px 9px #8b7355;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 5. Starfish (8x8) --- */
+.px-starfish {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: top arm */
+    3px 0 #fb923c, 4px 0 #fb923c,
+    /* Row 1 */
+    3px 1px #ea580c, 4px 1px #ea580c,
+    /* Row 2: side arms begin */
+    1px 2px #fb923c, 2px 2px #fb923c, 3px 2px #fbbf24, 4px 2px #fbbf24,
+    5px 2px #fb923c, 6px 2px #fb923c,
+    /* Row 3: widest */
+    0px 3px #fb923c, 1px 3px #ea580c, 2px 3px #fb923c, 3px 3px #fbbf24,
+    4px 3px #fbbf24, 5px 3px #fb923c, 6px 3px #ea580c, 7px 3px #fb923c,
+    /* Row 4: center */
+    2px 4px #fb923c, 3px 4px #ea580c, 4px 4px #ea580c, 5px 4px #fb923c,
+    /* Row 5: lower arms */
+    1px 5px #fb923c, 2px 5px #ea580c, 3px 5px #fb923c, 4px 5px #fb923c,
+    5px 5px #ea580c, 6px 5px #fb923c,
+    /* Row 6 */
+    0px 6px #fb923c, 1px 6px #fb923c, 2px 6px #fb923c, 5px 6px #fb923c,
+    6px 6px #fb923c, 7px 6px #fb923c,
+    /* Row 7: sand */
+    0px 7px #c2b280, 1px 7px #c2b280, 6px 7px #c2b280, 7px 7px #c2b280;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 6. Seaweed (6x16) --- */
+.px-seaweed {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: tip */
+    3px 0 #4ade80,
+    /* Row 1 */
+    3px 1px #4ade80, 4px 1px #22c55e,
+    /* Row 2 */
+    4px 2px #4ade80, 5px 2px #22c55e,
+    /* Row 3 */
+    4px 3px #22c55e, 5px 3px #4ade80,
+    /* Row 4: sway right */
+    3px 4px #22c55e, 4px 4px #4ade80,
+    /* Row 5 */
+    3px 5px #4ade80, 4px 5px #16a34a,
+    /* Row 6 */
+    2px 6px #4ade80, 3px 6px #22c55e,
+    /* Row 7 */
+    2px 7px #22c55e, 3px 7px #4ade80,
+    /* Row 8: sway left */
+    2px 8px #16a34a, 3px 8px #22c55e,
+    /* Row 9 */
+    3px 9px #4ade80, 4px 9px #22c55e,
+    /* Row 10 */
+    3px 10px #22c55e, 4px 10px #16a34a,
+    /* Row 11 */
+    2px 11px #4ade80, 3px 11px #22c55e,
+    /* Row 12 */
+    2px 12px #22c55e, 3px 12px #16a34a,
+    /* Row 13 */
+    2px 13px #16a34a, 3px 13px #22c55e,
+    /* Row 14: base */
+    1px 14px #16a34a, 2px 14px #22c55e, 3px 14px #16a34a,
+    /* Row 15: sand */
+    1px 15px #c2b280, 2px 15px #8b7355, 3px 15px #c2b280, 4px 15px #8b7355;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 7. Bubble (4x4) --- */
+.px-bubble {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0 */
+    1px 0 rgba(78, 205, 196, 0.4), 2px 0 rgba(78, 205, 196, 0.4),
+    /* Row 1 */
+    0px 1px rgba(78, 205, 196, 0.4), 1px 1px rgba(255, 255, 255, 0.7),
+    2px 1px rgba(78, 205, 196, 0.25), 3px 1px rgba(78, 205, 196, 0.4),
+    /* Row 2 */
+    0px 2px rgba(78, 205, 196, 0.4), 1px 2px rgba(78, 205, 196, 0.25),
+    2px 2px rgba(78, 205, 196, 0.25), 3px 2px rgba(78, 205, 196, 0.4),
+    /* Row 3 */
+    1px 3px rgba(78, 205, 196, 0.4), 2px 3px rgba(78, 205, 196, 0.4);
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 8. Folder Icon (8x7) --- */
+.px-folder-icon {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: tab */
+    0px 0 #fbbf24, 1px 0 #fbbf24, 2px 0 #fbbf24, 3px 0 #fbbf24,
+    /* Row 1: top edge */
+    0px 1px #fb923c, 1px 1px #fbbf24, 2px 1px #fbbf24, 3px 1px #fbbf24,
+    4px 1px #fb923c, 5px 1px #fb923c, 6px 1px #fb923c, 7px 1px #fb923c,
+    /* Row 2: body */
+    0px 2px #fb923c, 1px 2px #fbbf24, 2px 2px #fbbf24, 3px 2px #fbbf24,
+    4px 2px #fbbf24, 5px 2px #fbbf24, 6px 2px #fbbf24, 7px 2px #fb923c,
+    /* Row 3 */
+    0px 3px #fb923c, 1px 3px #fbbf24, 2px 3px #fbbf24, 3px 3px #fbbf24,
+    4px 3px #fbbf24, 5px 3px #fbbf24, 6px 3px #fbbf24, 7px 3px #fb923c,
+    /* Row 4 */
+    0px 4px #fb923c, 1px 4px #fbbf24, 2px 4px #fbbf24, 3px 4px #fbbf24,
+    4px 4px #fbbf24, 5px 4px #fbbf24, 6px 4px #fbbf24, 7px 4px #fb923c,
+    /* Row 5 */
+    0px 5px #fb923c, 1px 5px #fbbf24, 2px 5px #fbbf24, 3px 5px #fbbf24,
+    4px 5px #fbbf24, 5px 5px #fbbf24, 6px 5px #fbbf24, 7px 5px #fb923c,
+    /* Row 6: bottom */
+    0px 6px #ea580c, 1px 6px #fb923c, 2px 6px #fb923c, 3px 6px #fb923c,
+    4px 6px #fb923c, 5px 6px #fb923c, 6px 6px #fb923c, 7px 6px #ea580c;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 9. File/Document Icon (6x8) --- */
+.px-file-icon {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: top with folded corner */
+    0px 0 #e2e8f0, 1px 0 #ffffff, 2px 0 #ffffff, 3px 0 #ffffff,
+    4px 0 #94a3b8,
+    /* Row 1: fold */
+    0px 1px #e2e8f0, 1px 1px #ffffff, 2px 1px #ffffff, 3px 1px #94a3b8,
+    4px 1px #e2e8f0, 5px 1px #94a3b8,
+    /* Row 2: body starts */
+    0px 2px #e2e8f0, 1px 2px #ffffff, 2px 2px #ffffff, 3px 2px #ffffff,
+    4px 2px #ffffff, 5px 2px #94a3b8,
+    /* Row 3: text line */
+    0px 3px #e2e8f0, 1px 3px #94a3b8, 2px 3px #94a3b8, 3px 3px #94a3b8,
+    4px 3px #ffffff, 5px 3px #94a3b8,
+    /* Row 4 */
+    0px 4px #e2e8f0, 1px 4px #ffffff, 2px 4px #ffffff, 3px 4px #ffffff,
+    4px 4px #ffffff, 5px 4px #94a3b8,
+    /* Row 5: text line */
+    0px 5px #e2e8f0, 1px 5px #94a3b8, 2px 5px #94a3b8, 3px 5px #ffffff,
+    4px 5px #ffffff, 5px 5px #94a3b8,
+    /* Row 6 */
+    0px 6px #e2e8f0, 1px 6px #ffffff, 2px 6px #ffffff, 3px 6px #ffffff,
+    4px 6px #ffffff, 5px 6px #94a3b8,
+    /* Row 7: bottom */
+    0px 7px #94a3b8, 1px 7px #94a3b8, 2px 7px #94a3b8, 3px 7px #94a3b8,
+    4px 7px #94a3b8, 5px 7px #94a3b8;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 10. Wooden Sign Post (16x20) --- */
+.px-sign {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: board top */
+    1px 0 #8b7355, 2px 0 #8b7355, 3px 0 #8b7355, 4px 0 #8b7355,
+    5px 0 #8b7355, 6px 0 #8b7355, 7px 0 #8b7355, 8px 0 #8b7355,
+    9px 0 #8b7355, 10px 0 #8b7355, 11px 0 #8b7355, 12px 0 #8b7355,
+    13px 0 #8b7355, 14px 0 #8b7355,
+    /* Row 1 */
+    0px 1px #8b7355, 1px 1px #c2b280, 2px 1px #c2b280, 3px 1px #c2b280,
+    4px 1px #c2b280, 5px 1px #c2b280, 6px 1px #c2b280, 7px 1px #c2b280,
+    8px 1px #c2b280, 9px 1px #c2b280, 10px 1px #c2b280, 11px 1px #c2b280,
+    12px 1px #c2b280, 13px 1px #c2b280, 14px 1px #8b7355, 15px 1px #8b7355,
+    /* Row 2 */
+    0px 2px #8b7355, 1px 2px #c2b280, 2px 2px #d4c89a, 3px 2px #c2b280,
+    4px 2px #c2b280, 5px 2px #d4c89a, 6px 2px #c2b280, 7px 2px #c2b280,
+    8px 2px #d4c89a, 9px 2px #c2b280, 10px 2px #c2b280, 11px 2px #d4c89a,
+    12px 2px #c2b280, 13px 2px #c2b280, 14px 2px #c2b280, 15px 2px #8b7355,
+    /* Row 3 */
+    0px 3px #8b7355, 1px 3px #c2b280, 2px 3px #c2b280, 3px 3px #c2b280,
+    4px 3px #c2b280, 5px 3px #c2b280, 6px 3px #c2b280, 7px 3px #c2b280,
+    8px 3px #c2b280, 9px 3px #c2b280, 10px 3px #c2b280, 11px 3px #c2b280,
+    12px 3px #c2b280, 13px 3px #c2b280, 14px 3px #c2b280, 15px 3px #8b7355,
+    /* Row 4 */
+    0px 4px #8b7355, 1px 4px #c2b280, 2px 4px #c2b280, 3px 4px #d4c89a,
+    4px 4px #c2b280, 5px 4px #c2b280, 6px 4px #c2b280, 7px 4px #d4c89a,
+    8px 4px #c2b280, 9px 4px #c2b280, 10px 4px #d4c89a, 11px 4px #c2b280,
+    12px 4px #c2b280, 13px 4px #d4c89a, 14px 4px #c2b280, 15px 4px #8b7355,
+    /* Row 5 */
+    0px 5px #8b7355, 1px 5px #c2b280, 2px 5px #c2b280, 3px 5px #c2b280,
+    4px 5px #c2b280, 5px 5px #c2b280, 6px 5px #c2b280, 7px 5px #c2b280,
+    8px 5px #c2b280, 9px 5px #c2b280, 10px 5px #c2b280, 11px 5px #c2b280,
+    12px 5px #c2b280, 13px 5px #c2b280, 14px 5px #c2b280, 15px 5px #8b7355,
+    /* Row 6 */
+    0px 6px #8b7355, 1px 6px #c2b280, 2px 6px #d4c89a, 3px 6px #c2b280,
+    4px 6px #c2b280, 5px 6px #d4c89a, 6px 6px #c2b280, 7px 6px #c2b280,
+    8px 6px #d4c89a, 9px 6px #c2b280, 10px 6px #c2b280, 11px 6px #d4c89a,
+    12px 6px #c2b280, 13px 6px #c2b280, 14px 6px #c2b280, 15px 6px #8b7355,
+    /* Row 7 */
+    0px 7px #8b7355, 1px 7px #c2b280, 2px 7px #c2b280, 3px 7px #c2b280,
+    4px 7px #c2b280, 5px 7px #c2b280, 6px 7px #c2b280, 7px 7px #c2b280,
+    8px 7px #c2b280, 9px 7px #c2b280, 10px 7px #c2b280, 11px 7px #c2b280,
+    12px 7px #c2b280, 13px 7px #c2b280, 14px 7px #c2b280, 15px 7px #8b7355,
+    /* Row 8: board bottom */
+    0px 8px #8b7355, 1px 8px #c2b280, 2px 8px #c2b280, 3px 8px #c2b280,
+    4px 8px #c2b280, 5px 8px #c2b280, 6px 8px #c2b280, 7px 8px #c2b280,
+    8px 8px #c2b280, 9px 8px #c2b280, 10px 8px #c2b280, 11px 8px #c2b280,
+    12px 8px #c2b280, 13px 8px #c2b280, 14px 8px #c2b280, 15px 8px #8b7355,
+    /* Row 9: board bottom edge */
+    1px 9px #8b7355, 2px 9px #8b7355, 3px 9px #8b7355, 4px 9px #8b7355,
+    5px 9px #8b7355, 6px 9px #8b7355, 7px 9px #8b7355, 8px 9px #8b7355,
+    9px 9px #8b7355, 10px 9px #8b7355, 11px 9px #8b7355, 12px 9px #8b7355,
+    13px 9px #8b7355, 14px 9px #8b7355,
+    /* Row 10-17: post */
+    7px 10px #8b7355, 8px 10px #c2b280,
+    7px 11px #8b7355, 8px 11px #c2b280,
+    7px 12px #8b7355, 8px 12px #c2b280,
+    7px 13px #8b7355, 8px 13px #c2b280,
+    7px 14px #8b7355, 8px 14px #c2b280,
+    7px 15px #8b7355, 8px 15px #c2b280,
+    7px 16px #8b7355, 8px 16px #c2b280,
+    7px 17px #8b7355, 8px 17px #c2b280,
+    /* Row 18: post wider at base */
+    6px 18px #8b7355, 7px 18px #8b7355, 8px 18px #c2b280, 9px 18px #8b7355,
+    /* Row 19: ground */
+    5px 19px #c2b280, 6px 19px #8b7355, 7px 19px #c2b280, 8px 19px #8b7355,
+    9px 19px #c2b280, 10px 19px #8b7355;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+/* --- 11. Glass Bottle with Note (6x12) --- */
+.px-bottle {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow:
+    /* Row 0: cork */
+    2px 0 #8b7355, 3px 0 #8b7355,
+    /* Row 1: neck */
+    2px 1px #c2b280, 3px 1px #c2b280,
+    /* Row 2: neck */
+    2px 2px rgba(78, 205, 196, 0.35), 3px 2px rgba(78, 205, 196, 0.35),
+    /* Row 3: shoulder */
+    1px 3px rgba(78, 205, 196, 0.3), 2px 3px rgba(78, 205, 196, 0.2),
+    3px 3px rgba(78, 205, 196, 0.2), 4px 3px rgba(78, 205, 196, 0.3),
+    /* Row 4: body */
+    0px 4px rgba(78, 205, 196, 0.35), 1px 4px rgba(78, 205, 196, 0.2),
+    2px 4px rgba(255, 255, 255, 0.15), 3px 4px rgba(255, 255, 255, 0.15),
+    4px 4px rgba(78, 205, 196, 0.2), 5px 4px rgba(78, 205, 196, 0.35),
+    /* Row 5: body with note */
+    0px 5px rgba(78, 205, 196, 0.35), 1px 5px rgba(78, 205, 196, 0.2),
+    2px 5px #fbbf24, 3px 5px #fbbf24, 4px 5px rgba(78, 205, 196, 0.2),
+    5px 5px rgba(78, 205, 196, 0.35),
+    /* Row 6: body with note */
+    0px 6px rgba(78, 205, 196, 0.35), 1px 6px rgba(78, 205, 196, 0.2),
+    2px 6px #fbbf24, 3px 6px #fb923c, 4px 6px rgba(78, 205, 196, 0.2),
+    5px 6px rgba(78, 205, 196, 0.35),
+    /* Row 7: body with note */
+    0px 7px rgba(78, 205, 196, 0.35), 1px 7px rgba(78, 205, 196, 0.2),
+    2px 7px #fbbf24, 3px 7px #fbbf24, 4px 7px rgba(78, 205, 196, 0.2),
+    5px 7px rgba(78, 205, 196, 0.35),
+    /* Row 8: body */
+    0px 8px rgba(78, 205, 196, 0.35), 1px 8px rgba(78, 205, 196, 0.2),
+    2px 8px rgba(255, 255, 255, 0.15), 3px 8px rgba(255, 255, 255, 0.15),
+    4px 8px rgba(78, 205, 196, 0.2), 5px 8px rgba(78, 205, 196, 0.35),
+    /* Row 9: body */
+    0px 9px rgba(78, 205, 196, 0.35), 1px 9px rgba(78, 205, 196, 0.2),
+    2px 9px rgba(78, 205, 196, 0.2), 3px 9px rgba(78, 205, 196, 0.2),
+    4px 9px rgba(78, 205, 196, 0.2), 5px 9px rgba(78, 205, 196, 0.35),
+    /* Row 10: bottom */
+    0px 10px rgba(78, 205, 196, 0.4), 1px 10px rgba(78, 205, 196, 0.35),
+    2px 10px rgba(78, 205, 196, 0.35), 3px 10px rgba(78, 205, 196, 0.35),
+    4px 10px rgba(78, 205, 196, 0.35), 5px 10px rgba(78, 205, 196, 0.4),
+    /* Row 11: sand */
+    0px 11px #c2b280, 1px 11px #8b7355, 2px 11px #c2b280, 3px 11px #8b7355,
+    4px 11px #c2b280, 5px 11px #8b7355;
+  transform: scale(var(--px-scale, 3));
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
