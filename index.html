@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finding Memo -- Learn AI Agentic Programming</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link href="assets/themes/pixel-sprites.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -17,17 +17,17 @@
       --indigo:#818cf8;--green:#00ff9d;--purple:#c084fc;
       --glow-teal:rgba(0,212,255,0.15);--glow-green:rgba(0,255,157,0.08);
       --border:#0d5068;--border-lt:#0a3848;
-      --px:3;--px-font:'Pixelify Sans',monospace;--mono:'Courier New',monospace;
-      --body-font:-apple-system,'Segoe UI',Roboto,sans-serif;--head-font:'Pixelify Sans',monospace;
+      --px:3;--px-font:'VT323',monospace;--mono:'Space Mono','Courier New',monospace;
+      --body-font:'Space Mono',-apple-system,sans-serif;--head-font:'VT323',monospace;
       --max-w:1060px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:14px;
+    body{font-family:var(--body-font);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:13px;
       background-image:radial-gradient(ellipse at 50% 0%,#061828 0%,#040e1e 40%,#020810 100%)}
     a{color:var(--teal);text-decoration:none}a:hover{color:#80ffcc}
     strong{color:var(--coral);font-weight:700}
     code{font-family:var(--mono);background:var(--surface);padding:1px 5px;border-radius:2px;font-size:0.88em;color:var(--teal)}
-    h1,h2,h3,.stitle,.logo,.px-btn,.expand-btn,.tip-n,.ctrl-prog,.chat-hd{font-family:var(--head-font)}
+    h1,h2,h3,.stitle,.logo,.px-btn,.expand-btn,.tip-n,.ctrl-prog,.chat-hd,.stag,.nav-lk{font-family:var(--head-font);letter-spacing:.02em}
 
     /* ---- Pixel art global ---- */
     .px{image-rendering:pixelated;image-rendering:crisp-edges}
@@ -64,23 +64,9 @@
 
     /* ---- Fish companion (global fixed) ---- */
     #fish{position:fixed;z-index:15;pointer-events:none;transition:left 1.2s ease,top 1.2s ease;will-change:left,top}
-    #fish .sprite{width:36px;height:24px;background:var(--coral);border-radius:0;position:relative;image-rendering:pixelated}
-    /* CSS pixel clownfish */
-    .pxfish{width:3px;height:3px;background:transparent;transform:scale(var(--px));position:absolute;left:50%;top:50%}
-    .pxfish.right{box-shadow:
-      0px -6px var(--coral),3px -6px var(--coral),
-      -3px -3px var(--coral),0px -3px #fff,3px -3px var(--coral),6px -3px var(--coral),
-      -6px 0px var(--coral),-3px 0px var(--coral),0px 0px #fff,3px 0px var(--coral),6px 0px var(--coral),9px 0px var(--coral),12px 0px var(--coral),
-      -3px 3px var(--coral),0px 3px #fff,3px 3px var(--coral),6px 3px var(--coral),9px 3px var(--coral),12px 3px var(--coral),
-      0px 6px var(--coral),3px 6px var(--coral),
-      -9px -3px #1a1a2e,-9px 0px #fff}
-    .pxfish.left{box-shadow:
-      0px -6px var(--coral),-3px -6px var(--coral),
-      3px -3px var(--coral),0px -3px #fff,-3px -3px var(--coral),-6px -3px var(--coral),
-      6px 0px var(--coral),3px 0px var(--coral),0px 0px #fff,-3px 0px var(--coral),-6px 0px var(--coral),-9px 0px var(--coral),-12px 0px var(--coral),
-      3px 3px var(--coral),0px 3px #fff,-3px 3px var(--coral),-6px 3px var(--coral),-9px 3px var(--coral),-12px 3px var(--coral),
-      0px 6px var(--coral),-3px 6px var(--coral),
-      9px -3px #1a1a2e,9px 0px #fff}
+    #fish .sprite{position:relative;image-rendering:pixelated}
+    #fish .fish-img{width:64px;height:auto;image-rendering:pixelated;transition:transform .3s}
+    #fish .fish-img.flip{transform:scaleX(-1)}
     #fish-bubble{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);padding:4px 10px;font-size:10px;color:#80ffcc;white-space:nowrap;opacity:0;transition:opacity .4s;font-family:var(--head-font);
       box-shadow:0 0 12px rgba(0,212,255,0.1);backdrop-filter:blur(4px)}
     #fish-bubble.show{opacity:1}
@@ -88,21 +74,23 @@
     #fish .sprite{animation:fishBob 2.5s ease-in-out infinite}
 
     /* ---- Decorations ---- */
-    .deco{position:absolute;pointer-events:none;z-index:0}
-    .deco-anemone{width:3px;height:3px;transform:scale(var(--px));box-shadow:
-      0 -12px #ff6b4a,3px -12px #ff6b4a,-3px -12px #ff6b4a,6px -9px #ff6b4a,-6px -9px #ff6b4a,
-      0 -9px #fb923c,3px -9px #fb923c,-3px -9px #fb923c,
-      0 -6px #fb923c,3px -6px #fb923c,-3px -6px #fb923c,6px -6px #fb923c,-6px -6px #fb923c,
-      0 -3px #c2b280,-3px -3px #c2b280,3px -3px #c2b280,
-      0 0px #8b7355,-3px 0px #8b7355,3px 0px #8b7355}
-    .deco-star{width:3px;height:3px;transform:scale(var(--px));box-shadow:
-      0 -6px #fbbf24,
-      -6px -3px #fbbf24,-3px -3px #fb923c,0 -3px #fb923c,3px -3px #fb923c,6px -3px #fbbf24,
-      -3px 0 #fbbf24,0 0 #fb923c,3px 0 #fbbf24,
-      -6px 3px #fbbf24,0 3px #fbbf24,6px 3px #fbbf24}
-    .deco-seaweed{width:3px;height:3px;transform:scale(var(--px));animation:sway 4s ease-in-out infinite;box-shadow:
-      0 0 #22c55e,0 -3px #22c55e,0 -6px #4ade80,3px -9px #4ade80,3px -12px #22c55e,0 -15px #16a34a,0 -18px #16a34a}
-    @keyframes sway{0%,100%{transform:scale(var(--px)) rotate(0)}50%{transform:scale(var(--px)) rotate(3deg)}}
+    .deco{position:absolute;pointer-events:none;z-index:0;image-rendering:pixelated}
+    .deco img{image-rendering:pixelated;display:block}
+    .deco-sway{animation:sway 4s ease-in-out infinite}
+    .deco-sway2{animation:sway 5.5s 1s ease-in-out infinite}
+    .deco-float{animation:dfloat 6s ease-in-out infinite}
+    @keyframes sway{0%,100%{transform:rotate(0)}50%{transform:rotate(3deg)}}
+    @keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .deco-glow{filter:drop-shadow(0 0 8px rgba(0,212,255,0.15))}
+    /* Ambient background fish */
+    .bg-fish{position:fixed;pointer-events:none;z-index:0;opacity:.12;image-rendering:pixelated;animation-timing-function:linear;animation-iteration-count:infinite}
+    .bg-fish img{image-rendering:pixelated;height:24px;width:auto}
+    .bgf1{top:20%;animation:swimR 28s -5s linear infinite}
+    .bgf2{top:55%;animation:swimL 35s -12s linear infinite}
+    .bgf3{top:75%;animation:swimR 22s -8s linear infinite}
+    .bgf4{top:35%;animation:swimL 30s -18s linear infinite}
+    @keyframes swimR{0%{left:-60px}100%{left:calc(100vw + 60px)}}
+    @keyframes swimL{0%{right:-60px;left:auto}100%{right:calc(100vw + 60px);left:auto}}
 
     /* ---- Nav ---- */
     nav{position:sticky;top:0;z-index:20;background:rgba(4,14,30,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,212,255,0.12);padding:0 16px;
@@ -258,7 +246,7 @@
 
 <!-- Fish companion -->
 <div id="fish" style="left:80%;top:45%">
-  <div class="sprite"><div class="px-fish-right" id="fishSprite"></div></div>
+  <div class="sprite"><img src="assets/sprites/clownfish-64.png" class="fish-img" id="fishSprite" alt="Marlin"></div>
   <div id="fish-bubble"></div>
 </div>
 
@@ -286,10 +274,18 @@
     </div>
     <div class="cue">scroll down</div>
   </div>
-  <div class="deco" style="bottom:40px;left:8%"><div class="px-anemone"></div></div>
-  <div class="deco" style="bottom:20px;right:12%"><div class="px-seaweed"></div></div>
-  <div class="deco" style="bottom:30px;left:50%"><div class="px-starfish"></div></div>
+  <div class="deco deco-sway" style="bottom:20px;left:4%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:80px"></div>
+  <div class="deco deco-sway2" style="bottom:20px;left:12%"><img src="assets/sprites/kenney-coral-pink.png" style="height:60px"></div>
+  <div class="deco" style="bottom:20px;right:6%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:70px"></div>
+  <div class="deco deco-sway" style="bottom:20px;right:15%"><img src="assets/sprites/kenney-coral-pink.png" style="height:50px;filter:hue-rotate(40deg)"></div>
+  <div class="deco" style="bottom:24px;left:40%"><img src="assets/sprites/kenney-seagrass.png" style="height:40px"></div>
 </section>
+
+<!-- Background ambient fish -->
+<div class="bg-fish bgf1"><img src="assets/sprites/kenney-fish-blue.png"></div>
+<div class="bg-fish bgf2"><img src="assets/sprites/kenney-fish-red.png" style="transform:scaleX(-1)"></div>
+<div class="bg-fish bgf3"><img src="assets/sprites/kenney-fish-green.png"></div>
+<div class="bg-fish bgf4"><img src="assets/sprites/kenney-fish-pink.png" style="transform:scaleX(-1)"></div>
 
 <!-- ======== BASICS ======== -->
 <section id="basics">
@@ -299,7 +295,7 @@
     <div class="basics-grid">
 
       <div class="px-card bcard reveal">
-        <div class="bcard-icon"><div class="px-fish-right" style="--px-scale:4"></div></div>
+        <div class="bcard-icon"><img src="assets/sprites/clownfish-64.png" style="width:48px;image-rendering:pixelated" alt="clownfish"></div>
         <h3>The Model</h3>
         <p>Text in, text out. <strong>Stateless</strong>. Smart but alone.</p>
         <span class="tag">Marlin's brain</span>
@@ -331,7 +327,7 @@
       </div>
 
       <div class="px-card bcard reveal">
-        <div class="bcard-icon"><div class="px-coral" style="--px-scale:4"></div></div>
+        <div class="bcard-icon"><img src="assets/sprites/kenney-coral-pink.png" style="width:48px;image-rendering:pixelated" alt="coral"></div>
         <h3>The Context</h3>
         <p>Everything the model can see. Its <strong>working memory</strong>. The real differentiator.</p>
         <span class="tag">Marlin vs Dory -- same brain, different capacity</span>
@@ -345,8 +341,9 @@
 
     </div>
   </div>
-  <div class="deco" style="bottom:20px;right:15%"><div class="px-starfish"></div></div>
-  <div class="deco" style="bottom:10px;left:5%"><div class="px-seaweed"></div></div>
+  <div class="deco deco-sway2" style="bottom:10px;right:8%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:60px;filter:hue-rotate(20deg)"></div>
+  <div class="deco" style="bottom:10px;left:3%"><img src="assets/sprites/kenney-coral-pink.png" style="height:50px;filter:hue-rotate(-20deg)"></div>
+  <div class="deco deco-sway" style="bottom:10px;left:45%"><img src="assets/sprites/kenney-seagrass.png" style="height:35px"></div>
 </section>
 
 <!-- ======== HOW IT WORKS ======== -->
@@ -455,8 +452,9 @@
       <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p></div>
     </div>
   </div>
-  <div class="deco" style="bottom:30px;left:10%"><div class="px-anemone"></div></div>
-  <div class="deco" style="bottom:20px;right:20%"><div class="px-starfish"></div></div>
+  <div class="deco deco-sway" style="bottom:10px;left:6%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:70px"></div>
+  <div class="deco" style="bottom:10px;right:10%"><img src="assets/sprites/kenney-coral-pink.png" style="height:55px;filter:hue-rotate(60deg)"></div>
+  <div class="deco deco-sway2" style="bottom:10px;left:55%"><img src="assets/sprites/kenney-seaweed-green.png" style="height:45px;filter:hue-rotate(-30deg)"></div>
 </section>
 
 <!-- ======== WATCH IT ======== -->
@@ -474,7 +472,7 @@
           <button class="px-btn" id="btnBack" style="font-size:9px;padding:4px 10px">&lt;</button>
           <button class="px-btn active" id="btnPlay" style="font-size:9px;padding:4px 10px">Play</button>
           <button class="px-btn" id="btnFwd" style="font-size:9px;padding:4px 10px">&gt;</button>
-          <div class="ctrl-prog" id="ctrlProg">0 / 16</div>
+          <div class="ctrl-prog" id="ctrlProg">0 / 17</div>
         </div>
       </div>
 
@@ -491,10 +489,14 @@
         <div class="px-card" style="padding:14px">
           <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Context usage</div>
           <div class="live-ctx" id="liveCtx">
+            <div class="lc-seg lc5" id="lc5"></div>
             <div class="lc-seg lc1" id="lc1"></div>
             <div class="lc-seg lc2" id="lc2"></div>
             <div class="lc-seg lc3" id="lc3"></div>
             <div class="lc-seg lc4" id="lc4"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:7px;color:var(--muted);margin-top:3px">
+            <span id="ctxPct">0%</span><span id="ctxLabel">ready</span>
           </div>
         </div>
       </div>
@@ -534,7 +536,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ---- Fish companion ----
   const fish=document.getElementById('fish');
-  const fishSprite=document.getElementById('fishSprite');
+  const fishImg=document.getElementById('fishSprite');
   const sections=['hero','basics','how-it-works','mindset','watch-it'];
   const fishPositions={
     'hero':{left:'75%',top:'45%'},
@@ -558,7 +560,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             fish.style.left=p.left;fish.style.top=p.top;
             // Flip fish based on direction
             const goingRight=parseInt(p.left)>parseInt(fish.style.left||'50');
-            fishSprite.className=goingRight?'px-fish-right':'px-fish-left';
+            fishImg.classList.toggle('flip',!goingRight);
           },300);
         }
       },
@@ -569,7 +571,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             currentSection=id;
             const p=fishPositions[id];
             fish.style.left=p.left;fish.style.top=p.top;
-            fishSprite.className='px-fish-left';
+            fishImg.classList.add('flip');
           },300);
         }
       }
@@ -626,23 +628,43 @@ document.addEventListener('DOMContentLoaded',()=>{
   }});
 
   // ---- Chat simulation ----
+  // ctx: [system, instructions, conversation, tool_results, compacted] — percentages of bar width
   const steps=[
-    {type:'user',text:'"Create slides to introduce programmers to AI agents"'},
-    {type:'think',text:'Presentation task. Use /create-slides skill.',fish:'Marlin looks around...',loop:'think'},
-    {type:'tool',name:'UseSkill',args:'/create-slides',text:'Orchestrator loaded.',fish:'The tunnel appears',loop:'act'},
-    {type:'think',text:'Need a metaphor. Spawning research task.',loop:'think'},
-    {type:'task',name:'Task: Research',text:'Subagent searching for analogy...',fish:'Dory joins',loop:'act'},
-    {type:'tool',name:'WebSearch',args:'"Finding Nemo AI"',text:'Ocean crossing maps to agent navigation.',loop:'observe'},
-    {type:'task-r',name:'Task done',text:'Finding Memo. Marlin=Agent, Tunnels=Harness.',fish:'Route chosen',loop:'observe'},
-    {type:'task',name:'Task: Download',text:'Fetching 4 movie stills...',loop:'act'},
-    {type:'task-r',name:'Task done',text:'generic.jpg, love.jpg, harness.jpg, mindset.jpg',loop:'observe'},
-    {type:'think',text:'Plottwist: slides ARE the example.',fish:'The ocean IS the lesson',loop:'think'},
-    {type:'tool',name:'Write',args:'finding-memo.css',text:'Ocean pastel theme.',fish:'Crush builds walls',loop:'act'},
-    {type:'tool',name:'Write',args:'deck.md',text:'14 slides written.',fish:'Each slide is a stroke',loop:'act'},
-    {type:'tool',name:'Bash',args:'npm run build',text:'14 slides generated.',loop:'act'},
-    {type:'tool',name:'Read',args:'screenshots',text:'Slides 6,8 overflow.',fish:'Marlin checks',loop:'observe'},
-    {type:'tool',name:'Edit',args:'deck.md',text:'Trimmed. Rebuilt.',fish:'Loop repeats',loop:'act'},
-    {type:'result',text:'14 slides. All clean. Ready.',fish:'Marlin found Memo.'}
+    {type:'user',text:'"Create slides to introduce programmers to AI agents"',
+      ctx:[12,8,5,0,0]},
+    {type:'think',text:'Presentation task. Loading /create-slides skill.',fish:'Marlin looks around...',loop:'think',
+      ctx:[12,14,8,0,0]},
+    {type:'tool',name:'Skill',args:'/create-slides',text:'Orchestrator skill loaded into context.',fish:'The tunnel appears',loop:'act',
+      ctx:[12,14,10,6,0]},
+    {type:'think',text:'Need a metaphor. Spawning Explore subagent in background.',loop:'think',
+      ctx:[12,14,14,6,0]},
+    {type:'task',name:'Agent (Explore)',args:'subagent_type: "Explore", run_in_background: true',text:'Subagent searching for movie analogies that map to AI agent concepts...',fish:'Dory joins',loop:'act',
+      ctx:[12,14,16,10,0]},
+    {type:'tool',name:'Glob',args:'**/*.{md,css,html}',text:'Scanned workspace: 12 files. Assessing project structure.',loop:'act',
+      ctx:[12,14,18,16,0]},
+    {type:'task-r',name:'Explore agent done',text:'Finding Memo — Marlin=Agent, Water Tunnels=Harness, Crush=Human.',fish:'Route chosen',loop:'observe',
+      ctx:[12,14,22,20,0]},
+    {type:'think',text:'Good analogy. Spawn two subagents in parallel for speed.',fish:'The ocean IS the lesson',loop:'think',
+      ctx:[12,14,26,20,0]},
+    {type:'task',name:'Agent ×2 (parallel)',args:'["Download 4 movie stills (WebFetch)", "Draft CSS ocean theme (Write)"]',text:'Two subagents launched simultaneously — image fetcher and theme builder.',loop:'act',
+      ctx:[12,14,28,26,0]},
+    {type:'task-r',name:'Both agents done',text:'generic.jpg, love.jpg, harness.jpg, mindset.jpg + finding-memo.css.',loop:'observe',
+      ctx:[12,14,32,32,0]},
+    // COMPACTION — context is ~90% full, oldest conversation & tool results get summarized
+    {type:'compact',name:'Auto-compact',text:'Context 92% full. Summarizing old conversation turns and tool results to free space.',fish:'Dory forgets...',loop:'think',
+      ctx:[12,14,10,8,22]},
+    {type:'tool',name:'Write',args:'deck.md',text:'14 slides with plottwists written.',fish:'Each slide is a stroke',loop:'act',
+      ctx:[12,14,14,14,22]},
+    {type:'tool',name:'Bash',args:'npx @marp-team/marp-cli deck.md -o slides/',text:'Build: 14 slides generated as HTML.',loop:'act',
+      ctx:[12,14,18,20,22]},
+    {type:'tool',name:'Read',args:'slides/deck.html (screenshots)',text:'Slides 6, 8 have overflowing text. Need trimming.',fish:'Marlin checks',loop:'observe',
+      ctx:[12,14,22,26,22]},
+    {type:'task',name:'Agent (worktree)',args:'isolation: "worktree", prompt: "Fix overflow in slides 6 and 8"',text:'Subagent editing in isolated worktree — safe to experiment.',fish:'Loop repeats',loop:'act',
+      ctx:[12,14,24,30,22]},
+    {type:'task-r',name:'Worktree agent done',text:'Content trimmed. Rebuilt clean. Changes merged back. No overflow.',loop:'observe',
+      ctx:[12,14,26,34,22]},
+    {type:'result',text:'14 slides. All clean. Subagents: 4 spawned, 1 compaction. Ready.',fish:'Marlin found Memo.',
+      ctx:[12,14,28,34,22]}
   ];
 
   const chatMsgs=document.getElementById('chatMsgs');
@@ -651,8 +673,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const chatStatus=document.getElementById('chatStatus');
   let current=-1,playing=false,timer=null;
 
-  function tMap(t){return{user:'msg-user',think:'msg-think',tool:'msg-tool',task:'msg-task','task-r':'msg-task-r',result:'msg-result'}[t]||'msg-tool'}
-  function lMap(t){return{user:'User',think:'Agent thinks',tool:'Tool call',task:'Subagent','task-r':'Subagent result',result:'Done'}[t]||''}
+  function tMap(t){return{user:'msg-user',think:'msg-think',tool:'msg-tool',task:'msg-task','task-r':'msg-task-r',result:'msg-result',compact:'msg-compact'}[t]||'msg-tool'}
+  function lMap(t){return{user:'User',think:'Agent thinks',tool:'Tool call',task:'Subagent','task-r':'Subagent result',result:'Done',compact:'Compaction'}[t]||''}
 
   function buildMsg(s){
     const d=document.createElement('div');d.className='chat-msg '+tMap(s.type);
@@ -662,7 +684,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     h+='<div class="mb">'+s.text+'</div>';d.innerHTML=h;return d;
   }
 
-  // Live loop highlighting
+  // Live loop highlighting + context visualization
   function syncLive(idx){
     const s=steps[idx];
     ['llP','llT','llA','llO'].forEach(id=>document.getElementById(id)?.classList.remove('lit'));
@@ -670,12 +692,19 @@ document.addEventListener('DOMContentLoaded',()=>{
       const map={think:'llT',act:'llA',observe:'llO',prompt:'llP'};
       document.getElementById(map[s.loop])?.classList.add('lit');
     }
-    // Context growth
-    const pct=Math.min(((idx+1)/steps.length)*100,100);
-    document.getElementById('lc1').style.width='15%';
-    document.getElementById('lc2').style.width=Math.min(pct*.3,25)+'%';
-    document.getElementById('lc3').style.width=Math.min(pct*.4,35)+'%';
-    document.getElementById('lc4').style.width=Math.min(pct*.3,25)+'%';
+    // Context segments from step data
+    const ctx=s?s.ctx:[0,0,0,0,0];
+    const total=ctx.reduce((a,b)=>a+b,0);
+    document.getElementById('lc1').style.width=ctx[0]+'%';
+    document.getElementById('lc2').style.width=ctx[1]+'%';
+    document.getElementById('lc3').style.width=ctx[2]+'%';
+    document.getElementById('lc4').style.width=ctx[3]+'%';
+    document.getElementById('lc5').style.width=ctx[4]+'%';
+    // Labels
+    const pctEl=document.getElementById('ctxPct');
+    const lblEl=document.getElementById('ctxLabel');
+    if(pctEl)pctEl.textContent=total+'%';
+    if(lblEl)lblEl.textContent=s&&s.type==='compact'?'compacting...':total>85?'almost full':total>60?'growing':'filling';
   }
 
   function renderTo(idx){
@@ -693,7 +722,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function stepFwd(){if(current>=steps.length-1){pause();return}current++;renderTo(current)}
   function stepBk(){if(current<=0)return;current--;renderTo(current)}
   function play(){playing=true;document.getElementById('btnPlay').textContent='Pause';document.getElementById('btnPlay').classList.add('active');
-    timer=setInterval(()=>{if(current>=steps.length-1){pause();return}stepFwd()},3500)}
+    timer=setInterval(()=>{if(current>=steps.length-1){pause();return}stepFwd()},3000)}
   function pause(){playing=false;clearInterval(timer);document.getElementById('btnPlay').textContent='Play';document.getElementById('btnPlay').classList.remove('active')}
 
   document.getElementById('btnPlay').addEventListener('click',()=>{playing?pause():play()});
