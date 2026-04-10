@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finding Memo -- Learn AI Agentic Programming</title>
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link href="assets/themes/pixel-sprites.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <style>
@@ -227,7 +228,7 @@
 
 <!-- Fish companion -->
 <div id="fish" style="left:80%;top:45%">
-  <div class="sprite"><div class="pxfish right px"></div></div>
+  <div class="sprite"><div class="px-fish-right" id="fishSprite"></div></div>
   <div id="fish-bubble"></div>
 </div>
 
@@ -255,9 +256,9 @@
     </div>
     <div class="cue">scroll down</div>
   </div>
-  <div class="deco deco-anemone" style="bottom:40px;left:8%"></div>
-  <div class="deco deco-seaweed" style="bottom:20px;right:12%"></div>
-  <div class="deco deco-star" style="bottom:30px;left:50%"></div>
+  <div class="deco" style="bottom:40px;left:8%"><div class="px-anemone"></div></div>
+  <div class="deco" style="bottom:20px;right:12%"><div class="px-seaweed"></div></div>
+  <div class="deco" style="bottom:30px;left:50%"><div class="px-starfish"></div></div>
 </section>
 
 <!-- ======== BASICS ======== -->
@@ -268,7 +269,7 @@
     <div class="basics-grid">
 
       <div class="px-card bcard reveal">
-        <div class="bcard-icon"><div class="pxfish right px" style="transform:scale(4)"></div></div>
+        <div class="bcard-icon"><div class="px-fish-right" style="--px-scale:4"></div></div>
         <h3>The Model</h3>
         <p>Text in, text out. <strong>Stateless</strong>. Smart but alone.</p>
         <span class="tag">Marlin's brain</span>
@@ -300,7 +301,7 @@
       </div>
 
       <div class="px-card bcard reveal">
-        <div class="bcard-icon"><div class="deco-anemone" style="position:static;transform:scale(4)"></div></div>
+        <div class="bcard-icon"><div class="px-coral" style="--px-scale:4"></div></div>
         <h3>The Context</h3>
         <p>Everything the model can see. Its <strong>working memory</strong>. The real differentiator.</p>
         <span class="tag">Marlin vs Dory -- same brain, different capacity</span>
@@ -314,8 +315,8 @@
 
     </div>
   </div>
-  <div class="deco deco-star" style="bottom:20px;right:15%"></div>
-  <div class="deco deco-seaweed" style="bottom:10px;left:5%"></div>
+  <div class="deco" style="bottom:20px;right:15%"><div class="px-starfish"></div></div>
+  <div class="deco" style="bottom:10px;left:5%"><div class="px-seaweed"></div></div>
 </section>
 
 <!-- ======== HOW IT WORKS ======== -->
@@ -424,8 +425,8 @@
       <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p></div>
     </div>
   </div>
-  <div class="deco deco-anemone" style="bottom:30px;left:10%"></div>
-  <div class="deco deco-star" style="bottom:20px;right:20%"></div>
+  <div class="deco" style="bottom:30px;left:10%"><div class="px-anemone"></div></div>
+  <div class="deco" style="bottom:20px;right:20%"><div class="px-starfish"></div></div>
 </section>
 
 <!-- ======== WATCH IT ======== -->
@@ -503,7 +504,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ---- Fish companion ----
   const fish=document.getElementById('fish');
-  const fishSprite=fish.querySelector('.pxfish');
+  const fishSprite=document.getElementById('fishSprite');
   const sections=['hero','basics','how-it-works','mindset','watch-it'];
   const fishPositions={
     'hero':{left:'75%',top:'45%'},
@@ -527,7 +528,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             fish.style.left=p.left;fish.style.top=p.top;
             // Flip fish based on direction
             const goingRight=parseInt(p.left)>parseInt(fish.style.left||'50');
-            fishSprite.className='pxfish px '+(goingRight?'right':'left');
+            fishSprite.className=goingRight?'px-fish-right':'px-fish-left';
           },300);
         }
       },
@@ -538,7 +539,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             currentSection=id;
             const p=fishPositions[id];
             fish.style.left=p.left;fish.style.top=p.top;
-            fishSprite.className='pxfish px left';
+            fishSprite.className='px-fish-left';
           },300);
         }
       }
