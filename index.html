@@ -687,7 +687,65 @@
 </footer>
 
 <script>
+// ========================================
+// CONTROLS — run immediately, no dependencies
+// ========================================
 document.addEventListener('DOMContentLoaded',()=>{
+
+  // ---- Text size ----
+  const SIZES=[12,13,14,15,16,17,18,19,20];
+  let sizeIdx=SIZES.indexOf(+(localStorage.getItem('fm-size')||15));
+  if(sizeIdx<0)sizeIdx=3;
+  function setSize(idx){
+    sizeIdx=Math.max(0,Math.min(SIZES.length-1,idx));
+    document.documentElement.style.setProperty('--base-size',SIZES[sizeIdx]+'px');
+    localStorage.setItem('fm-size',SIZES[sizeIdx]);
+  }
+  document.querySelectorAll('.size-btn').forEach(b=>{
+    b.addEventListener('click',function(){setSize(sizeIdx+parseInt(this.dataset.delta))});
+  });
+  setSize(sizeIdx);
+
+  // ---- Mode (basic / advanced) ----
+  function setMode(mode){
+    document.body.classList.remove('mode-basic','mode-advanced');
+    document.body.classList.add('mode-'+mode);
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+    localStorage.setItem('fm-mode',mode);
+    document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.toggle('show',mode==='advanced'));
+  }
+  document.querySelectorAll('.mode-btn').forEach(b=>{
+    b.addEventListener('click',function(){setMode(this.dataset.mode)});
+  });
+  setMode(localStorage.getItem('fm-mode')||'basic');
+
+  // ---- Smooth nav scroll ----
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})});
+  });
+
+  // ---- Loop toggle (basic/advanced hooks) ----
+  document.querySelectorAll('#loopToggle button').forEach(btn=>{
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#loopToggle button').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+      document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.toggle('show',this.dataset.m==='advanced'));
+    });
+  });
+
+  console.log('[FindingMemo] Controls ready');
+
+  // ========================================
+  // GSAP — only if available
+  // ========================================
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined'){
+    console.warn('[FindingMemo] GSAP not loaded — animations disabled, controls still work');
+    // Still reveal all elements
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('on'));
+    document.querySelectorAll('.ft-l').forEach(el=>el.classList.add('on'));
+    return;
+  }
+
   gsap.registerPlugin(ScrollTrigger);
 
   // ---- Progress ----
@@ -699,38 +757,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     ScrollTrigger.create({trigger:'#'+a.dataset.s,start:'top 40%',end:'bottom 40%',
       onToggle:s=>a.classList.toggle('active',s.isActive)});
   });
-
-  // ---- Text size system ----
-  const SIZES=[12,13,14,15,16,17,18,19,20];
-  let sizeIdx=SIZES.indexOf(+(localStorage.getItem('fm-size')||15));
-  if(sizeIdx<0)sizeIdx=3;
-
-  function setSize(idx){
-    sizeIdx=Math.max(0,Math.min(SIZES.length-1,idx));
-    const px=SIZES[sizeIdx];
-    document.documentElement.style.setProperty('--base-size',px+'px');
-    localStorage.setItem('fm-size',px);
-    setTimeout(()=>ScrollTrigger.refresh(),300);
-  }
-  document.querySelectorAll('.size-btn').forEach(b=>{
-    b.addEventListener('click',()=>setSize(sizeIdx+parseInt(b.dataset.delta)));
-  });
-  setSize(sizeIdx);
-
-  // ---- Mode system (basic / advanced) ----
-  function setMode(mode){
-    document.body.className='mode-'+mode;
-    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
-    localStorage.setItem('fm-mode',mode);
-    // Hooks show in advanced
-    const adv=mode==='advanced';
-    document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.toggle('show',adv));
-    setTimeout(()=>ScrollTrigger.refresh(),400);
-  }
-  document.querySelectorAll('.mode-btn').forEach(b=>{
-    b.addEventListener('click',()=>setMode(b.dataset.mode));
-  });
-  setMode(localStorage.getItem('fm-mode')||'basic');
 
   // ---- Reveal ----
   document.querySelectorAll('.reveal').forEach(el=>{
@@ -867,21 +893,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   // Spawn initial batch + continuous
   for(let i=0;i<5;i++)setTimeout(spawnFauna,i*2000);
   setInterval(spawnFauna,4000);
-
-  // ---- Smooth nav ----
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})});
-  });
-
-  // ---- Loop toggle ----
-  document.querySelectorAll('#loopToggle button').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('#loopToggle button').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const adv=btn.dataset.m==='advanced';
-      document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.toggle('show',adv));
-    });
-  });
 
   // ---- File tree (multi-tool harness) ----
   // Each tool defines: tree structure + file previews
