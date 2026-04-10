@@ -25,8 +25,8 @@ There's also a [14-slide MARP presentation](https://lotape6.github.io/FindingMem
 | Finding Nemo | AI | |
 |---|---|---|
 | Marlin | The Agent | The intelligence that drives action |
-| Water Tunnels | The Harness | Infrastructure that carries the agent |
-| Crush | The Human | Knows the tunnels, builds the tunnels |
+| Water Currents | The Harness | Infrastructure that carries the agent |
+| Crush | The Human | Knows the currents, builds the currents |
 | Dory | Subagent | Same brain, smaller context |
 
 ## Run locally

@@ -12,9 +12,7 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "build:intro": "marp lessons/00-introduction/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -o output/00-introduction.html && bash scripts/inline-images.sh output/00-introduction.html",
-    "build:agent-loop": "marp lessons/01-agent-loop/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -o output/01-agent-loop.html && bash scripts/inline-images.sh output/01-agent-loop.html",
-    "preview:intro": "marp lessons/00-introduction/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -p",
-    "preview:agent-loop": "marp lessons/01-agent-loop/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -p"
+    "preview:intro": "marp lessons/00-introduction/deck.md --theme-set assets/themes/finding-memo.css --html true --allow-local-files -p"
   },
   "devDependencies": {
     "@marp-team/marp-cli": "^4.1.1"

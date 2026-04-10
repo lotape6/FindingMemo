@@ -247,6 +247,20 @@
     footer{text-align:center;padding:32px 16px 40px;font-size:9px;color:var(--muted);position:relative;z-index:1}
     .fsep{margin:0 6px;opacity:.3}
 
+    /* ---- Level system ---- */
+    .lvl-sel{display:flex;gap:2px;margin-left:auto;margin-right:16px}
+    .lvl-btn{font-family:var(--head-font);font-size:11px;padding:3px 10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;transition:all .15s}
+    .lvl-btn:hover{color:var(--text);border-color:var(--teal)}
+    .lvl-btn.active{background:rgba(0,212,255,0.15);color:var(--teal);border-color:var(--teal)}
+    /* Level visibility */
+    body.level-1 [data-level="2"],body.level-1 [data-level="3"]{opacity:0;max-height:0;overflow:hidden;margin:0;padding:0;border:none;pointer-events:none;transition:opacity .3s,max-height .4s}
+    body.level-2 [data-level="3"]{opacity:0;max-height:0;overflow:hidden;margin:0;padding:0;border:none;pointer-events:none;transition:opacity .3s,max-height .4s}
+    [data-level]{opacity:1;max-height:2000px;transition:opacity .3s,max-height .4s}
+    /* Level badges */
+    .lvl-badge{font-family:var(--head-font);font-size:8px;padding:1px 5px;border-radius:3px;vertical-align:middle;margin-left:4px}
+    .lvl-badge.l2{background:rgba(0,212,255,0.1);color:var(--teal)}
+    .lvl-badge.l3{background:rgba(192,132,252,0.1);color:var(--purple)}
+
     /* ---- Responsive ---- */
     @media(max-width:768px){
       .basics-grid,.hw-split,.mindset-floor,.watch-split{grid-template-columns:1fr}
@@ -275,6 +289,11 @@
       <a href="#mindset" data-s="mindset">Mindset</a>
       <a href="#watch-it" data-s="watch-it">Live</a>
       <a href="https://github.com/lotape6/FindingMemo" target="_blank">GitHub</a>
+    </div>
+    <div class="lvl-sel" id="levelSel">
+      <button class="lvl-btn active" data-level="1" title="Essentials">L1</button>
+      <button class="lvl-btn" data-level="2" title="Practitioner">L2</button>
+      <button class="lvl-btn" data-level="3" title="Expert">L3</button>
     </div>
   </div>
 </nav>
@@ -323,6 +342,12 @@
           <p><strong>Examples</strong>: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google), Llama (Meta), Mistral, Command R (Cohere)</p>
           <p><strong>Key insight</strong>: the model is a function — <code>f(prompt) = completion</code>. It cannot read files, browse the web, or remember you.</p>
         </div>
+        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+          <p><strong>Statelessness in practice</strong>: every API call starts fresh. The model has zero memory of your previous conversation unless you resend it. "Memory" is an illusion created by the harness replaying history.</p>
+        </div>
+        <div data-level="3" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+          <p><strong>Under the hood</strong>: models are transformer neural networks. Key parameters: temperature (randomness), top-p (sampling), max tokens (output length). Token economics: input tokens are cheaper than output tokens. Context window size determines how much the model can "see" at once.</p>
+        </div>
       </div>
 
       <div class="px-card bcard reveal">
@@ -340,7 +365,14 @@
         <div class="bcard-detail">
           <p><strong>Three ingredients</strong>: the model (brain), the loop (persistence), the tools (hands).</p>
           <p><strong>The model decides everything</strong> — what tool to call, when to stop, how to combine results. The "agent framework" is just a while loop.</p>
-          <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter</p>
+          <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter, OpenCode</p>
+        </div>
+        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+          <p><strong>The entire agent in ~25 lines</strong>: <code>while True: response = model(messages); if no tool_use: return; execute tools; append results; loop</code>. The "write-back" of tool results into conversation is the key concept.</p>
+        </div>
+        <div data-level="3" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+          <p><strong>Subagents</strong>: a <code>task</code> tool spawns a child with <code>messages=[]</code> (fresh context). Only the final summary returns. Children don't get the task tool (no recursion). This is a context boundary, not a process trick.</p>
+          <p><strong>Worktree isolation</strong>: each subagent can run in its own git worktree — separate branch, separate files, safe to experiment. Changes merge back only on success.</p>
         </div>
       </div>
 
@@ -354,6 +386,13 @@
           <p><strong>Context = prompt + history + tool results</strong>. It's all just text stacked in a window.</p>
           <p><strong>When full</strong>: oldest parts get compacted (summarized or dropped). This is why long sessions degrade.</p>
           <p><strong>Sizes</strong>: 8K (small), 128K (standard), 200K (large), 1M (Claude Opus)</p>
+        </div>
+        <div data-level="3" style="margin-top:8px;font-size:10px;color:var(--text-soft)">
+          <p><strong>4 levers of compaction</strong>:</p>
+          <p>1. <strong>Persisted output</strong>: tool results &gt;50KB written to disk, replaced with preview marker</p>
+          <p>2. <strong>Micro-compact</strong>: silent per-turn pass replacing old tool_result blocks older than 3 turns</p>
+          <p>3. <strong>Auto-compact</strong>: when tokens exceed threshold, LLM summarizes all messages</p>
+          <p>4. <strong>Manual compact</strong>: model explicitly calls a compact tool</p>
         </div>
       </div>
 
@@ -373,9 +412,9 @@
     <div class="hw-split">
       <div class="px-card reveal" id="loop-panel">
         <h3 style="font-size:12px;margin-bottom:8px">The Agent Loop</h3>
-        <div class="px-toggle" id="loopToggle">
+        <div class="px-toggle" id="loopToggle" data-level="2">
           <button class="active" data-m="basic">Basic</button>
-          <button data-m="advanced">Advanced</button>
+          <button data-m="advanced">+ Hooks</button>
         </div>
         <div class="loop-wrap" id="loopWrap">
           <div class="loop-ring-svg"><svg viewBox="0 0 280 220" fill="none">
@@ -389,6 +428,18 @@
           <div class="lnode hook ln-preh" id="lnPreH">Pre-hook</div>
           <div class="lnode hook ln-posth" id="lnPostH">Post-hook</div>
         </div>
+      </div>
+
+      <div data-level="3" class="px-card reveal" style="grid-column:1/-1">
+        <h3 style="font-size:12px;margin-bottom:8px">Permission Pipeline <span class="lvl-badge l3">L3</span></h3>
+        <p style="font-size:10px;color:var(--text-soft);margin-bottom:8px">Four stages checked in order. First definitive answer wins.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:9px">
+          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>1. Deny rules</strong><br>Bypass-immune blocklist. Always checked first.</div>
+          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>2. Mode check</strong><br>default=ask, plan=block writes, auto=allow reads.</div>
+          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>3. Allow rules</strong><br>Pattern-matched allowlist.</div>
+          <div class="px-card" style="flex:1;min-width:140px;padding:10px"><strong>4. Ask user</strong><br>Interactive y/n/always. "Always" writes a permanent rule.</div>
+        </div>
+        <p style="font-size:9px;color:var(--muted);margin-top:6px">Circuit breaker: after 3 consecutive denials, suggests switching to plan mode.</p>
       </div>
 
       <div class="px-card reveal">
@@ -411,7 +462,7 @@
       <h3 style="font-size:12px;margin-bottom:8px">Context Window</h3>
       <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Step through an example execution. Watch context grow, fill, and get compacted.</p>
 
-      <div class="ctx-legend">
+      <div class="ctx-legend" data-level="2">
         <div class="ctx-legend-item"><div class="swatch" style="background:#134e4a"></div>System</div>
         <div class="ctx-legend-item"><div class="swatch" style="background:#065f46"></div>Instructions</div>
         <div class="ctx-legend-item"><div class="swatch" style="background:#047857"></div>Conversation</div>
@@ -420,12 +471,12 @@
         <div class="ctx-legend-item"><div class="swatch" style="background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 2px,#475569 2px,#475569 4px)"></div>Compacted</div>
       </div>
 
-      <div class="ctx-step-info" id="ctxStepInfo">
+      <div class="ctx-step-info" data-level="2" id="ctxStepInfo">
         <span class="step-label">ready</span>
         <span class="step-text">Press Play or use arrows to step through</span>
       </div>
 
-      <div class="ctx-demo-bar" id="ctxDemoBar">
+      <div class="ctx-demo-bar" data-level="2" id="ctxDemoBar">
         <div class="cd-seg cd-compact" id="cdCompact" style="width:0"></div>
         <div class="cd-seg cd-sys" id="cdSys" style="width:0">Sys</div>
         <div class="cd-seg cd-inst" id="cdInst" style="width:0">Inst</div>
@@ -435,9 +486,9 @@
         <div class="cd-seg cd-empty" id="cdEmpty"></div>
       </div>
 
-      <div class="ctx-pct-bar"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
+      <div class="ctx-pct-bar" data-level="2"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
 
-      <div class="ctx-demo-ctrl">
+      <div class="ctx-demo-ctrl" data-level="2">
         <button class="px-btn" id="ctxBtnBack">&lt;</button>
         <button class="px-btn active" id="ctxBtnPlay">Play</button>
         <button class="px-btn" id="ctxBtnFwd">&gt;</button>
@@ -449,10 +500,13 @@
     <!-- Harness -->
     <div class="stag" style="margin-top:40px">The infrastructure</div>
     <h2 class="stitle">The Harness</h2>
-    <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Configuration files that shape agent behavior. Same pattern across tools -- different paths.</p>
+    <p style="font-size:10px;color:var(--text-soft);margin-bottom:6px">Configuration files that shape agent behavior. Your intelligence, crystallized into file structure.</p>
+    <div data-level="1" class="px-card" style="margin-bottom:16px;font-size:11px;color:var(--text-soft)">
+      <p>Three layers of config: <strong>global</strong> (your identity and rules), <strong>user</strong> (your preferences, skills, and hooks), and <strong>project</strong> (project-specific instructions and code). The agent reads all three at startup and merges them by priority.</p>
+    </div>
 
     <!-- Scope toggle -->
-    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px">
+    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px" data-level="2">
       <button class="active" data-tool="generic">Generic</button>
       <button data-tool="claude">Claude Code</button>
       <button data-tool="copilot">GitHub Copilot</button>
@@ -476,10 +530,18 @@
     <div class="stag">Practical rules</div>
     <h2 class="stitle">The Mindset</h2>
     <div class="mindset-floor">
-      <div class="mind-item reveal"><h3>Never prompt in chat</h3><p>Write in an editor. Read it twice. Dehumanize -- you're configuring a system, not chatting.</p></div>
-      <div class="mind-item reveal"><h3>Scripting has evolved</h3><p>Create skills, agents, reusable context. Write instructions once, reuse forever.</p></div>
-      <div class="mind-item reveal"><h3>Keep context congruent</h3><p>Don't teach the model to be smart. Give it the right information. Your job is congruence.</p></div>
-      <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p></div>
+      <div class="mind-item reveal"><h3>Never prompt in chat</h3><p>Write in an editor. Read it twice. Dehumanize -- you're configuring a system, not chatting.</p>
+        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">Strip "please", "could you", "I was wondering". Replace with: "Do X. Output format: Y. Constraints: Z."</div>
+      </div>
+      <div class="mind-item reveal"><h3>Scripting has evolved</h3><p>Create skills, agents, reusable context. Write instructions once, reuse forever.</p>
+        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">If you've typed the same instruction 3 times, make it a skill file. Skills are two-layer: cheap name in system prompt, full body loaded on demand.</div>
+      </div>
+      <div class="mind-item reveal"><h3>Keep context congruent</h3><p>Don't teach the model to be smart. Give it the right information. Your job is congruence.</p>
+        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">Contradictions in your instruction files = confused output. Review all your .md files as a system — do they tell a consistent story?</div>
+      </div>
+      <div class="mind-item reveal"><h3>Think first, then prompt</h3><p>Every wasted token is a wasted thought. Plan before you execute.</p>
+        <div data-level="2" style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px">Use plan mode for non-trivial tasks. Break complex work into tasks. The agent loop is cheap — your context window is the expensive resource.</div>
+      </div>
     </div>
   </div>
   <div class="deco deco-sway" style="bottom:0;left:0"><img src="assets/sprites/kenney-seaweed-green.png" style="height:75px"></div>
@@ -505,7 +567,7 @@
         </div>
       </div>
 
-      <div class="live-panel">
+      <div class="live-panel" data-level="2">
         <div class="px-card" style="padding:14px">
           <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Loop state</div>
           <div class="live-loop" id="liveLoop">
@@ -557,6 +619,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     ScrollTrigger.create({trigger:'#'+a.dataset.s,start:'top 40%',end:'bottom 40%',
       onToggle:s=>a.classList.toggle('active',s.isActive)});
   });
+
+  // ---- Level system ----
+  function setLevel(lvl){
+    document.body.className='level-'+lvl;
+    document.querySelectorAll('.lvl-btn').forEach(b=>b.classList.toggle('active',+b.dataset.level===lvl));
+    localStorage.setItem('fm-level',lvl);
+    // Hooks show at L2+
+    if(lvl>=2)document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.add('show'));
+    else document.querySelectorAll('.lnode.hook').forEach(h=>h.classList.remove('show'));
+    // Refresh scroll triggers after layout change
+    setTimeout(()=>ScrollTrigger.refresh(),400);
+  }
+  document.querySelectorAll('.lvl-btn').forEach(b=>{
+    b.addEventListener('click',()=>setLevel(+b.dataset.level));
+  });
+  setLevel(+(localStorage.getItem('fm-level')||1));
 
   // ---- Reveal ----
   document.querySelectorAll('.reveal').forEach(el=>{
@@ -951,7 +1029,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       ctx:[12,8,5,0,0]},
     {type:'think',text:'Presentation task. Loading /create-slides skill.',fish:'Marlin looks around...',loop:'think',
       ctx:[12,14,8,0,0]},
-    {type:'tool',name:'Skill',args:'/create-slides',text:'Orchestrator skill loaded into context.',fish:'The tunnel appears',loop:'act',
+    {type:'tool',name:'Skill',args:'/create-slides',text:'Orchestrator skill loaded into context.',fish:'The current appears',loop:'act',
       ctx:[12,14,10,6,0]},
     {type:'think',text:'Need a metaphor. Spawning Explore subagent in background.',loop:'think',
       ctx:[12,14,14,6,0]},
@@ -959,7 +1037,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       ctx:[12,14,16,10,0]},
     {type:'tool',name:'Glob',args:'**/*.{md,css,html}',text:'Scanned workspace: 12 files. Assessing project structure.',loop:'act',
       ctx:[12,14,18,16,0]},
-    {type:'task-r',name:'Explore agent done',text:'Finding Memo — Marlin=Agent, Water Tunnels=Harness, Crush=Human.',fish:'Route chosen',loop:'observe',
+    {type:'task-r',name:'Explore agent done',text:'Finding Memo — Marlin=Agent, Water Currents=Harness, Crush=Human.',fish:'Route chosen',loop:'observe',
       ctx:[12,14,22,20,0]},
     {type:'think',text:'Good analogy. Spawn two subagents in parallel for speed.',fish:'The ocean IS the lesson',loop:'think',
       ctx:[12,14,26,20,0]},

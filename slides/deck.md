@@ -101,13 +101,13 @@ Just concepts distributed over 1s and 0s.
 
 ![bg left:35%](../assets/images/harness.jpg)
 
-# The Water Tunnel
+# The Water Currents
 
 Crush showed Marlin the **infrastructure** that carried him faster than he could ever swim alone.
 
 He didn't find Nemo for him. He showed him **the way**.
 
-<!-- "Crush showed Marlin the East Australian Current — a massive water tunnel that carried him across the ocean at incredible speed. Crush didn't do the thinking. He didn't swim for Marlin. He showed him the system — the infrastructure — that made the journey possible. That's exactly what the human does in AI." -->
+<!-- "Crush showed Marlin the East Australian Current — a massive water current that carried him across the ocean at incredible speed. Crush didn't do the thinking. He didn't swim for Marlin. He showed him the system — the infrastructure — that made the journey possible. That's exactly what the human does in AI." -->
 
 ---
 
@@ -129,7 +129,7 @@ He didn't find Nemo for him. He showed him **the way**.
 </div>
 <div class="map-row">
   <div class="map-block left">
-    <span class="map-label">Water Tunnels</span>
+    <span class="map-label">Water Currents</span>
     <span class="map-desc">navigate the ocean</span>
   </div>
   <span class="map-arrow">&rarr;</span>
@@ -141,19 +141,19 @@ He didn't find Nemo for him. He showed him **the way**.
 <div class="map-row">
   <div class="map-block left">
     <span class="map-label">Crush (you)</span>
-    <span class="map-desc">knows the tunnels</span>
+    <span class="map-desc">knows the currents</span>
   </div>
   <span class="map-arrow">&rarr;</span>
   <div class="map-block right">
     <span class="map-label">The Human</span>
-    <span class="map-desc">builds the tunnels</span>
+    <span class="map-desc">builds the currents</span>
   </div>
 </div>
 </div>
 
-*Guide Nemo through the tunnels.*
+*Guide Nemo through the currents.*
 
-<!-- PLOTTWIST 2 / END OF ANALOGY: "So here's the mapping. Marlin is the agent — the intelligence in your AI system. The Water Tunnels are the harness — the infrastructure that lets you navigate through knowledge easily. And you? You're Crush. You know the tunnels. Your job is to build them — guide the agent through." -->
+<!-- PLOTTWIST 2 / END OF ANALOGY: "So here's the mapping. Marlin is the agent — the intelligence in your AI system. The Water Currents are the harness — the infrastructure that lets you navigate through knowledge easily. And you? You're Crush. You know the currents. Your job is to build them — guide the agent through." -->
 
 ---
 
@@ -216,7 +216,7 @@ He didn't find Nemo for him. He showed him **the way**.
 
 *Think first. Then prompt.*
 
-*Build the tunnel, not be the fish.*
+*Build the current, not be the fish.*
 
 *Your context is your superpower.*
 
