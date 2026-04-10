@@ -21,6 +21,8 @@ transition: fade
 
 # It's all about **context**
 
+You'll be the thinking brains; I'll guide you to think the agentic way.
+
 You are the **agent**. I'm the **human**.
 
 Let's understand 3 core concepts.
