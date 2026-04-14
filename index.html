@@ -256,16 +256,17 @@
     .nav-ctrls{display:flex;align-items:center;gap:10px;flex-shrink:0}
     .sep-dot{width:3px;height:3px;border-radius:50%;background:var(--border);opacity:.5}
     .mode-sel,.size-sel{display:flex;gap:0}
-    .mode-btn,.size-btn{font-family:var(--head-font);font-size:14px;padding:5px 14px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+    .mode-btn,.size-btn{font-family:var(--head-font);font-size:15px;padding:6px 16px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
     .mode-btn:first-child{border-radius:6px 0 0 6px}.mode-btn:last-child{border-radius:0 6px 6px 0;border-left:none}
     .size-btn:first-child{border-radius:6px 0 0 6px}.size-btn:last-child{border-radius:0 6px 6px 0;border-left:none}
     .mode-btn:hover,.size-btn:hover{color:var(--text);border-color:var(--teal)}
-    .mode-btn.active{background:rgba(0,212,255,0.15);color:var(--teal);border-color:var(--teal)}
+    .mode-btn.active{background:rgba(0,212,255,0.18);color:var(--teal);border-color:var(--teal);box-shadow:0 0 8px rgba(0,212,255,0.15)}
     .size-btn:active{background:rgba(0,212,255,0.08)}
     /* Text size: html base variable, body uses 1rem */
     html{font-size:var(--base-size,15px)}
-    /* Mode visibility: basic hides [data-mode="advanced"] */
-    body.mode-basic [data-mode="advanced"]{display:none}
+    /* Mode visibility: basic hides [data-mode="advanced"] but NOT the nav toggle button */
+    body.mode-basic :not(.mode-sel) > [data-mode="advanced"],
+    body.mode-basic section[data-mode="advanced"]{display:none}
     /* Advanced badge */
     .adv-badge{font-family:var(--head-font);font-size:10px;padding:2px 6px;border-radius:3px;vertical-align:middle;margin-left:4px;background:rgba(0,212,255,0.1);color:var(--teal)}
 
@@ -502,7 +503,7 @@
         <span class="step-text">Press Play or use arrows to step through</span>
       </div>
 
-      <div class="ctx-demo-bar" data-mode="advanced" id="ctxDemoBar">
+      <div class="ctx-demo-bar" id="ctxDemoBar">
         <div class="cd-seg cd-compact" id="cdCompact" style="width:0"></div>
         <div class="cd-seg cd-sys" id="cdSys" style="width:0">Sys</div>
         <div class="cd-seg cd-inst" id="cdInst" style="width:0">Inst</div>
@@ -512,9 +513,9 @@
         <div class="cd-seg cd-empty" id="cdEmpty"></div>
       </div>
 
-      <div class="ctx-pct-bar" data-mode="advanced"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
+      <div class="ctx-pct-bar"><div class="ctx-pct-fill" id="ctxPctFill" style="width:0"></div></div>
 
-      <div class="ctx-demo-ctrl" data-mode="advanced">
+      <div class="ctx-demo-ctrl">
         <button class="px-btn" id="ctxBtnBack">&lt;</button>
         <button class="px-btn active" id="ctxBtnPlay">Play</button>
         <button class="px-btn" id="ctxBtnFwd">&gt;</button>
@@ -532,7 +533,7 @@
     </div>
 
     <!-- Scope toggle -->
-    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px" data-mode="advanced">
+    <div class="px-toggle" id="harnessToolToggle" style="margin-bottom:16px">
       <button class="active" data-tool="generic">Generic</button>
       <button data-tool="claude">Claude Code</button>
       <button data-tool="copilot">GitHub Copilot</button>
@@ -648,7 +649,7 @@
         </div>
       </div>
 
-      <div class="live-panel" data-mode="advanced">
+      <div class="live-panel">
         <div class="px-card" style="padding:14px">
           <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Loop state</div>
           <div class="live-loop" id="liveLoop">
@@ -658,7 +659,7 @@
             <div class="ll-node ll-o" id="llO">Observe</div>
           </div>
         </div>
-        <div class="px-card" style="padding:14px">
+        <div class="px-card" data-mode="advanced" style="padding:14px">
           <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Context usage</div>
           <div class="live-ctx" id="liveCtx">
             <div class="lc-seg lc5" id="lc5"></div>
