@@ -262,9 +262,10 @@
     .mode-btn:hover,.size-btn:hover{color:var(--text);border-color:var(--teal)}
     .mode-btn.active{background:rgba(0,212,255,0.18);color:var(--teal);border-color:var(--teal);box-shadow:0 0 8px rgba(0,212,255,0.15)}
     .size-btn:active{background:rgba(0,212,255,0.08)}
-    /* Text size: zoom scales everything including hardcoded px values */
+    /* Text size: zoom scales content but not nav (so A+/A- buttons stay in place) */
     html{font-size:15px}
-    body{zoom:var(--page-zoom,1)}
+    nav{zoom:1 !important}
+    section,footer,.bbl,#fish,#nemo,#fauna-layer{zoom:var(--page-zoom,1)}
     /* Mode visibility: basic hides [data-mode="advanced"] but NOT the nav toggle button */
     body.mode-basic :not(.mode-sel) > [data-mode="advanced"],
     body.mode-basic section[data-mode="advanced"]{display:none}
@@ -702,7 +703,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(zoomIdx<0)zoomIdx=4;
   function setZoom(idx){
     zoomIdx=Math.max(0,Math.min(ZOOMS.length-1,idx));
-    document.body.style.setProperty('--page-zoom',ZOOMS[zoomIdx]);
+    document.documentElement.style.setProperty('--page-zoom',ZOOMS[zoomIdx]);
     localStorage.setItem('fm-zoom',ZOOMS[zoomIdx]);
     // Visual feedback on buttons
     document.querySelectorAll('.size-btn').forEach(b=>{
