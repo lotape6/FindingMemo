@@ -262,8 +262,9 @@
     .mode-btn:hover,.size-btn:hover{color:var(--text);border-color:var(--teal)}
     .mode-btn.active{background:rgba(0,212,255,0.18);color:var(--teal);border-color:var(--teal);box-shadow:0 0 8px rgba(0,212,255,0.15)}
     .size-btn:active{background:rgba(0,212,255,0.08)}
-    /* Text size: html base variable, body uses 1rem */
-    html{font-size:var(--base-size,15px)}
+    /* Text size: zoom scales everything including hardcoded px values */
+    html{font-size:15px}
+    body{zoom:var(--page-zoom,1)}
     /* Mode visibility: basic hides [data-mode="advanced"] but NOT the nav toggle button */
     body.mode-basic :not(.mode-sel) > [data-mode="advanced"],
     body.mode-basic section[data-mode="advanced"]{display:none}
@@ -354,17 +355,17 @@
         <h3>The Model</h3>
         <p>Text in, text out. <strong>Stateless</strong>. Smart but alone.</p>
         <span class="tag">Marlin's brain</span>
-        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
-        <div class="bcard-detail">
-          <p><strong>What it does</strong>: takes a prompt, produces a completion. One call, no memory of previous calls.</p>
-          <p><strong>Examples</strong>: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google), Llama (Meta), Mistral, Command R (Cohere)</p>
-          <p><strong>Key insight</strong>: the model is a function — <code>f(prompt) = completion</code>. It cannot read files, browse the web, or remember you.</p>
-        </div>
         <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Statelessness in practice</strong>: every API call starts fresh. The model has zero memory of your previous conversation unless you resend it. "Memory" is an illusion created by the harness replaying history.</p>
         </div>
         <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>Under the hood</strong>: models are transformer neural networks. Key parameters: temperature (randomness), top-p (sampling), max tokens (output length). Token economics: input tokens are cheaper than output tokens. Context window size determines how much the model can "see" at once.</p>
+        </div>
+        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
+        <div class="bcard-detail">
+          <p><strong>What it does</strong>: takes a prompt, produces a completion. One call, no memory of previous calls.</p>
+          <p><strong>Examples</strong>: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google), Llama (Meta), Mistral, Command R (Cohere)</p>
+          <p><strong>Key insight</strong>: the model is a function — <code>f(prompt) = completion</code>. It cannot read files, browse the web, or remember you.</p>
         </div>
       </div>
 
@@ -375,17 +376,17 @@
         <h3>The Agent</h3>
         <p>A <strong>model</strong> in a <strong>loop</strong> with <strong>tools</strong>. Decides, acts, observes, repeats.</p>
         <span class="tag">Marlin with fins and eyes</span>
-        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
-        <div class="bcard-detail">
-          <p><strong>Three ingredients</strong>: the model (brain), the loop (persistence), the tools (hands).</p>
-          <p><strong>The model decides everything</strong> — what tool to call, when to stop, how to combine results. The "agent framework" is just a while loop.</p>
-          <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter, OpenCode</p>
-        </div>
         <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>The loop core</strong>: <code>while run_one_turn(state): pass</code>. The <code>LoopState</code> holds messages, turn count, and transition reason. Each turn: call API, append response, check <code>stop_reason</code> — if <code>"tool_use"</code>, execute tools and continue. If not, return.</p>
           <p style="margin-top:6px"><strong>Tool dispatch</strong>: a flat dictionary <code>TOOL_HANDLERS = {"bash": handler, "read_file": handler, ...}</code>. Adding a tool means adding one dict entry + one schema. The loop never changes.</p>
           <p style="margin-top:6px"><strong>Subagents</strong>: <code>sub_messages = [{"role":"user","content":prompt}]</code> — a fresh list IS the isolation. Only the final text returns. Children don't get the <code>task</code> tool (no recursion). Safety limit: 30 iterations.</p>
           <p style="margin-top:6px"><strong>Worktree isolation</strong>: <code>git worktree add -b wt/{name}</code> gives each subagent its own code copy. Branch naming: <code>wt/{name}</code>. Closeout: keep (preserve for review) or remove (force-delete).</p>
+        </div>
+        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
+        <div class="bcard-detail">
+          <p><strong>Three ingredients</strong>: the model (brain), the loop (persistence), the tools (hands).</p>
+          <p><strong>The model decides everything</strong> — what tool to call, when to stop, how to combine results. The "agent framework" is just a while loop.</p>
+          <p><strong>Examples</strong>: Claude Code, Cursor Agent, Devin, Cline, Aider, Open Interpreter, OpenCode</p>
         </div>
       </div>
 
@@ -394,12 +395,6 @@
         <h3>The Context</h3>
         <p>Everything the model can see. Its <strong>working memory</strong>. The real differentiator.</p>
         <span class="tag">Marlin vs Dory -- same brain, different capacity</span>
-        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
-        <div class="bcard-detail">
-          <p><strong>Context = prompt + history + tool results</strong>. It's all just text stacked in a window.</p>
-          <p><strong>When full</strong>: oldest parts get compacted (summarized or dropped). This is why long sessions degrade.</p>
-          <p><strong>Sizes</strong>: 8K (small), 128K (standard), 200K (large), 1M (Claude Opus)</p>
-        </div>
         <div data-mode="advanced" style="margin-top:10px;font-size:13px;color:var(--text-soft)">
           <p><strong>4 compaction levers</strong> (progressive):</p>
           <p>1. <strong>Persist large output</strong>: results &gt;30K chars saved to <code>.task_outputs/</code>, replaced with 2K char preview in <code>&lt;persisted-output&gt;</code> tags</p>
@@ -407,6 +402,12 @@
           <p>3. <strong>Auto-compact</strong>: at 50K char threshold, full transcript saved to <code>.transcripts/</code>, LLM summarizes preserving: goal, findings, files, remaining work</p>
           <p>4. <strong>Manual compact</strong>: model calls <code>compact</code> tool with optional <code>focus</code> parameter</p>
           <p style="margin-top:6px"><strong>Error recovery</strong>: continuation on max_tokens (3 retries), auto-compact on prompt-too-long, exponential backoff (base * 2^attempt + jitter, max 30s)</p>
+        </div>
+        <button class="expand-btn" onclick="toggleExpand(this)">+ more</button>
+        <div class="bcard-detail">
+          <p><strong>Context = prompt + history + tool results</strong>. It's all just text stacked in a window.</p>
+          <p><strong>When full</strong>: oldest parts get compacted (summarized or dropped). This is why long sessions degrade.</p>
+          <p><strong>Sizes</strong>: 8K (small), 128K (standard), 200K (large), 1M (Claude Opus)</p>
         </div>
       </div>
 
@@ -695,19 +696,24 @@
 // ========================================
 document.addEventListener('DOMContentLoaded',()=>{
 
-  // ---- Text size ----
-  const SIZES=[12,13,14,15,16,17,18,19,20];
-  let sizeIdx=SIZES.indexOf(+(localStorage.getItem('fm-size')||15));
-  if(sizeIdx<0)sizeIdx=3;
-  function setSize(idx){
-    sizeIdx=Math.max(0,Math.min(SIZES.length-1,idx));
-    document.documentElement.style.setProperty('--base-size',SIZES[sizeIdx]+'px');
-    localStorage.setItem('fm-size',SIZES[sizeIdx]);
+  // ---- Text size (zoom-based — scales everything, not just rem units) ----
+  const ZOOMS=[0.80,0.85,0.90,0.95,1.00,1.05,1.10,1.15,1.20];
+  let zoomIdx=ZOOMS.indexOf(+(localStorage.getItem('fm-zoom')||1));
+  if(zoomIdx<0)zoomIdx=4;
+  function setZoom(idx){
+    zoomIdx=Math.max(0,Math.min(ZOOMS.length-1,idx));
+    document.body.style.setProperty('--page-zoom',ZOOMS[zoomIdx]);
+    localStorage.setItem('fm-zoom',ZOOMS[zoomIdx]);
+    // Visual feedback on buttons
+    document.querySelectorAll('.size-btn').forEach(b=>{
+      const d=parseInt(b.dataset.delta);
+      b.style.opacity=(d<0&&zoomIdx===0)||(d>0&&zoomIdx===ZOOMS.length-1)?'0.35':'1';
+    });
   }
   document.querySelectorAll('.size-btn').forEach(b=>{
-    b.addEventListener('click',function(){setSize(sizeIdx+parseInt(this.dataset.delta))});
+    b.addEventListener('click',function(){setZoom(zoomIdx+parseInt(this.dataset.delta))});
   });
-  setSize(sizeIdx);
+  setZoom(zoomIdx);
 
   // ---- Mode (basic / advanced) ----
   function setMode(mode){
