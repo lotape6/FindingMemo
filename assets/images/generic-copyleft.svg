@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="background:#1a6b8a">
+  <defs>
+    <filter id="rough" x="-2%" y="-2%" width="104%" height="104%">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4db8d1"/>
+      <stop offset="30%" stop-color="#2a8fa8"/>
+      <stop offset="60%" stop-color="#1a6b8a"/>
+      <stop offset="100%" stop-color="#0d3d52"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c2a66b"/>
+      <stop offset="100%" stop-color="#8b7340"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Water background -->
+  <rect width="800" height="450" fill="url(#water)"/>
+
+  <!-- Light rays from surface -->
+  <g opacity="0.12">
+    <polygon points="200,0 260,0 340,450 220,450" fill="#80d4e8"/>
+    <polygon points="400,0 440,0 500,450 380,450" fill="#80d4e8"/>
+    <polygon points="580,0 630,0 680,450 540,450" fill="#80d4e8"/>
+  </g>
+
+  <!-- Surface waves -->
+  <path d="M0,15 Q50,5 100,18 Q150,30 200,12 Q250,0 300,16 Q350,28 400,10 Q450,0 500,15 Q550,28 600,12 Q650,2 700,18 Q750,30 800,14" fill="none" stroke="#80d4e8" stroke-width="2" opacity="0.3" filter="url(#rough)"/>
+
+  <!-- Distant city silhouette (generic, not Sydney) -->
+  <g opacity="0.15" fill="#2a5060">
+    <rect x="100" y="0" width="30" height="35" rx="2"/>
+    <rect x="140" y="5" width="25" height="30" rx="2"/>
+    <rect x="175" y="0" width="20" height="38" rx="2"/>
+    <rect x="205" y="8" width="35" height="27" rx="2"/>
+    <rect x="500" y="3" width="28" height="32" rx="2"/>
+    <rect x="540" y="0" width="22" height="38" rx="2"/>
+    <rect x="575" y="6" width="30" height="29" rx="2"/>
+    <rect x="615" y="2" width="25" height="33" rx="2"/>
+  </g>
+
+  <!-- Sandy bottom -->
+  <path d="M0,410 Q100,395 200,405 Q300,415 400,400 Q500,390 600,405 Q700,415 800,400 L800,450 L0,450 Z" fill="url(#sand)" filter="url(#rough)"/>
+
+  <!-- Coral formations (left) -->
+  <g filter="url(#rough)">
+    <!-- Pink coral branch -->
+    <path d="M60,380 Q65,340 50,310 Q45,290 55,275 M50,310 Q70,300 80,280 M55,340 Q40,330 30,310" stroke="#e87090" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="55" cy="272" r="6" fill="#f090a8" opacity="0.8"/>
+    <circle cx="80" cy="278" r="5" fill="#f090a8" opacity="0.8"/>
+    <circle cx="30" cy="308" r="5" fill="#f090a8" opacity="0.8"/>
+
+    <!-- Green seaweed -->
+    <path d="M120,410 Q115,370 125,340 Q130,310 120,285 Q115,270 120,255" stroke="#40a860" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M135,410 Q140,380 130,355 Q125,330 135,305" stroke="#50b870" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Coral formations (right) -->
+  <g filter="url(#rough)">
+    <path d="M700,400 Q695,360 710,330 Q720,310 705,290 M710,330 Q730,320 740,300 M705,360 Q680,350 670,330" stroke="#d06880" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="705" cy="288" r="6" fill="#e880a0" opacity="0.8"/>
+    <circle cx="740" cy="298" r="5" fill="#e880a0" opacity="0.8"/>
+    <path d="M750,405 Q755,370 745,340 Q740,320 750,300" stroke="#48b068" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Purple brain coral (center bottom) -->
+  <ellipse cx="400" cy="408" rx="45" ry="22" fill="#8060a0" opacity="0.6" filter="url(#rough)"/>
+  <path d="M365,405 Q380,395 400,408 Q420,395 435,405" stroke="#9878b0" stroke-width="2" fill="none"/>
+  <path d="M370,412 Q385,402 400,412 Q415,402 430,412" stroke="#9878b0" stroke-width="2" fill="none"/>
+
+  <!-- Big friendly shark (center, hand-drawn style) -->
+  <g transform="translate(350,180)" filter="url(#rough)">
+    <path d="M-80,0 Q-60,-35 0,-40 Q60,-35 90,-10 Q100,0 90,15 Q60,40 0,45 Q-60,40 -80,0 Z" fill="#6090b0" stroke="#405870" stroke-width="2.5"/>
+    <!-- Fin -->
+    <path d="M0,-40 Q10,-70 20,-40" fill="#5080a0" stroke="#405870" stroke-width="2"/>
+    <!-- Tail -->
+    <path d="M-80,0 Q-110,-20 -100,-35 M-80,0 Q-110,15 -100,30" stroke="#5080a0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Eye -->
+    <circle cx="50" cy="-10" r="8" fill="white"/>
+    <circle cx="52" cy="-10" r="4" fill="#203040"/>
+    <!-- Mouth (friendly smile) -->
+    <path d="M65,8 Q75,15 85,5" stroke="#405870" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Clownfish (right side) - generic, not Nemo-specific -->
+  <g transform="translate(580,220)" filter="url(#rough)">
+    <ellipse rx="18" ry="12" fill="#f08030" stroke="#c06020" stroke-width="2"/>
+    <path d="M-6,-12 Q-6,12 -6,12" stroke="white" stroke-width="3" opacity="0.9"/>
+    <path d="M6,-12 Q6,12 6,12" stroke="white" stroke-width="3" opacity="0.9"/>
+    <circle cx="8" cy="-3" r="3" fill="white"/>
+    <circle cx="9" cy="-3" r="1.5" fill="#302010"/>
+    <!-- Tail -->
+    <path d="M-18,0 Q-28,-8 -25,-12 M-18,0 Q-28,8 -25,12" stroke="#f08030" stroke-width="2" fill="#f09050" stroke-linecap="round"/>
+  </g>
+
+  <!-- Blue tang fish (left side) -->
+  <g transform="translate(200,250)" filter="url(#rough)">
+    <ellipse rx="16" ry="11" fill="#3080d0" stroke="#2060a0" stroke-width="2"/>
+    <path d="M-4,-8 Q8,0 -4,8" stroke="#1050a0" stroke-width="2.5" fill="none"/>
+    <circle cx="8" cy="-2" r="2.5" fill="white"/>
+    <circle cx="9" cy="-2" r="1.2" fill="#102040"/>
+    <path d="M-16,0 Q-24,-6 -22,-10 M-16,0 Q-24,6 -22,10" stroke="#3080d0" stroke-width="2" fill="#4090d8" stroke-linecap="round"/>
+    <path d="M-8,5 L-5,11" stroke="#f0c020" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Sea turtle (background) -->
+  <g transform="translate(480,130) scale(0.7)" opacity="0.7" filter="url(#rough)">
+    <ellipse rx="30" ry="22" fill="#608050" stroke="#405030" stroke-width="2"/>
+    <path d="M-10,-10 L-5,-5 L0,-10 L5,-5 L10,-10" stroke="#506840" stroke-width="1.5" fill="none"/>
+    <path d="M-10,2 L-5,7 L0,2 L5,7 L10,2" stroke="#506840" stroke-width="1.5" fill="none"/>
+    <ellipse cx="35" cy="0" rx="10" ry="5" fill="#709060" stroke="#405030" stroke-width="1.5"/>
+    <circle cx="40" cy="-2" r="2" fill="#203020"/>
+    <path d="M-15,-18 Q-25,-25 -20,-15" fill="#709060" stroke="#405030" stroke-width="1.5"/>
+    <path d="M15,-18 Q25,-25 20,-15" fill="#709060" stroke="#405030" stroke-width="1.5"/>
+    <path d="M-15,18 Q-25,25 -20,15" fill="#709060" stroke="#405030" stroke-width="1.5"/>
+    <path d="M15,18 Q25,25 20,15" fill="#709060" stroke="#405030" stroke-width="1.5"/>
+  </g>
+
+  <!-- Small fish school (background) -->
+  <g opacity="0.5">
+    <g transform="translate(300,100)" filter="url(#rough)">
+      <ellipse rx="6" ry="4" fill="#80c0e0"/><path d="M-6,0 L-10,-3 M-6,0 L-10,3" stroke="#80c0e0" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(320,90)" filter="url(#rough)">
+      <ellipse rx="5" ry="3" fill="#80c0e0"/><path d="M-5,0 L-8,-2 M-5,0 L-8,2" stroke="#80c0e0" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(310,110)" filter="url(#rough)">
+      <ellipse rx="5" ry="3" fill="#80c0e0"/><path d="M-5,0 L-8,-2 M-5,0 L-8,2" stroke="#80c0e0" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(340,95)" filter="url(#rough)">
+      <ellipse rx="4" ry="3" fill="#80c0e0"/><path d="M-4,0 L-7,-2 M-4,0 L-7,2" stroke="#80c0e0" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- Jellyfish -->
+  <g transform="translate(650,300)" opacity="0.5" filter="url(#rough)">
+    <ellipse rx="12" ry="8" fill="#c080d0" opacity="0.6"/>
+    <path d="M-8,6 Q-10,20 -6,30" stroke="#c080d0" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M0,8 Q2,22 -2,32" stroke="#c080d0" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M8,6 Q10,20 6,28" stroke="#c080d0" stroke-width="1.5" fill="none" opacity="0.5"/>
+  </g>
+
+  <!-- Bubbles -->
+  <g opacity="0.3">
+    <circle cx="150" cy="200" r="4" fill="none" stroke="#a0d8e8" stroke-width="1"/>
+    <circle cx="160" cy="180" r="3" fill="none" stroke="#a0d8e8" stroke-width="1"/>
+    <circle cx="500" cy="280" r="5" fill="none" stroke="#a0d8e8" stroke-width="1"/>
+    <circle cx="510" cy="260" r="3" fill="none" stroke="#a0d8e8" stroke-width="1"/>
+    <circle cx="350" cy="350" r="3" fill="none" stroke="#a0d8e8" stroke-width="1"/>
+  </g>
+
+  <!-- Excalidraw-style label -->
+  <text x="400" y="435" text-anchor="middle" font-family="'Comic Sans MS','Segoe Print',cursive" font-size="11" fill="#80b0c0" opacity="0.5">~ the ocean ~</text>
+</svg>

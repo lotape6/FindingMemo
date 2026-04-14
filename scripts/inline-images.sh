@@ -31,9 +31,9 @@ def resolve(path):
 def get_mime(path):
     ext = path.rsplit('.', 1)[-1].lower()
     return {'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'png': 'image/png',
-            'gif': 'image/gif', 'webp': 'image/webp'}.get(ext, 'image/jpeg')
+            'gif': 'image/gif', 'webp': 'image/webp', 'svg': 'image/svg+xml'}.get(ext, 'image/jpeg')
 
-pattern = re.compile(r'url\(&quot;([^&]+\.(?:jpg|jpeg|png|gif|webp))&quot;\)')
+pattern = re.compile(r'url\(&quot;([^&]+\.(?:jpg|jpeg|png|gif|webp|svg))&quot;\)')
 matches = set(pattern.findall(content))
 
 for img_path in sorted(matches):

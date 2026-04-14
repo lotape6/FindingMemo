@@ -38,6 +38,18 @@ for lesson_dir in lessons/*/; do
   fi
 done
 
+# Build company edition for each lesson (if deck-company.md exists)
+for lesson_dir in lessons/*/; do
+  lesson_name=$(basename "$lesson_dir")
+  out_dir="$DIST/lessons/$lesson_name"
+
+  if [ -f "$lesson_dir/deck-company.md" ]; then
+    echo "[*] Building $lesson_name company edition (MARP)..."
+    $MARP "$lesson_dir/deck-company.md" $THEME $FLAGS -o "$out_dir/company.html"
+    bash scripts/inline-images.sh "$out_dir/company.html"
+  fi
+done
+
 # Copy shared assets for lessons that reference them
 cp -r assets "$DIST/assets" 2>/dev/null || true
 
