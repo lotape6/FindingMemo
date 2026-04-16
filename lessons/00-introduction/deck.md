@@ -241,9 +241,12 @@ He didn't find Nemo for him. He showed him **the way**.
 
 # Thank you
 
+Deep dive into the 3 core concepts:
+**[lotape6.github.io/FindingMemo](https://lotape6.github.io/FindingMemo/)**
+
 <div class="small">
 
-github.com/lotape6/AI-introduction-for-programmers
+[github.com/lotape6/FindingMemo](https://github.com/lotape6/FindingMemo)
 
 </div>
 
@@ -253,4 +256,4 @@ github.com/lotape6/AI-introduction-for-programmers
   <span>Powered by Claude Code</span>
 </div>
 
-<!-- "Everything is in the repo. The slides are markdown. The skills are markdown. The theme is CSS. Fork it, break it, rebuild it. Go find your Memo." -->
+<!-- "Everything is in the repo. The slides are markdown. The skills are markdown. The theme is CSS. Fork it, break it, rebuild it. Go find your Memo. For an interactive deep dive into the Agent Loop, Context, and Harness, visit the web version." -->
